@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Leben in Deutschland Test",
+    "slug": "leben-in-deutschland",
+    "version": "1.0.0",
+    "icon": "./assets/icon.png",
+    "orientation": "portrait",
+    "scheme": "ryg",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.rygapps.lebenindeutschland",
+      "buildNumber": "1",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-REPLACE_WITH_YOUR_ID~REPLACE"
+      }
+    },
+    "android": {
+      "package": "com.rygapps.lebenindeutschland",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMobileAds": {
+          "appId": "ca-app-pub-REPLACE_WITH_YOUR_ID~REPLACE"
+        }
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-REPLACE~REPLACE",
+          "iosAppId": "ca-app-pub-REPLACE~REPLACE"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
