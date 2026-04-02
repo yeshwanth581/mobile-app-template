@@ -9,7 +9,8 @@ import { palette } from '@/theme'
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
-  const { theme, uiLocale } = useSettingsStore()
+  const theme = useSettingsStore((state) => state.theme)
+  const uiLocale = useSettingsStore((state) => state.uiLocale)
 
   useEffect(() => {
     changeLanguage(uiLocale)
@@ -29,7 +30,7 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: bg },
-          animation: 'none',
+          animation: 'fade',
         }}
       >
         <Stack.Screen name="index" />

@@ -17,7 +17,12 @@ export default function HomeScreen() {
   const router = useRouter()
   const { t } = useTranslation()
   const { c, isDark } = useThemeColors()
-  const { selectedStateCode, setSelectedStateCode, theme, setTheme, translationLocale, setTranslationLocale, setUiLocale } = useSettingsStore()
+  const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
+  const setSelectedStateCode = useSettingsStore((state) => state.setSelectedStateCode)
+  const setTheme = useSettingsStore((state) => state.setTheme)
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
+  const setTranslationLocale = useSettingsStore((state) => state.setTranslationLocale)
+  const setUiLocale = useSettingsStore((state) => state.setUiLocale)
   const [stateModalOpen, setStateModalOpen] = useState(false)
   const [languageModalOpen, setLanguageModalOpen] = useState(false)
 
@@ -25,6 +30,8 @@ export default function HomeScreen() {
   const selectedStateLabel = getStateLabel(selectedStateCode)
   const darkBtnBg   = isDark ? '#ffffff' : '#111111'
   const darkBtnText = isDark ? '#111111' : '#ffffff'
+  const modalSelectedBg = isDark ? '#ffffff' : '#111111'
+  const modalSelectedText = isDark ? '#111111' : '#ffffff'
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
@@ -41,8 +48,13 @@ export default function HomeScreen() {
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
             onPress={() => setTheme(isDark ? 'light' : 'dark')}
+            activeOpacity={1}
           >
-            <Ionicons name={isDark ? 'sunny-outline' : 'moon-outline'} size={15} color={c.textPrimary} />
+            <Ionicons
+              name={isDark ? 'sunny' : 'moon'}
+              size={15}
+              color={c.textPrimary}
+            />
           </TouchableOpacity>
         </View>
 
@@ -150,8 +162,8 @@ export default function HomeScreen() {
                     style={[
                       styles.modalOption,
                       {
-                        backgroundColor: isSelected ? '#111111' : c.card,
-                        borderColor: isSelected ? '#111111' : c.border,
+                        backgroundColor: isSelected ? modalSelectedBg : c.card,
+                        borderColor: isSelected ? modalSelectedBg : c.border,
                       },
                     ]}
                     onPress={() => {
@@ -159,7 +171,7 @@ export default function HomeScreen() {
                       setStateModalOpen(false)
                     }}
                   >
-                    <Text style={[styles.modalOptionText, { color: isSelected ? '#ffffff' : c.textPrimary }]}>
+                    <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
                       {state.label}
                     </Text>
                   </TouchableOpacity>
@@ -194,8 +206,8 @@ export default function HomeScreen() {
                     style={[
                       styles.modalOption,
                       {
-                        backgroundColor: isSelected ? '#111111' : c.card,
-                        borderColor: isSelected ? '#111111' : c.border,
+                        backgroundColor: isSelected ? modalSelectedBg : c.card,
+                        borderColor: isSelected ? modalSelectedBg : c.border,
                       },
                     ]}
                     onPress={() => {
@@ -207,7 +219,7 @@ export default function HomeScreen() {
                       setLanguageModalOpen(false)
                     }}
                   >
-                    <Text style={[styles.modalOptionText, { color: isSelected ? '#ffffff' : c.textPrimary }]}>
+                    <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
                       {option.label}
                     </Text>
                   </TouchableOpacity>

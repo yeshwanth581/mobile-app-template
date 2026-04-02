@@ -256,8 +256,8 @@ function ActionCard({
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={[styles.acTitle, { color: titleColor, opacity: disabled ? 0.45 : 1 }]}>{title}</Text>
-      <Text style={[styles.acSub, { color: subtitleColor }]}>{subtitle}</Text>
+      <Text style={[styles.acTitle, { color: titleColor }]}>{title}</Text>
+      <Text style={[styles.acSub, { color: subtitleColor, opacity: disabled ? 0.7 : 1 }]}>{subtitle}</Text>
     </TouchableOpacity>
   )
 }
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   statLbl: { fontSize: 9, fontWeight: '600', textTransform: 'uppercase', marginTop: 2 },
   actionGrid: { flexDirection: 'row', gap: 10, marginBottom: 16 },
   actionCard: { flex: 1, borderRadius: radius.lg, padding: 16, borderWidth: 1.5, minHeight: 88 },
-  acTitle: { fontSize: 14, fontWeight: '700', marginBottom: 6 },
+  acTitle: { fontSize: 14, fontWeight: '900', marginBottom: 6 },
   acSub: { fontSize: 11, lineHeight: 15 },
   sectionLabel: {
     fontSize: 11,

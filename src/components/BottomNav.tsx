@@ -38,7 +38,8 @@ export function BottomNav({ active }: BottomNavProps) {
           <TouchableOpacity
             key={item.key}
             style={styles.navItem}
-            onPress={() => { if (!isActive) router.replace(item.route as never) }}
+            onPress={() => { if (!isActive) router.navigate(item.route as never) }}
+            activeOpacity={0.85}
           >
             <item.Icon color={color} size={24} />
             <Text style={[styles.navLabel, { color }]}>{t(item.labelKey)}</Text>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   navLabel: {
     fontSize: 10,
-    fontWeight: '800',
+    fontWeight: '900',
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },

@@ -8,7 +8,8 @@ import { palette, surfaceThemes } from '@/theme'
  */
 export function useThemeColors() {
   const colorScheme = useColorScheme()
-  const { theme, surfaceStyle } = useSettingsStore()
+  const theme = useSettingsStore((state) => state.theme)
+  const surfaceStyle = useSettingsStore((state) => state.surfaceStyle)
   const isDark = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
   const surfaces = surfaceThemes[surfaceStyle]
   return { isDark, c: isDark ? surfaces.dark : surfaces.light, palette }
