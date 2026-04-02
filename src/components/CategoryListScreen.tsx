@@ -25,7 +25,8 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
   const { t } = useTranslation()
   const { c, isDark } = useThemeColors()
   const { progress, getWeakIds, getBookmarked } = useProgressStore()
-  const { selectedStateCode, translationLocale } = useSettingsStore()
+  const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
   const [shuffle, setShuffle] = useState(mode === 'study')
 
   const keyPrefix = mode === 'study' ? 'study' : 'practice'

@@ -31,7 +31,8 @@ export default function QuestionBankScreen() {
   const { t } = useTranslation()
   const { isDark, c } = useThemeColors()
   const { progress, toggleBookmark } = useProgressStore()
-  const { selectedStateCode, translationLocale } = useSettingsStore()
+  const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
 
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<string | null>(null)

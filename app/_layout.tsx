@@ -30,7 +30,8 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: bg },
-          animation: 'fade',
+          animation: 'simple_push',
+          freezeOnBlur: true,
         }}
       >
         <Stack.Screen name="index" />

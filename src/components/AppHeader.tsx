@@ -1,3 +1,4 @@
+import { startTransition } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSettingsStore } from '@/store/useSettingsStore'
@@ -12,7 +13,9 @@ interface AppHeaderProps {
 export function AppHeader({ title, canGoBack }: AppHeaderProps) {
   const router = useRouter()
   const { isDark, c } = useThemeColors()
-  const { translationLocale, theme, setTheme } = useSettingsStore()
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
+  const theme = useSettingsStore((state) => state.theme)
+  const setTheme = useSettingsStore((state) => state.setTheme)
 
   const themeLabel = theme === 'system' ? (isDark ? 'Dark' : 'Light') : theme === 'dark' ? 'Dark' : 'Light'
 
@@ -43,7 +46,7 @@ export function AppHeader({ title, canGoBack }: AppHeaderProps) {
         <View style={styles.actions}>
           <TouchableOpacity
             style={[styles.pill, { backgroundColor: c.card, borderColor: c.border }]}
-            onPress={() => router.push('/language')}
+            onPress={() => router.navigate('/language')}
           >
             <Text style={[typography.tiny, { color: c.textSecond }]}>
               🌐 {translationLocale.toUpperCase()}
@@ -52,7 +55,7 @@ export function AppHeader({ title, canGoBack }: AppHeaderProps) {
 
           <TouchableOpacity
             style={[styles.pill, { backgroundColor: c.card, borderColor: c.border }]}
-            onPress={() => setTheme(isDark ? 'light' : 'dark')}
+            onPress={() => startTransition(() => setTheme(isDark ? 'light' : 'dark'))}
           >
             <Text style={[typography.tiny, { color: c.textSecond }]}>
               {isDark ? '☀️' : '🌙'} {themeLabel}

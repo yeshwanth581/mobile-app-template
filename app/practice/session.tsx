@@ -31,7 +31,8 @@ export default function SessionScreen() {
   const isReviewMode = presentation === 'review'
 
   const { isDark, c } = useThemeColors()
-  const { translationLocale, selectedStateCode } = useSettingsStore()
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
+  const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
   const { toggleBookmark, getProgress } = useProgressStore()
 
   // Local translation toggle — starts from session config

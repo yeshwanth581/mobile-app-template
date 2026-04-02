@@ -34,7 +34,7 @@ function formatTime(seconds: number): string {
 export default function ExamScreen() {
   const router = useRouter()
   const { t } = useTranslation()
-  const { translationLocale } = useSettingsStore()
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
   const { isDark, c } = useThemeColors()
 
   const totalSeconds = appConfig.examConfig.timeLimitMinutes * 60

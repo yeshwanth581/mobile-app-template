@@ -5,14 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { TRANSLATION_OPTIONS } from '@/data/states'
-import { changeLanguage } from '@/i18n'
 import { palette, spacing, radius, typography } from '@/theme'
 
 export default function LanguageScreen() {
   const router = useRouter()
   const { t } = useTranslation()
   const { isDark, c } = useThemeColors()
-  const { translationLocale, setTranslationLocale, setUiLocale } = useSettingsStore()
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
+  const setTranslationLocale = useSettingsStore((state) => state.setTranslationLocale)
+  const setUiLocale = useSettingsStore((state) => state.setUiLocale)
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
@@ -48,7 +49,6 @@ export default function LanguageScreen() {
                 setTranslationLocale(option.code)
                 if (option.code === 'de' || option.code === 'en') {
                   setUiLocale(option.code)
-                  changeLanguage(option.code)
                 }
                 router.back()
               }}

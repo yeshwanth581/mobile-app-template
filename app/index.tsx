@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { startTransition, useMemo, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Modal } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,7 +9,6 @@ import { useThemeColors } from '@/hooks/useThemeColors'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { GERMAN_STATES, getStateLabel, TRANSLATION_OPTIONS } from '@/data/states'
 import { getRelevantQuestions } from '@/data/questionBank'
-import { changeLanguage } from '@/i18n'
 import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 
@@ -47,7 +46,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
-            onPress={() => setTheme(isDark ? 'light' : 'dark')}
+            onPress={() => startTransition(() => setTheme(isDark ? 'light' : 'dark'))}
             activeOpacity={1}
           >
             <Ionicons
@@ -84,7 +83,7 @@ export default function HomeScreen() {
         {/* Big dark button — Practice */}
         <TouchableOpacity
           style={[styles.bigBtn, { backgroundColor: darkBtnBg }]}
-          onPress={() => router.push('/practice')}
+          onPress={() => router.navigate('/practice')}
         >
           <View>
             <Text style={[styles.bigBtnTitle, { color: darkBtnText }]}>{t('home.practice')}</Text>
@@ -98,7 +97,7 @@ export default function HomeScreen() {
         {/* Big light button — Mock Exam */}
         <TouchableOpacity
           style={[styles.bigBtn, { backgroundColor: c.card }]}
-          onPress={() => router.push('/exam')}
+          onPress={() => router.navigate('/exam')}
         >
           <View>
             <Text style={[styles.bigBtnTitle, { color: c.textPrimary }]}>{t('exam.title')}</Text>
@@ -115,7 +114,7 @@ export default function HomeScreen() {
         {/* Premium card */}
         <TouchableOpacity
           style={[styles.premiumCard, { backgroundColor: c.card, borderColor: c.border }]}
-          onPress={() => router.push('/subscription')}
+          onPress={() => router.navigate('/subscription')}
         >
           <View style={styles.premiumIcon}>
             <Ionicons name="star" size={16} color="#ffffff" />
@@ -214,7 +213,6 @@ export default function HomeScreen() {
                       setTranslationLocale(option.code)
                       if (option.code === 'de' || option.code === 'en') {
                         setUiLocale(option.code)
-                        changeLanguage(option.code)
                       }
                       setLanguageModalOpen(false)
                     }}

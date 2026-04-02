@@ -19,7 +19,7 @@ export default function QuestionDetailScreen() {
   const { t } = useTranslation()
   const params = useLocalSearchParams<{ id: string; ids?: string; index?: string }>()
   const { isDark, c } = useThemeColors()
-  const { translationLocale } = useSettingsStore()
+  const translationLocale = useSettingsStore((state) => state.translationLocale)
   const { toggleBookmark, getProgress } = useProgressStore()
 
   const questionIds = useMemo(() => {

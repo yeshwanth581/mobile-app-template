@@ -31,6 +31,37 @@ interface SettingsState {
   setOnboardingComplete: () => void
 }
 
+const SETTINGS_STORAGE_DEBOUNCE_MS = 180
+
+let pendingValue: string | null = null
+let pendingTimer: ReturnType<typeof setTimeout> | null = null
+
+const debouncedSettingsStorage = {
+  getItem: (name: string) => AsyncStorage.getItem(name),
+  setItem: (name: string, value: string) => {
+    pendingValue = value
+
+    if (pendingTimer) clearTimeout(pendingTimer)
+
+    pendingTimer = setTimeout(() => {
+      const nextValue = pendingValue
+      pendingTimer = null
+      pendingValue = null
+      if (nextValue !== null) {
+        void AsyncStorage.setItem(name, nextValue)
+      }
+    }, SETTINGS_STORAGE_DEBOUNCE_MS)
+  },
+  removeItem: async (name: string) => {
+    if (pendingTimer) {
+      clearTimeout(pendingTimer)
+      pendingTimer = null
+      pendingValue = null
+    }
+    await AsyncStorage.removeItem(name)
+  },
+}
+
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
@@ -56,7 +87,7 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: 'ryg-settings',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => debouncedSettingsStorage),
     }
   )
 )
