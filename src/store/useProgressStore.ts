@@ -53,7 +53,7 @@ export const useProgressStore = create<ProgressState>()(
             ...s.progress,
             [questionId]: {
               ...existing,
-              attempts: [...existing.attempts, attempt],
+              attempts: [...existing.attempts, attempt].slice(-5),
             },
           }
 
@@ -82,7 +82,7 @@ export const useProgressStore = create<ProgressState>()(
             const existing = updatedProgress[questionId] ?? defaultProgress(questionId)
             updatedProgress[questionId] = {
               ...existing,
-              attempts: [...existing.attempts, attempt],
+              attempts: [...existing.attempts, attempt].slice(-5),
             }
           }
 

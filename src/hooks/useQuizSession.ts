@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useMemo } from 'react'
 import questions from '@/data/questions'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
@@ -108,19 +108,14 @@ export function useQuizSession(config: SessionConfig) {
     [chosenIndex, current, currentIndex, config.mode]
   )
 
-  const buildAnswers = useCallback(
-    (source: Array<number | null> = selectedAnswers): SessionResult['answers'] =>
-      queue.flatMap((question, index) => {
-        const answer = source[index]
-        if (answer === null) return []
-        return [{
-          questionId: question.id,
-          correct: answer === question.correct,
-          chosenIndex: answer,
-        }]
-      }),
-    [queue, selectedAnswers]
-  )
+  // Helper: snapshot current answers — only call when session ends
+  function snapshotAnswers(source: Array<number | null>): SessionResult['answers'] {
+    return queue.flatMap((question, index) => {
+      const answer = source[index]
+      if (answer === null) return []
+      return [{ questionId: question.id, correct: answer === question.correct, chosenIndex: answer }]
+    })
+  }
 
   const finalizeSession = useCallback((finalAnswers: SessionResult['answers']) => {
     if (hasSavedResult.current) return
@@ -156,14 +151,12 @@ export function useQuizSession(config: SessionConfig) {
 
   const next = useCallback(() => {
     if (chosenIndex === null) return
-
     if (currentIndex + 1 >= total) {
-      finalizeSession(buildAnswers())
+      finalizeSession(snapshotAnswers(selectedAnswers))
       return
     }
-
     setCurrentIndex((i) => i + 1)
-  }, [buildAnswers, chosenIndex, currentIndex, finalizeSession, total])
+  }, [chosenIndex, currentIndex, finalizeSession, selectedAnswers, total])
 
   const previous = useCallback(() => {
     if (currentIndex === 0) return
@@ -176,11 +169,16 @@ export function useQuizSession(config: SessionConfig) {
   }, [total])
 
   const finishSession = useCallback(() => {
-    finalizeSession(buildAnswers())
-  }, [buildAnswers, finalizeSession])
+    finalizeSession(snapshotAnswers(selectedAnswers))
+  }, [finalizeSession, selectedAnswers])
 
-  const answers = buildAnswers()
-  const score = answers.filter((a) => a.correct).length
+  // Only computed once when session finishes — never on every render
+  const answers = useMemo(
+    () => (isFinished ? snapshotAnswers(selectedAnswers) : ([] as SessionResult['answers'])),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isFinished]
+  )
+  const score = useMemo(() => answers.filter((a) => a.correct).length, [answers])
   const passMark = appConfig.examConfig.passMark
 
   return {

@@ -1,4 +1,4 @@
-import { startTransition, useMemo, useState } from 'react'
+import { startTransition, useCallback, useMemo, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Modal } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,21 +16,36 @@ export default function HomeScreen() {
   const router = useRouter()
   const { t } = useTranslation()
   const { c, isDark } = useThemeColors()
-  const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
-  const setSelectedStateCode = useSettingsStore((state) => state.setSelectedStateCode)
-  const setTheme = useSettingsStore((state) => state.setTheme)
-  const translationLocale = useSettingsStore((state) => state.translationLocale)
-  const setTranslationLocale = useSettingsStore((state) => state.setTranslationLocale)
-  const setUiLocale = useSettingsStore((state) => state.setUiLocale)
+  // Subscribe only to state values that affect rendering
+  const selectedStateCode = useSettingsStore((s) => s.selectedStateCode)
+  const translationLocale = useSettingsStore((s) => s.translationLocale)
+
+  // Setters are stable references — access without creating a subscription
+  const { setTheme, setSelectedStateCode, setTranslationLocale, setUiLocale } = useSettingsStore.getState()
+
   const [stateModalOpen, setStateModalOpen] = useState(false)
   const [languageModalOpen, setLanguageModalOpen] = useState(false)
 
   const relevantQuestions = useMemo(() => getRelevantQuestions(selectedStateCode), [selectedStateCode])
-  const selectedStateLabel = getStateLabel(selectedStateCode)
-  const darkBtnBg   = isDark ? '#ffffff' : '#111111'
-  const darkBtnText = isDark ? '#111111' : '#ffffff'
-  const modalSelectedBg = isDark ? '#ffffff' : '#111111'
+  const selectedStateLabel = useMemo(() => getStateLabel(selectedStateCode), [selectedStateCode])
+
+  const darkBtnBg       = isDark ? '#ffffff' : '#111111'
+  const darkBtnText     = isDark ? '#111111' : '#ffffff'
+  const modalSelectedBg   = isDark ? '#ffffff' : '#111111'
   const modalSelectedText = isDark ? '#111111' : '#ffffff'
+
+  const handleSelectState = useCallback((code: Parameters<typeof setSelectedStateCode>[0]) => {
+    setStateModalOpen(false)
+    startTransition(() => setSelectedStateCode(code))
+  }, [setSelectedStateCode])
+
+  const handleSelectLanguage = useCallback((code: Parameters<typeof setTranslationLocale>[0]) => {
+    setLanguageModalOpen(false)
+    startTransition(() => {
+      setTranslationLocale(code)
+      if (code === 'de' || code === 'en') setUiLocale(code)
+    })
+  }, [setTranslationLocale, setUiLocale])
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
@@ -165,10 +180,7 @@ export default function HomeScreen() {
                         borderColor: isSelected ? modalSelectedBg : c.border,
                       },
                     ]}
-                    onPress={() => {
-                      setSelectedStateCode(state.code)
-                      setStateModalOpen(false)
-                    }}
+                    onPress={() => handleSelectState(state.code)}
                   >
                     <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
                       {state.label}
@@ -209,13 +221,7 @@ export default function HomeScreen() {
                         borderColor: isSelected ? modalSelectedBg : c.border,
                       },
                     ]}
-                    onPress={() => {
-                      setTranslationLocale(option.code)
-                      if (option.code === 'de' || option.code === 'en') {
-                        setUiLocale(option.code)
-                      }
-                      setLanguageModalOpen(false)
-                    }}
+                    onPress={() => handleSelectLanguage(option.code)}
                   >
                     <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
                       {option.label}

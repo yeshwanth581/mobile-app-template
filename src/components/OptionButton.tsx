@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import type { Question } from '@/types'
 import type { TranslationLocale } from '@/types'
@@ -19,7 +20,7 @@ interface Props {
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E']
 
-export function OptionButton({
+export const OptionButton = memo(function OptionButton({
   index,
   question,
   translationLocale,
@@ -69,7 +70,7 @@ export function OptionButton({
       </View>
     </TouchableOpacity>
   )
-}
+})
 
 const styles = StyleSheet.create({
   wrap: {

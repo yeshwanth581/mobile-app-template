@@ -116,7 +116,12 @@ export function isTopicCategory(category: string): category is TopicCategoryId {
   return category in TOPIC_PATTERNS
 }
 
+const _topicCategoryCache = new Map<string, TopicCategoryId>()
+
 export function getTopicCategory(question: Question): TopicCategoryId {
+  const cached = _topicCategoryCache.get(question.id)
+  if (cached) return cached
+
   const haystack = [
     question.question,
     question.explanation,
@@ -149,6 +154,7 @@ export function getTopicCategory(question: Question): TopicCategoryId {
     }
   }
 
+  _topicCategoryCache.set(question.id, bestCategory)
   return bestCategory
 }
 
