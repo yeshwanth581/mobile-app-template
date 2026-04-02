@@ -22,6 +22,8 @@ export default function SubscriptionScreen() {
 
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
+  const primaryBtnBg = isDark ? '#ffffff' : '#111111'
+  const primaryBtnText = isDark ? '#111111' : '#ffffff'
 
   async function subscribe() {
     setLoading(true)
@@ -99,7 +101,7 @@ export default function SubscriptionScreen() {
             selected={selectedPlan === 'yearly'}
             onPress={() => setSelectedPlan('yearly')}
             isDark={isDark}
-            badge="BEST VALUE"
+            badge="Best Value"
           />
         </View>
 
@@ -115,11 +117,11 @@ export default function SubscriptionScreen() {
 
         {/* Subscribe CTA */}
         <TouchableOpacity
-          style={[styles.cta, { backgroundColor: palette.primary, opacity: loading ? 0.7 : 1 }]}
+          style={[styles.cta, { backgroundColor: primaryBtnBg, opacity: loading ? 0.7 : 1 }]}
           onPress={subscribe}
           disabled={loading}
         >
-          <Text style={styles.ctaText}>
+          <Text style={[styles.ctaText, { color: primaryBtnText }]}>
             {loading ? 'Processing…' : `Subscribe · ${selectedPlan === 'yearly' ? '€9.99/year' : '€1.99/month'}`}
           </Text>
         </TouchableOpacity>
@@ -148,17 +150,17 @@ function PlanCard({
     <TouchableOpacity
       style={[
         styles.plan,
-        { backgroundColor: c.card, borderColor: selected ? palette.primary : c.border },
+        { backgroundColor: c.card, borderColor: selected ? c.textPrimary : c.border },
       ]}
       onPress={onPress}
     >
       {badge && (
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>{badge}</Text>
+        <View style={[styles.badge, { backgroundColor: isDark ? '#ffffff' : '#111111' }]}>
+          <Text style={[styles.badgeText, { color: isDark ? '#111111' : '#ffffff' }]}>{badge}</Text>
         </View>
       )}
       <Text style={[typography.tiny, { color: c.textMuted }]}>{label}</Text>
-      <Text style={{ fontSize: 24, fontWeight: '900', color: palette.primary }}>{price}</Text>
+      <Text style={{ fontSize: 24, fontWeight: '900', color: c.textPrimary }}>{price}</Text>
       <Text style={[typography.tiny, { color: c.textMuted }]}>{sub}</Text>
     </TouchableOpacity>
   )
@@ -177,14 +179,14 @@ const styles = StyleSheet.create({
   },
   badge: {
     position: 'absolute', top: -10, left: '50%', transform: [{ translateX: -30 }],
-    backgroundColor: palette.primary, borderRadius: radius.full,
+    borderRadius: radius.full,
     paddingHorizontal: 8, paddingVertical: 2,
   },
-  badgeText: { color: '#fff', fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
+  badgeText: { fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
   features: { width: '100%', gap: 10, marginBottom: spacing.lg },
   featureRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   cta: { width: '100%', borderRadius: radius.lg, padding: 15, alignItems: 'center', marginBottom: spacing.sm },
-  ctaText: { color: '#fff', fontSize: 15, fontWeight: '700' },
+  ctaText: { fontSize: 15, fontWeight: '700' },
   fine: { fontSize: 11, marginBottom: spacing.sm },
   restore: { fontSize: 12, textDecorationLine: 'underline' },
 })

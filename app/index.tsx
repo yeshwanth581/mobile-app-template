@@ -117,7 +117,7 @@ export default function HomeScreen() {
 
         {/* Stats row */}
         <View style={[styles.statsRow, { borderTopColor: c.border }]}>
-          <StatCell value={String(appConfig.examConfig.totalQuestions)} label={t('home.totalLabel')} c={c} />
+          <StatCell value={String(relevantQuestions.length)} label={t('home.totalLabel')} c={c} />
           <StatCell value={String(appConfig.examConfig.examQuestions)} label={t('home.examLabel')} c={c} />
           <StatCell value={`${appConfig.examConfig.timeLimitMinutes}m`} label={t('home.durationLabel')} c={c} />
           <StatCell value={String(appConfig.examConfig.passMark)} label={t('home.toPassLabel')} c={c} />

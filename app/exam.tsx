@@ -121,7 +121,7 @@ export default function ExamScreen() {
       : c.card
 
   const btnBg   = isLast ? palette.green : isDark ? '#ffffff' : '#111111'
-  const btnText = '#ffffff'
+  const btnText = isLast ? '#ffffff' : isDark ? '#111111' : '#ffffff'
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
