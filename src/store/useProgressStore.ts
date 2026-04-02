@@ -16,6 +16,7 @@ interface ProgressState {
 
   // Actions
   recordAttempt: (questionId: string, attempt: Attempt) => void
+  recordAttempts: (entries: Array<{ questionId: string; attempt: Attempt }>) => void
   toggleBookmark: (questionId: string) => void
   saveSession: (result: SessionResult) => void
   resetAll: () => void
@@ -57,6 +58,34 @@ export const useProgressStore = create<ProgressState>()(
           }
 
           // Streak logic
+          let { streakDays, lastPracticedDate } = s
+          if (lastPracticedDate !== today) {
+            const yesterday = new Date()
+            yesterday.setDate(yesterday.getDate() - 1)
+            const wasYesterday = lastPracticedDate === yesterday.toISOString().slice(0, 10)
+            streakDays = wasYesterday ? streakDays + 1 : 1
+            lastPracticedDate = today
+          }
+
+          return { progress: updatedProgress, streakDays, lastPracticedDate }
+        })
+      },
+
+      recordAttempts(entries) {
+        if (entries.length === 0) return
+
+        const today = todayISO()
+        set((s) => {
+          const updatedProgress = { ...s.progress }
+
+          for (const { questionId, attempt } of entries) {
+            const existing = updatedProgress[questionId] ?? defaultProgress(questionId)
+            updatedProgress[questionId] = {
+              ...existing,
+              attempts: [...existing.attempts, attempt],
+            }
+          }
+
           let { streakDays, lastPracticedDate } = s
           if (lastPracticedDate !== today) {
             const yesterday = new Date()

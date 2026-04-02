@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
 import type { Question } from '@/types'
 import type { TranslationLocale } from '@/types'
-import { getQuestionContent, getQuestionTranslation } from '@/data/questionBank'
+import { getQuestionTranslation } from '@/data/questionBank'
 import { getQuestionImage } from '@/data/questionImages'
 import { palette, spacing, radius, typography } from '@/theme'
 
@@ -20,10 +20,9 @@ export function QuestionCard({
   isDark,
   categoryLabel,
 }: Props) {
-  const localized = getQuestionContent(question, translationLocale)
   const translation = getQuestionTranslation(question, translationLocale)
   const imageSource = getQuestionImage(question.id)
-  const showEnglishUnderGerman = showTranslation && translationLocale === 'en' && !!translation
+  const showTranslationText = showTranslation && !!translation
 
   const c = isDark ? palette.dark : palette.light
 
@@ -36,10 +35,10 @@ export function QuestionCard({
       )}
 
       <Text style={[typography.bodyLg, styles.questionText, { color: c.textPrimary }]}>
-        {showEnglishUnderGerman ? question.question : localized.question}
+        {question.question}
       </Text>
 
-      {showEnglishUnderGerman && (
+      {showTranslationText && (
         <Text style={[styles.translationText, { color: c.textSecond }]}>
           {translation.question}
         </Text>

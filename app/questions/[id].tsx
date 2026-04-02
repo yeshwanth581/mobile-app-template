@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
+import { Ionicons } from '@expo/vector-icons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
@@ -11,6 +12,7 @@ import { OptionButton } from '@/components/OptionButton'
 import { QuestionJumpPicker } from '@/components/QuestionJumpPicker'
 import { palette, spacing, radius, typography } from '@/theme'
 import questions from '@/data/questions'
+import appConfig from '@/config/app.config'
 
 export default function QuestionDetailScreen() {
   const router = useRouter()
@@ -31,12 +33,16 @@ export default function QuestionDetailScreen() {
 
   const initialIndex = Number.isFinite(Number(params.index)) ? Number(params.index) : 0
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const [translationActive, setTranslationActive] = useState(false)
   const currentId = questionIds[currentIndex] ?? params.id
   const question = questions.find((item) => item.id === currentId)
 
   if (!question) return null
 
-  const showTranslation = translationLocale !== 'de'
+  const translationDisabled = translationLocale === appConfig.originalLocale
+  const showTranslation = translationActive && !translationDisabled
+  const transBtnBg = showTranslation ? (isDark ? '#ffffff' : '#111111') : c.card
+  const transBtnColor = showTranslation ? (isDark ? '#111111' : '#ffffff') : c.textMuted
   const bookmarked = getProgress(question.id).bookmarked
 
   return (
@@ -59,6 +65,13 @@ export default function QuestionDetailScreen() {
           />
 
           <View style={styles.topRight}>
+            <TouchableOpacity
+              style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
+              onPress={() => setTranslationActive((value) => !value)}
+              disabled={translationDisabled}
+            >
+              <Ionicons name="language-outline" size={16} color={transBtnColor} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => toggleBookmark(question.id)}>
               <Text style={{ fontSize: 18, opacity: bookmarked ? 1 : 0.3 }}>🔖</Text>
             </TouchableOpacity>

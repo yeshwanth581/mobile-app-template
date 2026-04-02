@@ -3,29 +3,86 @@ import type { GermanStateCode, Question, TranslationLocale } from '@/types'
 
 export type TopicCategoryId = 'politik' | 'recht' | 'geschichte' | 'gesellschaft' | 'wirtschaft'
 
-const TOPIC_PATTERNS: Record<TopicCategoryId, RegExp[]> = {
-  wirtschaft: [
-    /\bwirtschaft/i, /\bmarkt/i, /\bgeld/i, /\beuro/i, /\bsteuer/i, /\barbeit(slos|nehmer|geber)?/i,
-    /\bsozialversicherung/i, /\brente/i, /\bunternehmer/i,
-  ],
-  geschichte: [
-    /\bddr\b/i, /\bns[- ]/i, /\bnationalsozial/i, /\bzweite?n? weltkrieg/i, /\berste?n? weltkrieg/i,
-    /\b194[5-9]\b/, /\b19[5-9]\d\b/, /\b20\d{2}\b/, /\bgeschichte/i, /\bwiedervereinigung/i,
-    /\bmauer/i, /\bberliner mauer/i, /\bholocaust/i,
+const TOPIC_PATTERNS: Record<TopicCategoryId, Array<{ pattern: RegExp; score: number }>> = {
+  politik: [
+    { pattern: /\bdemokratie/i, score: 4 },
+    { pattern: /\bbundestag/i, score: 4 },
+    { pattern: /\bbundesrat/i, score: 4 },
+    { pattern: /\bbundeskanzler/i, score: 4 },
+    { pattern: /\bregierung/i, score: 4 },
+    { pattern: /\bpartei/i, score: 3 },
+    { pattern: /\bwahl/i, score: 4 },
+    { pattern: /\bwahlrecht/i, score: 4 },
+    { pattern: /\bminister/i, score: 3 },
+    { pattern: /\bpräsident/i, score: 3 },
+    { pattern: /\bparlament/i, score: 3 },
+    { pattern: /\bopposition/i, score: 3 },
+    { pattern: /\beuropäische union/i, score: 3 },
+    { pattern: /\beu\b/i, score: 2 },
+    { pattern: /\bpolitik/i, score: 2 },
   ],
   recht: [
-    /\brechtsstaat/i, /\bgesetz/i, /\bgericht/i, /\brecht\b/i, /\bverfassung/i, /\bgrundgesetz/i,
-    /\bpolizei/i, /\banwalt/i, /\bstrafe/i, /\bhaft/i, /\bgrundrecht/i,
+    { pattern: /\brechtsstaat/i, score: 5 },
+    { pattern: /\bgesetz/i, score: 4 },
+    { pattern: /\bgrundgesetz/i, score: 5 },
+    { pattern: /\bverfassung/i, score: 4 },
+    { pattern: /\bgrundrecht/i, score: 5 },
+    { pattern: /\bgericht/i, score: 4 },
+    { pattern: /\brecht\b/i, score: 4 },
+    { pattern: /\banwalt/i, score: 4 },
+    { pattern: /\bstrafe/i, score: 3 },
+    { pattern: /\bpolizei/i, score: 3 },
+    { pattern: /\bverboten/i, score: 2 },
+    { pattern: /\bfreizügigkeit/i, score: 3 },
   ],
-  politik: [
-    /\bdemokratie/i, /\bbundestag/i, /\bbundesrat/i, /\bkanzler/i, /\bregierung/i, /\bpartei/i,
-    /\bwahl/i, /\bminister/i, /\bpräsident/i, /\bparlament/i, /\beu\b/i, /\beuropa/i, /\bpolitik/i,
+  geschichte: [
+    { pattern: /\bgeschichte/i, score: 3 },
+    { pattern: /\bddr\b/i, score: 5 },
+    { pattern: /\bbundesrepublik/i, score: 2 },
+    { pattern: /\bnationalsozial/i, score: 5 },
+    { pattern: /\bns-staat/i, score: 5 },
+    { pattern: /\bholocaust/i, score: 5 },
+    { pattern: /\bzweite[nrms]* weltkrieg/i, score: 5 },
+    { pattern: /\berste[nrms]* weltkrieg/i, score: 4 },
+    { pattern: /\bwiedervereinigung/i, score: 5 },
+    { pattern: /\bberliner mauer/i, score: 5 },
+    { pattern: /\bwirtschaftswunder/i, score: 4 },
+    { pattern: /\b194[5-9]\b/i, score: 3 },
+    { pattern: /\b19[5-9]\d\b/i, score: 2 },
   ],
   gesellschaft: [
-    /\bfamilie/i, /\bschule/i, /\bkind(er)?/i, /\breligion/i, /\bgesellschaft/i, /\bgleichberecht/i,
-    /\bintegration/i, /\bkultur/i, /\bnachbar/i, /\behe/i, /\bmann\b/i, /\bfrau\b/i, /\bwohnung/i,
+    { pattern: /\bfamilie/i, score: 4 },
+    { pattern: /\bschule/i, score: 4 },
+    { pattern: /\bkind(er)?/i, score: 4 },
+    { pattern: /\breligion/i, score: 4 },
+    { pattern: /\bgesellschaft/i, score: 4 },
+    { pattern: /\bgleichberecht/i, score: 4 },
+    { pattern: /\bintegration/i, score: 4 },
+    { pattern: /\behe/i, score: 3 },
+    { pattern: /\bwohnung/i, score: 3 },
+    { pattern: /\bnachbar/i, score: 2 },
+    { pattern: /\berziehung/i, score: 3 },
+    { pattern: /\bfeiertag/i, score: 2 },
+    { pattern: /\bkultur/i, score: 2 },
+  ],
+  wirtschaft: [
+    { pattern: /\bwirtschaft/i, score: 5 },
+    { pattern: /\bmarktwirtschaft/i, score: 5 },
+    { pattern: /\bsoziale marktwirtschaft/i, score: 6 },
+    { pattern: /\bplanwirtschaft/i, score: 5 },
+    { pattern: /\bsteuer/i, score: 4 },
+    { pattern: /\beuro/i, score: 4 },
+    { pattern: /\bgeld/i, score: 2 },
+    { pattern: /\bsozialversicherung/i, score: 4 },
+    { pattern: /\brente/i, score: 4 },
+    { pattern: /\barbeit(nehmer|geber|slos)?/i, score: 4 },
+    { pattern: /\bkündigung/i, score: 3 },
+    { pattern: /\bunternehmer/i, score: 3 },
+    { pattern: /\bfinanz/i, score: 3 },
   ],
 }
+
+const TOPIC_FALLBACK_ORDER: TopicCategoryId[] = ['politik', 'recht', 'geschichte', 'gesellschaft', 'wirtschaft']
 
 export function getRelevantQuestions(selectedStateCode: GermanStateCode | null): Question[] {
   return questions.filter((question) => question.category === 'general' || question.category === selectedStateCode)
@@ -60,15 +117,39 @@ export function isTopicCategory(category: string): category is TopicCategoryId {
 }
 
 export function getTopicCategory(question: Question): TopicCategoryId {
-  const haystack = `${question.question} ${question.explanation} ${question.source}`.toLowerCase()
+  const haystack = [
+    question.question,
+    question.explanation,
+    question.source,
+    ...question.options,
+  ].join(' ')
 
-  for (const category of ['wirtschaft', 'geschichte', 'recht', 'politik', 'gesellschaft'] as TopicCategoryId[]) {
-    if (TOPIC_PATTERNS[category].some((pattern) => pattern.test(haystack))) {
-      return category
+  let bestCategory: TopicCategoryId = 'gesellschaft'
+  let bestScore = -1
+
+  for (const category of TOPIC_FALLBACK_ORDER) {
+    const score = TOPIC_PATTERNS[category].reduce((sum, rule) => (
+      rule.pattern.test(haystack) ? sum + rule.score : sum
+    ), 0)
+
+    if (score > bestScore) {
+      bestScore = score
+      bestCategory = category
     }
   }
 
-  return 'gesellschaft'
+  if (bestScore <= 0) {
+    const numericId = Number.parseInt(question.id, 10)
+    if (!Number.isNaN(numericId) && numericId >= 1 && numericId <= 300) {
+      if (numericId <= 120) return 'politik'
+      if (numericId <= 180) return 'recht'
+      if (numericId <= 230) return 'geschichte'
+      if (numericId <= 270) return 'gesellschaft'
+      return 'wirtschaft'
+    }
+  }
+
+  return bestCategory
 }
 
 export function getQuestionsForTopicCategory(category: TopicCategoryId, selectedStateCode: GermanStateCode | null): Question[] {

@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import type { Question } from '@/types'
 import type { TranslationLocale } from '@/types'
-import { getQuestionContent, getQuestionTranslation } from '@/data/questionBank'
+import { getQuestionTranslation } from '@/data/questionBank'
 import { palette, spacing, radius } from '@/theme'
 
 type State = 'default' | 'selected' | 'selected-correct' | 'selected-wrong' | 'correct-answer'
@@ -40,9 +40,8 @@ export function OptionButton({
     else if (index === question.correct) state = 'correct-answer'
   }
 
-  const localized = getQuestionContent(question, translationLocale)
   const translation = getQuestionTranslation(question, translationLocale)
-  const showEnglishUnderGerman = showTranslation && translationLocale === 'en' && !!translation?.options[index]
+  const showTranslationText = showTranslation && !!translation?.options[index]
 
   const c = isDark ? dark : light
 
@@ -60,9 +59,9 @@ export function OptionButton({
 
       <View style={styles.textWrap}>
         <Text style={[styles.optionText, c.optionText[state]]}>
-          {showEnglishUnderGerman ? question.options[index] : localized.options[index]}
+          {question.options[index]}
         </Text>
-        {showEnglishUnderGerman && (
+        {showTranslationText && (
           <Text style={[styles.translationText, { color: isDark ? '#94a3b8' : '#64748b' }]}>
             {translation.options[index]}
           </Text>

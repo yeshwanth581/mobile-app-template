@@ -44,6 +44,12 @@ export default function SessionScreen() {
 
   useEffect(() => {
     if (!isFinished) return
+
+    if (isPracticeMode || isStudyMode) {
+      router.replace(isStudyMode ? '/study' : '/practice')
+      return
+    }
+
     const wrongIds = answers.filter((a) => !a.correct).map((a) => a.questionId)
     router.replace({
       pathname: '/results',
@@ -53,9 +59,10 @@ export default function SessionScreen() {
         passed: passed ? '1' : '0',
         config: configStr,
         wrongIds: JSON.stringify(wrongIds),
+        answers: JSON.stringify(answers),
       },
     })
-  }, [answers, configStr, isFinished, passed, router, score, total])
+  }, [answers, configStr, isFinished, isPracticeMode, isStudyMode, passed, router, score, total])
 
   if (isFinished || !current) return null
 
@@ -88,6 +95,7 @@ export default function SessionScreen() {
   const btnBg   = isDark ? '#ffffff' : '#111111'
   const btnText = isDark ? '#111111' : '#ffffff'
   const translationDisabled = translationLocale === appConfig.originalLocale
+  const showTranslationControl = isStudyMode || isPracticeMode || isReviewMode
 
   // Translate button styles
   const transActive     = translationActive && !translationDisabled
@@ -128,13 +136,17 @@ export default function SessionScreen() {
             compact
           />
 
-          <TouchableOpacity
-            style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
-            onPress={() => setTranslationActive((v) => !v)}
-            disabled={translationDisabled}
-          >
-            <Ionicons name="language-outline" size={16} color={transBtnColor} />
-          </TouchableOpacity>
+          {showTranslationControl ? (
+            <TouchableOpacity
+              style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
+              onPress={() => setTranslationActive((v) => !v)}
+              disabled={translationDisabled}
+            >
+              <Ionicons name="language-outline" size={16} color={transBtnColor} />
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.iconPlaceholder} />
+          )}
         </View>
 
         {/* Progress bar */}
@@ -253,6 +265,7 @@ const styles = StyleSheet.create({
   topSection:  { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.sm },
   headerRow:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm },
   iconBtn:     { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  iconPlaceholder: { width: 32, height: 32 },
 
   body:        { flex: 1 },
   bodyContent: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },

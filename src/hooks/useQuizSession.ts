@@ -36,12 +36,12 @@ function buildQueue(config: SessionConfig): Question[] {
       break
     case 'weak': {
       const weakIds = new Set(getWeakIds())
-      pool = questions.filter((q) => weakIds.has(q.id))
+      pool = getRelevantQuestions(selectedStateCode).filter((q) => weakIds.has(q.id))
       break
     }
     case 'bookmarked': {
       const bIds = new Set(getBookmarked())
-      pool = questions.filter((q) => bIds.has(q.id))
+      pool = getRelevantQuestions(selectedStateCode).filter((q) => bIds.has(q.id))
       break
     }
     default:
@@ -62,9 +62,10 @@ function buildQueue(config: SessionConfig): Question[] {
 export type AnswerState = 'unanswered' | 'correct' | 'wrong'
 
 export function useQuizSession(config: SessionConfig) {
-  const { recordAttempt, saveSession } = useProgressStore()
+  const { recordAttempt, recordAttempts, saveSession } = useProgressStore()
   const startTime = useRef(Date.now())
   const hasSavedResult = useRef(false)
+  const pendingPracticeAttempts = useRef<Record<string, Attempt>>({})
 
   const [queue] = useState<Question[]>(() => buildQueue(config))
   const [selectedAnswers, setSelectedAnswers] = useState<Array<number | null>>(() =>
@@ -101,10 +102,10 @@ export function useQuizSession(config: SessionConfig) {
           mode: 'practice',
           timestamp: Date.now(),
         }
-        recordAttempt(current.id, attempt)
+        pendingPracticeAttempts.current[current.id] = attempt
       }
     },
-    [chosenIndex, current, currentIndex, config.mode, recordAttempt]
+    [chosenIndex, current, currentIndex, config.mode]
   )
 
   const buildAnswers = useCallback(
@@ -134,6 +135,13 @@ export function useQuizSession(config: SessionConfig) {
           timestamp: Date.now(),
         })
       })
+    } else {
+      recordAttempts(
+        Object.entries(pendingPracticeAttempts.current).map(([questionId, attempt]) => ({
+          questionId,
+          attempt,
+        }))
+      )
     }
 
     const result: SessionResult = {
@@ -144,7 +152,7 @@ export function useQuizSession(config: SessionConfig) {
     }
     saveSession(result)
     setIsFinished(true)
-  }, [config, recordAttempt, saveSession])
+  }, [config, recordAttempt, recordAttempts, saveSession])
 
   const next = useCallback(() => {
     if (chosenIndex === null) return

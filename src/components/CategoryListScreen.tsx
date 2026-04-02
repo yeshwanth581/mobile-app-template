@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Picker } from '@react-native-picker/picker'
 import { Ionicons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { BottomNav, type NavKey } from '@/components/BottomNav'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
+import appConfig from '@/config/app.config'
 import { getGeneralQuestions, getQuestionsForTopicCategory, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
 import { getStateLabel } from '@/data/states'
 import { palette, spacing, radius } from '@/theme'
@@ -27,10 +27,8 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
   const { progress, getWeakIds, getBookmarked } = useProgressStore()
   const { selectedStateCode, translationLocale } = useSettingsStore()
   const [shuffle, setShuffle] = useState(mode === 'study')
-  const [activeCategory, setActiveCategory] = useState<string>('all')
 
   const keyPrefix = mode === 'study' ? 'study' : 'practice'
-  const showTranslation = mode === 'study' ? true : translationLocale !== 'de'
   const activeTab: NavKey = mode === 'study' ? 'study' : 'practice'
   const primaryCountLabel = mode === 'study' ? t('study.statPrimary') : t('practice.statPrimary')
 
@@ -52,8 +50,18 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
 
   const weakIds = getWeakIds()
   const bookmarkedIds = getBookmarked()
-  const weakCount = weakIds.length
-  const savedCount = bookmarkedIds.length
+  const relevantQuestionIds = useMemo(
+    () => new Set(relevantQuestions.map((question) => question.id)),
+    [relevantQuestions]
+  )
+  const weakCount = useMemo(
+    () => weakIds.filter((id) => relevantQuestionIds.has(id)).length,
+    [relevantQuestionIds, weakIds]
+  )
+  const savedCount = useMemo(
+    () => bookmarkedIds.filter((id) => relevantQuestionIds.has(id)).length,
+    [bookmarkedIds, relevantQuestionIds]
+  )
   const selectedStateLabel = getStateLabel(selectedStateCode)
 
   function launchSession(overrides: Partial<SessionConfig>) {
@@ -62,7 +70,7 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
       category: null,
       count: relevantQuestions.length,
       shuffle,
-      showTranslation,
+      showTranslation: translationLocale !== appConfig.originalLocale,
       timed: false,
       mode: 'practice',
       presentation: mode,
@@ -92,34 +100,29 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
     for (const topic of [
       {
         id: 'politik',
-        label: 'Politik & Demokratie',
         emoji: '🏛️',
       },
       {
         id: 'recht',
-        label: 'Recht & Gesetze',
         emoji: '⚖️',
       },
       {
         id: 'geschichte',
-        label: 'Geschichte',
         emoji: '🗺️',
       },
       {
         id: 'gesellschaft',
-        label: 'Gesellschaft',
         emoji: '🌍',
       },
       {
         id: 'wirtschaft',
-        label: 'Wirtschaft',
         emoji: '💶',
       },
     ] as const) {
       const topicQuestions = getQuestionsForTopicCategory(topic.id, selectedStateCode)
       items.push({
         id: topic.id,
-        label: topic.label,
+        label: t(`categories.${topic.id}`),
         emoji: topic.emoji,
         count: topicQuestions.length,
         weakCount: topicQuestions.filter((question) => weakIdSet.has(question.id)).length,
@@ -127,13 +130,8 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
     }
 
     return items
-  }, [selectedStateCode, selectedStateLabel, stateQuestions, weakIds])
+  }, [selectedStateCode, selectedStateLabel, stateQuestions, t, weakIds])
 
-  const visibleGroups = activeCategory === 'all' ? groups : groups.filter((group) => group.id === activeCategory)
-  const selectedGroup = groups.find((group) => group.id === activeCategory) ?? null
-  const launchCount = selectedGroup?.count ?? relevantQuestions.length
-
-  const shuffleColor = shuffle ? c.textPrimary : c.textMuted
   const primaryButtonBg = isDark ? '#ffffff' : '#111111'
   const primaryButtonText = isDark ? '#111111' : '#ffffff'
 
@@ -170,37 +168,9 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
           />
         </View>
 
-        <View style={styles.filterRow}>
-          <View style={[styles.pickerWrap, { backgroundColor: c.card, borderColor: c.border }]}>
-            <Picker
-              selectedValue={activeCategory}
-              onValueChange={(value) => setActiveCategory(String(value))}
-              style={[styles.picker, { color: c.textPrimary }]}
-              dropdownIconColor={c.textMuted}
-            >
-              <Picker.Item label={t(`${keyPrefix}.allCategories`)} value="all" />
-              {groups.map((group) => (
-                <Picker.Item key={group.id} label={`${group.emoji} ${group.label}`} value={group.id} />
-              ))}
-            </Picker>
-          </View>
-          <TouchableOpacity
-            style={[
-              styles.shuffleBtn,
-              {
-                backgroundColor: shuffle ? '#111111' : c.card,
-                borderColor: shuffle ? '#111111' : c.border,
-              },
-            ]}
-            onPress={() => setShuffle((value) => !value)}
-          >
-            <Ionicons name="shuffle" size={14} color={shuffle ? '#ffffff' : c.textMuted} />
-          </TouchableOpacity>
-        </View>
-
         <Text style={[styles.sectionLabel, { color: c.textMuted }]}>{t(`${keyPrefix}.categories`)}</Text>
 
-        {visibleGroups.map((group) => {
+        {groups.map((group) => {
           const weakSuffix = group.weakCount > 0 ? ` · ${t(`${keyPrefix}.weakSuffix`, { count: group.weakCount })}` : ''
           return (
             <TouchableOpacity
@@ -227,14 +197,10 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
       <View style={[styles.stickyBar, { backgroundColor: c.bg, borderTopColor: c.border }]}>
         <TouchableOpacity
           style={[styles.primaryAction, { backgroundColor: primaryButtonBg }]}
-          onPress={() => launchSession(
-            activeCategory === 'all'
-              ? { filter: 'all', count: relevantQuestions.length }
-              : { filter: 'category', category: activeCategory, count: launchCount }
-          )}
+          onPress={() => launchSession({ filter: 'all', count: relevantQuestions.length })}
         >
           <Text style={[styles.primaryActionText, { color: primaryButtonText }]}>
-            {t(`${keyPrefix}.launchAll`, { count: launchCount })}
+            {t(`${keyPrefix}.launchAll`, { count: relevantQuestions.length })}
           </Text>
         </TouchableOpacity>
       </View>
@@ -307,33 +273,6 @@ const styles = StyleSheet.create({
   actionCard: { flex: 1, borderRadius: radius.lg, padding: 16, borderWidth: 1.5, minHeight: 88 },
   acTitle: { fontSize: 14, fontWeight: '700', marginBottom: 6 },
   acSub: { fontSize: 11, lineHeight: 15 },
-  filterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  pickerWrap: {
-    flex: 1,
-    height: 38,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    justifyContent: 'center',
-    overflow: 'hidden',
-    marginRight: 10,
-  },
-  picker: {
-    marginHorizontal: -8,
-    height: 38,
-  },
-  shuffleBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    borderWidth: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   sectionLabel: {
     fontSize: 11,
     fontWeight: '700',

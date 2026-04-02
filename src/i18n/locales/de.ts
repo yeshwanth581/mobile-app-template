@@ -185,6 +185,13 @@ const de = {
     stateSet: 'Fragen zu {{state}}',
     weakSuffix: '{{count}} schwach',
   },
+  categories: {
+    politik: 'Politik & Demokratie',
+    recht: 'Recht & Gesetze',
+    geschichte: 'Geschichte',
+    gesellschaft: 'Gesellschaft',
+    wirtschaft: 'Wirtschaft',
+  },
   common: {
     back:   'Zurück',
     close:  'Schließen',
