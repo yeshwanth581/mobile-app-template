@@ -15,17 +15,16 @@ import { palette, spacing, radius, typography } from '@/theme'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
-export default function PracticeScreen() {
+export default function StudyScreen() {
   const router = useRouter()
   const { c, isDark } = useThemeColors()
   const { progress, getWeakIds, getBookmarked } = useProgressStore()
-  const { selectedStateCode, translationLocale } = useSettingsStore()
+  const { selectedStateCode } = useSettingsStore()
   const [shuffle, setShuffle] = useState(false)
 
   const relevantQuestions = useMemo(() => getRelevantQuestions(selectedStateCode), [selectedStateCode])
-  const showTranslation = translationLocale !== 'de'
 
-  const practicedCount = useMemo(
+  const studiedCount = useMemo(
     () => Object.values(progress).filter((p) => p.attempts.length > 0).length,
     [progress]
   )
@@ -46,7 +45,7 @@ export default function PracticeScreen() {
       category: null,
       count: relevantQuestions.length,
       shuffle,
-      showTranslation,
+      showTranslation: true,
       timed: false,
       mode: 'practice',
       ...overrides,
@@ -83,7 +82,8 @@ export default function PracticeScreen() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relevantQuestions, selectedStateCode, progress])
 
-  const shuffleColor = shuffle ? c.textPrimary : c.textMuted
+  const shuffleBg     = shuffle ? (isDark ? '#ffffff' : '#111111') : c.card
+  const shuffleColor  = shuffle ? (isDark ? '#111111' : '#ffffff') : c.textMuted
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
@@ -91,8 +91,8 @@ export default function PracticeScreen() {
 
         {/* Stats row */}
         <View style={styles.statsRow}>
-          <StatCard value={String(practicedCount)} label="Practiced" valueColor={c.textPrimary} c={c} />
-          <StatCard value={`${accuracyPct}%`}      label="Accuracy"  valueColor={palette.green}  c={c} />
+          <StatCard value={String(studiedCount)} label="Studied"  valueColor={c.textPrimary} c={c} />
+          <StatCard value={`${accuracyPct}%`}    label="Accuracy" valueColor={palette.green}  c={c} />
           <StatCard
             value={String(weakCount)}
             label="Weak"
@@ -106,7 +106,7 @@ export default function PracticeScreen() {
         <View style={styles.actionGrid}>
           <TouchableOpacity
             style={[styles.actionCard, { backgroundColor: c.bg, borderColor: c.border }]}
-            onPress={() => launchSession({ filter: 'weak', count: weakCount, showTranslation })}
+            onPress={() => launchSession({ filter: 'weak', count: weakCount })}
             disabled={weakCount === 0}
           >
             <Text style={[styles.acTitle, { color: c.textPrimary, opacity: weakCount === 0 ? 0.4 : 1 }]}>
@@ -117,7 +117,7 @@ export default function PracticeScreen() {
 
           <TouchableOpacity
             style={[styles.actionCard, { backgroundColor: c.bg, borderColor: c.border }]}
-            onPress={() => launchSession({ filter: 'bookmarked', count: savedCount, showTranslation })}
+            onPress={() => launchSession({ filter: 'bookmarked', count: savedCount })}
             disabled={savedCount === 0}
           >
             <Text style={[styles.acTitle, { color: c.textPrimary, opacity: savedCount === 0 ? 0.4 : 1 }]}>
@@ -131,7 +131,7 @@ export default function PracticeScreen() {
         <View style={styles.filterRow}>
           <Text style={[typography.smallBd, { color: c.textPrimary }]}>All Categories</Text>
           <TouchableOpacity
-            style={[styles.shuffleBtn, { backgroundColor: c.card, borderColor: c.border }]}
+            style={[styles.shuffleBtn, { backgroundColor: shuffleBg, borderColor: c.border }]}
             onPress={() => setShuffle((v) => !v)}
           >
             <FontAwesomeIcon icon={faShuffle} size={13} color={shuffleColor} />
@@ -146,7 +146,7 @@ export default function PracticeScreen() {
           <TouchableOpacity
             key={cat.id}
             style={[styles.catItem, { backgroundColor: c.card }]}
-            onPress={() => launchSession({ filter: 'category', category: cat.id, count: cat.count, showTranslation })}
+            onPress={() => launchSession({ filter: 'category', category: cat.id, count: cat.count })}
           >
             <Text style={styles.catEmoji}>{cat.emoji}</Text>
             <View style={styles.catBody}>
@@ -163,19 +163,19 @@ export default function PracticeScreen() {
         <View style={{ height: 80 }} />
       </ScrollView>
 
-      {/* Sticky Practice All bar */}
+      {/* Sticky Study All bar */}
       <View style={[styles.stickyBar, { backgroundColor: c.bg, borderTopColor: c.border }]}>
         <TouchableOpacity
-          style={[styles.practiceAllBtn, { backgroundColor: isDark ? '#ffffff' : '#111111' }]}
-          onPress={() => launchSession({ filter: 'all', count: relevantQuestions.length, showTranslation })}
+          style={[styles.studyAllBtn, { backgroundColor: isDark ? '#ffffff' : '#111111' }]}
+          onPress={() => launchSession({ filter: 'all', count: relevantQuestions.length })}
         >
-          <Text style={[styles.practiceAllText, { color: isDark ? '#111111' : '#ffffff' }]}>
-            Practice All · {relevantQuestions.length} Questions
+          <Text style={[styles.studyAllText, { color: isDark ? '#111111' : '#ffffff' }]}>
+            Study All · {relevantQuestions.length} Questions
           </Text>
         </TouchableOpacity>
       </View>
 
-      <BottomNav active="practice" />
+      <BottomNav active="study" />
     </SafeAreaView>
   )
 }
@@ -237,8 +237,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg, paddingTop: 10, paddingBottom: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  practiceAllBtn: {
-    borderRadius: 14, padding: 14, alignItems: 'center',
-  },
-  practiceAllText: { fontSize: 15, fontWeight: '700' },
+  studyAllBtn:  { borderRadius: 14, padding: 14, alignItems: 'center' },
+  studyAllText: { fontSize: 15, fontWeight: '700' },
 })

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Stopwatch top-right -->
+  <circle cx="60" cy="18" r="13" fill="white"/>
+  <circle cx="60" cy="18" r="1.5" fill="currentColor"/>
+  <line x1="60" y1="9" x2="60" y2="18"/>
+  <line x1="60" y1="18" x2="66" y2="22"/>
+  <line x1="60" y1="6.5" x2="60" y2="8"/>
+  <line x1="60" y1="28" x2="60" y2="29.5"/>
+  <line x1="48.5" y1="18" x2="50" y2="18"/>
+  <line x1="70" y1="18" x2="71.5" y2="18"/>
+  <rect x="58" y="1" width="4" height="4" rx="1" fill="white"/>
+  <line x1="60" y1="5" x2="60" y2="3"/>
+  <path d="M70 9l3-2.5"/>
+
+  <!-- Back paper (stack effect) -->
+  <rect x="12" y="16" width="40" height="52" rx="3" fill="white"/>
+
+  <!-- Front clipboard -->
+  <rect x="6" y="11" width="40" height="52" rx="3" fill="white"/>
+
+  <!-- Clipboard clip -->
+  <path d="M19 11v-2a4 4 0 0 1 8 0v2" fill="white"/>
+  <rect x="17" y="7" width="12" height="7" rx="2.5" fill="white"/>
+
+  <!-- Row 1 -->
+  <circle cx="15" cy="26" r="3.5"/>
+  <path d="M13.2 26l1.8 2 3.5-3.5"/>
+  <line x1="23" y1="25" x2="40" y2="25"/>
+  <line x1="23" y1="29" x2="35" y2="29"/>
+
+  <!-- Row 2 -->
+  <circle cx="15" cy="39" r="3.5"/>
+  <path d="M13.2 39l1.8 2 3.5-3.5"/>
+  <line x1="23" y1="38" x2="40" y2="38"/>
+  <line x1="23" y1="42" x2="35" y2="42"/>
+
+  <!-- Row 3 -->
+  <circle cx="15" cy="52" r="3.5"/>
+  <path d="M13.2 52l1.8 2 3.5-3.5"/>
+  <line x1="23" y1="51" x2="40" y2="51"/>
+  <line x1="23" y1="55" x2="35" y2="55"/>
+</svg>

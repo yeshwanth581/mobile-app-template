@@ -1,0 +1,28 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="224" fill="#1F7A4D"/>
+
+  <!-- "LEBEN" text - bold, uppercase, letter-spaced -->
+  <text x="512" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="148" font-weight="900" fill="#FFFFFF" letter-spacing="20">LEBEN</text>
+
+  <!-- Flag shield - larger, centered -->
+  <defs>
+    <clipPath id="shieldClean">
+      <path d="M512 260L760 358V580C760 752 652 892 512 944C372 892 264 752 264 580V358L512 260Z"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#shieldClean)">
+    <rect x="254" y="260" width="516" height="232" fill="#111111"/>
+    <rect x="254" y="492" width="516" height="232" fill="#DD0000"/>
+    <rect x="254" y="724" width="516" height="232" fill="#FFCC00"/>
+  </g>
+
+  <!-- Shield outline -->
+  <path d="M512 260L760 358V580C760 752 652 892 512 944C372 892 264 752 264 580V358L512 260Z" stroke="#FFFFFF" stroke-width="8" stroke-opacity="0.15"/>
+
+  <!-- Checkmark circle - bold -->
+  <circle cx="512" cy="716" r="108" fill="#1F7A4D"/>
+  <circle cx="512" cy="716" r="108" stroke="#FFFFFF" stroke-width="8"/>
+  <path d="M458 716L496 754L570 680" stroke="#FFFFFF" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

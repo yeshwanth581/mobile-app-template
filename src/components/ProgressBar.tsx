@@ -9,20 +9,22 @@ interface Props {
 }
 
 export function ProgressBar({ current, total, isDark, label }: Props) {
-  const pct = total > 0 ? (current / total) * 100 : 0
+  const pct      = total > 0 ? (current / total) * 100 : 0
+  const fillColor = isDark ? '#ffffff' : '#111111'
+  const textColor = isDark ? palette.dark.textSecond : palette.light.textSecond
 
   return (
     <View style={styles.wrap}>
       <View style={styles.row}>
-        <Text style={[styles.label, { color: isDark ? palette.dark.textSecond : palette.light.textSecond }]}>
+        <Text style={[styles.label, { color: textColor }]}>
           {label ?? `Question ${current + 1} / ${total}`}
         </Text>
-        <Text style={[styles.pct, { color: palette.primary }]}>
+        <Text style={[styles.pct, { color: fillColor }]}>
           {Math.round(pct)}%
         </Text>
       </View>
       <View style={[styles.track, { backgroundColor: isDark ? palette.dark.border : palette.light.border }]}>
-        <View style={[styles.fill, { width: `${pct}%` as any, backgroundColor: palette.primary }]} />
+        <View style={[styles.fill, { width: `${pct}%` as any, backgroundColor: fillColor }]} />
       </View>
     </View>
   )

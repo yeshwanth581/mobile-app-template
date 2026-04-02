@@ -1,134 +1,129 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Share } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Ionicons } from '@expo/vector-icons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { AdBanner } from '@/components/AdBanner'
-import { palette, spacing, radius, typography } from '@/theme'
+import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
+function formatTime(secs: number): string {
+  const m = Math.floor(secs / 60)
+  const s = secs % 60
+  return `${m}:${s.toString().padStart(2, '0')}`
+}
+
 export default function ResultsScreen() {
   const router = useRouter()
-  const { score, total, passed, config: configStr, wrongIds: wrongIdsStr } = useLocalSearchParams<{
-    score: string; total: string; passed: string; config: string; wrongIds?: string
-  }>()
+  const { score, total, passed, config: configStr, wrongIds: wrongIdsStr, timeSeconds } =
+    useLocalSearchParams<{
+      score: string; total: string; passed: string; config: string
+      wrongIds?: string; timeSeconds?: string
+    }>()
   const { isDark, c } = useThemeColors()
 
   const scoreNum  = parseInt(score ?? '0')
   const totalNum  = parseInt(total ?? '1')
   const isPassed  = passed === '1'
   const pct       = Math.round((scoreNum / totalNum) * 100)
-  const wrongNum  = totalNum - scoreNum
   const passMark  = appConfig.examConfig.passMark
-  const wrongIds = wrongIdsStr ? (JSON.parse(wrongIdsStr) as string[]) : []
+  const wrongIds  = wrongIdsStr ? (JSON.parse(wrongIdsStr) as string[]) : []
+  const elapsed   = timeSeconds ? parseInt(timeSeconds) : null
+  const config    = configStr ? (JSON.parse(configStr) as SessionConfig) : null
 
-  async function shareResult() {
-    try {
-      await Share.share({
-        message: `I scored ${scoreNum}/${totalNum} (${pct}%) on the ${appConfig.appName} practice test! ${isPassed ? '✅ Passed!' : '📚 Still practising'}`,
-      })
-    } catch {}
-  }
-
-  const ringColor = isPassed ? palette.green : palette.red
+  const badgeColor = isPassed ? palette.green : palette.red
+  const btnBg      = isDark ? '#ffffff' : '#111111'
+  const btnText    = isDark ? '#111111' : '#ffffff'
 
   function reviewWrongAnswers() {
     if (wrongIds.length === 0) {
       router.push('/questions')
       return
     }
-
     const reviewConfig: SessionConfig = {
-      filter: 'all',
-      category: null,
-      count: wrongIds.length,
-      shuffle: false,
-      showTranslation: true,
-      timed: false,
-      mode: 'practice',
-      _questionIds: wrongIds,
+      filter: 'all', category: null, count: wrongIds.length,
+      shuffle: false, showTranslation: true, timed: false,
+      mode: 'practice', _questionIds: wrongIds,
     }
+    router.replace({ pathname: '/practice/session', params: { config: JSON.stringify(reviewConfig) } })
+  }
 
-    router.replace({
-      pathname: '/practice/session',
-      params: { config: JSON.stringify(reviewConfig) },
-    })
+  function retrySession() {
+    if (config?.mode === 'exam') {
+      router.replace('/exam')
+    } else {
+      router.replace({ pathname: '/practice/session', params: { config: configStr } })
+    }
   }
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-
-        {/* Score circle */}
-        <View style={styles.hero}>
-          <View style={[styles.ring, { borderColor: ringColor }]}>
-            <Text style={[styles.ringPct, { color: ringColor }]}>{pct}%</Text>
-            <Text style={[styles.ringVerdict, { color: ringColor }]}>
-              {isPassed ? 'PASS' : 'FAIL'}
-            </Text>
-          </View>
-          <Text style={[typography.h2, { color: c.textPrimary }]}>
-            {isPassed ? 'Congratulations! 🎉' : 'Keep Practising 💪'}
-          </Text>
-          <Text style={[typography.small, { color: c.textMuted }]}>
-            {scoreNum} correct out of {totalNum} · {isPassed ? 'Passed' : `Need ${passMark} to pass`}
-          </Text>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Badge circle */}
+        <View style={[styles.badge, { backgroundColor: badgeColor }]}>
+          {isPassed ? (
+            <Ionicons name="checkmark" size={44} color="#fff" />
+          ) : (
+            <Ionicons name="close" size={44} color="#fff" />
+          )}
         </View>
 
-        {/* Breakdown cards */}
-        <View style={styles.breakdown}>
-          <BreakCard label="Correct" value={scoreNum} color={palette.green} isDark={isDark} />
-          <BreakCard label="Wrong"   value={wrongNum}  color={palette.red}   isDark={isDark} />
-          <BreakCard label="Total"   value={totalNum}  color={palette.primary} isDark={isDark} />
-        </View>
+        {/* Title */}
+        <Text style={[styles.title, { color: c.textPrimary }]}>
+          {isPassed ? 'Congratulations!' : 'Keep Practising'}
+        </Text>
+        <Text style={[styles.subtitle, { color: c.textSecond }]}>
+          {isPassed
+            ? 'You passed the mock exam'
+            : `You need ${passMark} correct to pass`}
+        </Text>
 
-        {/* Pass mark info */}
-        <View style={[styles.passInfo, { backgroundColor: c.card }]}>
-          <Text style={[typography.tiny, { color: c.textMuted }]}>PASS THRESHOLD</Text>
-          <View style={[styles.passBar, { backgroundColor: c.border }]}>
-            <View style={[styles.passFill, { width: `${(passMark / totalNum) * 100}%` as any, backgroundColor: palette.green }]} />
-            <View style={[styles.scoreFill, {
-              width: `${pct}%` as any,
-              backgroundColor: isPassed ? palette.primary : palette.red,
-              position: 'absolute', top: 0, left: 0,
-            }]} />
-          </View>
-          <Text style={[typography.tiny, { color: c.textMuted }]}>
-            Pass: {passMark}/{totalNum} · You: {scoreNum}/{totalNum}
-          </Text>
+        {/* Score */}
+        <View style={styles.scoreRow}>
+          <Text style={[styles.scoreNum, { color: c.textPrimary }]}>{scoreNum}</Text>
+          <Text style={[styles.scoreDenom, { color: c.textMuted }]}> / {totalNum}</Text>
+        </View>
+        <Text style={[styles.scoreLabel, { color: c.textMuted }]}>CORRECT ANSWERS</Text>
+
+        {/* Pass threshold */}
+        <Text style={[styles.threshold, { color: badgeColor }]}>
+          Pass threshold: {passMark} / {totalNum}
+        </Text>
+
+        {/* Stats */}
+        <View style={styles.statsRow}>
+          <StatCard value={`${pct}%`} label="Score" c={c} />
+          {elapsed !== null && (
+            <StatCard value={formatTime(elapsed)} label="Time" c={c} />
+          )}
         </View>
 
         {/* Action buttons */}
         <View style={styles.btnGroup}>
-          {isPassed && (
-            <TouchableOpacity style={[styles.btnPrimary, { backgroundColor: palette.primary }]} onPress={shareResult}>
-              <Text style={styles.btnPrimaryText}>📤 Share Result</Text>
-            </TouchableOpacity>
-          )}
-
           <TouchableOpacity
-            style={[styles.btnSecondary, { borderColor: c.border }]}
+            style={[styles.btnPrimary, { backgroundColor: btnBg }]}
             onPress={reviewWrongAnswers}
           >
-            <Text style={[styles.btnSecondaryText, { color: c.textPrimary }]}>
-              {wrongIds.length > 0 ? '🔍 Review Wrong Answers' : '📚 Browse Questions'}
+            <Text style={[styles.btnPrimaryText, { color: btnText }]}>
+              {wrongIds.length > 0 ? 'Review Wrong Answers' : 'Browse Questions'}
             </Text>
           </TouchableOpacity>
 
-          {!isPassed && (
-            <TouchableOpacity
-              style={[styles.btnPrimary, { backgroundColor: palette.primary }]}
-              onPress={() => router.replace({ pathname: '/practice/session', params: { config: configStr } })}
-            >
-              <Text style={styles.btnPrimaryText}>🔄 Try Again</Text>
-            </TouchableOpacity>
-          )}
-
           <TouchableOpacity
             style={[styles.btnSecondary, { borderColor: c.border }]}
-            onPress={() => router.replace('/')}
+            onPress={retrySession}
           >
-            <Text style={[styles.btnSecondaryText, { color: c.textPrimary }]}>🏠 Home</Text>
+            <Text style={[styles.btnSecondaryText, { color: c.textPrimary }]}>
+              {config?.mode === 'exam' ? 'Retry Exam' : 'Try Again'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnText} onPress={() => router.replace('/')}>
+            <Text style={[styles.btnTextLabel, { color: c.textMuted }]}>Back to Home</Text>
           </TouchableOpacity>
         </View>
 
@@ -138,41 +133,46 @@ export default function ResultsScreen() {
   )
 }
 
-function BreakCard({ label, value, color, isDark }: { label: string; value: number; color: string; isDark: boolean }) {
-  const c = isDark ? palette.dark : palette.light
+function StatCard({ value, label, c }: { value: string; label: string; c: { card: string; textPrimary: string; textMuted: string } }) {
   return (
-    <View style={[styles.breakCard, { backgroundColor: c.card }]}>
-      <Text style={[styles.breakNum, { color }]}>{value}</Text>
-      <Text style={[typography.label, { color: c.textMuted }]}>{label.toUpperCase()}</Text>
+    <View style={[styles.statCard, { backgroundColor: c.card }]}>
+      <Text style={[styles.statVal, { color: c.textPrimary }]}>{value}</Text>
+      <Text style={[styles.statLbl, { color: c.textMuted }]}>{label.toUpperCase()}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   safe:   { flex: 1 },
-  scroll: { padding: spacing.lg, paddingBottom: 40 },
-  hero:   { alignItems: 'center', gap: 6, paddingVertical: 20 },
-  ring: {
-    width: 110, height: 110, borderRadius: 55,
-    borderWidth: 6, alignItems: 'center', justifyContent: 'center', marginBottom: 8,
+  scroll: { alignItems: 'center', padding: spacing.lg, paddingBottom: 40 },
+
+  badge: {
+    width: 96, height: 96, borderRadius: 48,
+    alignItems: 'center', justifyContent: 'center',
+    marginTop: 32, marginBottom: 24,
+    shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 16, elevation: 6,
   },
-  ringPct:     { fontSize: 28, fontWeight: '900' },
-  ringVerdict: { fontSize: 10, fontWeight: '800', letterSpacing: 0.8 },
-  breakdown:   { flexDirection: 'row', gap: 8, marginVertical: spacing.md },
-  breakCard: {
-    flex: 1, borderRadius: radius.lg, padding: 12, alignItems: 'center', gap: 3,
-    shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, elevation: 1,
-  },
-  breakNum: { fontSize: 22, fontWeight: '900' },
-  passInfo: {
-    borderRadius: radius.lg, padding: spacing.md, gap: 6, marginBottom: spacing.md,
-  },
-  passBar: { height: 8, borderRadius: radius.full, overflow: 'hidden', position: 'relative' },
-  passFill:  { height: '100%', borderRadius: radius.full },
-  scoreFill: { height: '100%', borderRadius: radius.full },
-  btnGroup:  { gap: spacing.sm },
-  btnPrimary:      { borderRadius: radius.lg, padding: 15, alignItems: 'center' },
-  btnPrimaryText:  { color: '#fff', fontSize: 15, fontWeight: '700' },
-  btnSecondary:    { borderRadius: radius.lg, padding: 14, borderWidth: 2, alignItems: 'center' },
-  btnSecondaryText: { fontSize: 15, fontWeight: '700' },
+
+  title:     { fontSize: 24, fontWeight: '800', marginBottom: 4 },
+  subtitle:  { fontSize: 14, marginBottom: 28 },
+
+  scoreRow:  { flexDirection: 'row', alignItems: 'baseline', marginBottom: 4 },
+  scoreNum:  { fontSize: 56, fontWeight: '800', letterSpacing: -2 },
+  scoreDenom:{ fontSize: 28, fontWeight: '600' },
+  scoreLabel:{ fontSize: 12, fontWeight: '600', letterSpacing: 0.8, marginBottom: 10 },
+
+  threshold: { fontSize: 13, fontWeight: '600', marginBottom: 28 },
+
+  statsRow: { flexDirection: 'row', gap: 10, width: '100%', marginBottom: 28 },
+  statCard: { flex: 1, borderRadius: radius.md, padding: 12, alignItems: 'center' },
+  statVal:  { fontSize: 20, fontWeight: '800' },
+  statLbl:  { fontSize: 9, fontWeight: '600', textTransform: 'uppercase', marginTop: 2 },
+
+  btnGroup:          { width: '100%', gap: spacing.sm },
+  btnPrimary:        { borderRadius: radius.lg, padding: 15, alignItems: 'center' },
+  btnPrimaryText:    { fontSize: 15, fontWeight: '700' },
+  btnSecondary:      { borderRadius: radius.lg, padding: 14, borderWidth: 1.5, alignItems: 'center' },
+  btnSecondaryText:  { fontSize: 14, fontWeight: '700' },
+  btnText:           { padding: 8, alignItems: 'center' },
+  btnTextLabel:      { fontSize: 13 },
 })

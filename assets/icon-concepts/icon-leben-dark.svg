@@ -1,0 +1,27 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
+  <rect width="1024" height="1024" rx="224" fill="#111111"/>
+
+  <!-- "LEBEN" text -->
+  <text x="512" y="200" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="140" font-weight="900" fill="#FFFFFF" letter-spacing="18">LEBEN</text>
+
+  <!-- Flag shield -->
+  <defs>
+    <clipPath id="shieldD">
+      <path d="M512 270L740 360V560C740 720 640 852 512 900C384 852 284 720 284 560V360L512 270Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#shieldD)">
+    <rect x="274" y="270" width="476" height="216" fill="#333333"/>
+    <rect x="274" y="486" width="476" height="216" fill="#DD0000"/>
+    <rect x="274" y="702" width="476" height="216" fill="#FFCC00"/>
+  </g>
+  <path d="M512 270L740 360V560C740 720 640 852 512 900C384 852 284 720 284 560V360L512 270Z" stroke="#FFFFFF" stroke-width="10" stroke-opacity="0.4"/>
+
+  <!-- Checkmark -->
+  <circle cx="512" cy="700" r="100" fill="#1F7A4D"/>
+  <path d="M462 700L497 735L567 665" stroke="#FFFFFF" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Subtle subtitle -->
+  <text x="512" y="978" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">in Deutschland</text>
+</svg>

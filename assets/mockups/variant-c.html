@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant C - Minimal</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif; background: #e8e8e8; display: flex; gap: 40px; justify-content: center; padding: 40px; flex-wrap: wrap; }
+
+  .phone { width: 375px; height: 812px; background: #fff; border-radius: 40px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; border: 8px solid #1a1a1a; }
+  .screen { height: 100%; overflow-y: auto; padding: 52px 24px 90px; }
+  .screen::-webkit-scrollbar { display: none; }
+  .label { text-align: center; margin-bottom: 16px; font-size: 14px; color: #666; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+  .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #f0f0f0; display: flex; padding: 6px 0 26px; z-index: 10; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
+  .nav-icon svg { width: 20px; height: 20px; }
+  .nav-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ccc; }
+  .nav-item.active .nav-label { color: #111; }
+  .nav-item.active svg { stroke: #111; }
+  .nav-item:not(.active) svg { stroke: #ccc; }
+
+  /* HOME */
+  .top-row { display: flex; justify-content: flex-end; gap: 6px; margin-bottom: 32px; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 50%; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+
+  .center-block { text-align: center; margin-bottom: 28px; }
+  .flag { font-size: 28px; margin-bottom: 10px; }
+  .app-name { font-size: 24px; font-weight: 800; color: #111; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .app-desc { font-size: 13px; color: #999; line-height: 1.5; }
+
+  .dropdown-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 28px; }
+  .dd-label { font-size: 12px; color: #aaa; font-weight: 500; }
+  .dd { display: flex; align-items: center; gap: 5px; background: #f5f5f5; border-radius: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; }
+  .dd-chev { font-size: 9px; color: #aaa; }
+
+  .big-btn { border-radius: 16px; padding: 20px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .big-btn-dark { background: #111; color: #fff; }
+  .big-btn-light { background: #f5f5f5; color: #111; }
+  .btn-left {}
+  .btn-title { font-size: 17px; font-weight: 700; }
+  .btn-desc { font-size: 12px; opacity: 0.5; margin-top: 2px; }
+  .btn-arrow { font-size: 18px; opacity: 0.3; }
+
+  .stats { display: flex; justify-content: space-between; margin-top: 28px; padding: 20px 8px 0; border-top: 1px solid #f0f0f0; }
+  .stat { text-align: center; }
+  .stat-val { font-size: 18px; font-weight: 800; color: #111; }
+  .stat-lbl { font-size: 9px; color: #bbb; font-weight: 600; text-transform: uppercase; margin-top: 1px; }
+
+  /* PRACTICE */
+  .back-btn { width: 34px; height: 34px; border-radius: 10px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #444; margin-bottom: 16px; cursor: pointer; }
+  .p-title { font-size: 24px; font-weight: 800; color: #111; letter-spacing: -0.5px; margin-bottom: 24px; }
+
+  .list-item { background: #f8f8f8; border-radius: 14px; margin-bottom: 6px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
+  .list-item:hover { background: #f0f0f0; }
+  .list-item.selected { background: #111; }
+  .list-item.selected .li-title { color: #fff; }
+  .list-item.selected .li-sub { color: rgba(255,255,255,0.45); }
+  .list-item.selected .li-icon { background: #333; }
+  .list-item.selected .li-arrow { color: rgba(255,255,255,0.25); }
+  .li-icon { width: 36px; height: 36px; border-radius: 10px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .li-body { flex: 1; }
+  .li-title { font-size: 14px; font-weight: 700; color: #111; }
+  .li-sub { font-size: 11px; color: #aaa; margin-top: 1px; }
+  .li-arrow { font-size: 14px; color: #ccc; }
+
+  .divider { height: 1px; background: #f0f0f0; margin: 14px 0; }
+
+  .bottom-action { position: absolute; bottom: 64px; left: 0; right: 0; padding: 10px 24px; background: #fff; border-top: 1px solid #f0f0f0; }
+  .action-row { display: flex; gap: 10px; align-items: center; }
+  .shuffle-pill { background: #f5f5f5; border-radius: 10px; padding: 12px 14px; font-size: 16px; cursor: pointer; }
+  .go-btn { flex: 1; background: #111; color: #fff; border-radius: 12px; padding: 14px; text-align: center; font-size: 15px; font-weight: 700; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div>
+  <div class="label">Home</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="top-row">
+        <div class="icon-btn">🌐</div>
+        <div class="icon-btn">☀️</div>
+      </div>
+
+      <div class="center-block">
+        <div class="flag">🇩🇪</div>
+        <div class="app-name">Leben in Deutschland</div>
+        <div class="app-desc">Prepare for the official German<br>citizenship test</div>
+      </div>
+
+      <div class="dropdown-row">
+        <span class="dd-label">Bundesland</span>
+        <div class="dd">
+          <span>📍 Berlin</span>
+          <span class="dd-chev">&#9662;</span>
+        </div>
+      </div>
+
+      <div class="big-btn big-btn-dark">
+        <div class="btn-left">
+          <div class="btn-title">Practice Questions</div>
+          <div class="btn-desc">All active questions</div>
+        </div>
+        <div class="btn-arrow">&#8594;</div>
+      </div>
+
+      <div class="big-btn big-btn-light">
+        <div class="btn-left">
+          <div class="btn-title">Mock Exam</div>
+          <div class="btn-desc">33 questions &middot; 60 minutes</div>
+        </div>
+        <div class="btn-arrow">&#8594;</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-val">460</div><div class="stat-lbl">Total</div></div>
+        <div class="stat"><div class="stat-val">33</div><div class="stat-lbl">Exam</div></div>
+        <div class="stat"><div class="stat-val">60m</div><div class="stat-lbl">Duration</div></div>
+        <div class="stat"><div class="stat-val">17</div><div class="stat-lbl">To Pass</div></div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <a class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V13h6v8"/></svg><span class="nav-label">Home</span></a>
+      <a class="nav-item"><svg viewBox="0 0 64 64" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="14" r="8"/><path d="M27 10c3-3 7-3 10 0"/><path d="M18 38c0-8 6-14 14-14s14 6 14 14"/><path d="M14 40c0 0 6-3 18-3v18c-12 0-18 3-18 3V40z"/><path d="M50 40c0 0-6-3-18-3v18c12 0 18 3 18 3V40z"/><line x1="32" y1="37" x2="32" y2="55"/></svg><span class="nav-label">Study</span></a>
+      <a class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 12l1.5 1.5L13 11"/><line x1="15" y1="12" x2="16" y2="12"/><path d="M9 16l1.5 1.5L13 15"/><line x1="15" y1="16" x2="16" y2="16"/></svg><span class="nav-label">Practice</span></a>
+      <a class="nav-item"><svg viewBox="0 0 80 80" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="40" height="52" rx="3"/><rect x="17" y="1" width="12" height="7" rx="2.5"/><circle cx="15" cy="20" r="3.5"/><path d="M13.2 20l1.8 2 3.5-3.5"/><line x1="23" y1="19" x2="40" y2="19"/><circle cx="15" cy="33" r="3.5"/><path d="M13.2 33l1.8 2 3.5-3.5"/><line x1="23" y1="32" x2="40" y2="32"/><circle cx="60" cy="62" r="13"/><line x1="60" y1="53" x2="60" y2="62"/><line x1="60" y1="62" x2="66" y2="66"/><circle cx="60" cy="62" r="1.5" fill="currentColor"/></svg><span class="nav-label">Exam</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div>
+  <div class="label">Practice</div>
+  <div class="phone">
+    <div class="screen" style="padding-bottom: 140px;">
+      <div class="back-btn">&#8592;</div>
+      <div class="p-title">Practice</div>
+
+      <div class="list-item selected">
+        <div class="li-icon">📚</div>
+        <div class="li-body"><div class="li-title">All Questions</div><div class="li-sub">310 active</div></div>
+        <div class="li-arrow">›</div>
+      </div>
+      <div class="list-item">
+        <div class="li-icon">🇩🇪</div>
+        <div class="li-body"><div class="li-title">Germany-wide</div><div class="li-sub">300 general</div></div>
+        <div class="li-arrow">›</div>
+      </div>
+      <div class="list-item">
+        <div class="li-icon">📍</div>
+        <div class="li-body"><div class="li-title">Berlin</div><div class="li-sub">10 state questions</div></div>
+        <div class="li-arrow">›</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="list-item" style="border-left: 3px solid #f59e0b;">
+        <div class="li-icon">⚠️</div>
+        <div class="li-body"><div class="li-title">Weak Questions</div><div class="li-sub">23 &middot; below 50%</div></div>
+        <div class="li-arrow">›</div>
+      </div>
+      <div class="list-item" style="border-left: 3px solid #3b82f6;">
+        <div class="li-icon">🔖</div>
+        <div class="li-body"><div class="li-title">Bookmarked</div><div class="li-sub">8 saved</div></div>
+        <div class="li-arrow">›</div>
+      </div>
+    </div>
+
+    <div class="bottom-action">
+      <div class="action-row">
+        <div class="shuffle-pill">🔀</div>
+        <div class="go-btn">Start &middot; 310 Questions</div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <a class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V13h6v8"/></svg><span class="nav-label">Home</span></a>
+      <a class="nav-item"><svg viewBox="0 0 64 64" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="14" r="8"/><path d="M27 10c3-3 7-3 10 0"/><path d="M18 38c0-8 6-14 14-14s14 6 14 14"/><path d="M14 40c0 0 6-3 18-3v18c-12 0-18 3-18 3V40z"/><path d="M50 40c0 0-6-3-18-3v18c12 0 18 3 18 3V40z"/><line x1="32" y1="37" x2="32" y2="55"/></svg><span class="nav-label">Study</span></a>
+      <a class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 12l1.5 1.5L13 11"/><line x1="15" y1="12" x2="16" y2="12"/><path d="M9 16l1.5 1.5L13 15"/><line x1="15" y1="16" x2="16" y2="16"/></svg><span class="nav-label">Practice</span></a>
+      <a class="nav-item"><svg viewBox="0 0 80 80" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="40" height="52" rx="3"/><rect x="17" y="1" width="12" height="7" rx="2.5"/><circle cx="15" cy="20" r="3.5"/><path d="M13.2 20l1.8 2 3.5-3.5"/><line x1="23" y1="19" x2="40" y2="19"/><circle cx="15" cy="33" r="3.5"/><path d="M13.2 33l1.8 2 3.5-3.5"/><line x1="23" y1="32" x2="40" y2="32"/><circle cx="60" cy="62" r="13"/><line x1="60" y1="53" x2="60" y2="62"/><line x1="60" y1="62" x2="66" y2="66"/><circle cx="60" cy="62" r="1.5" fill="currentColor"/></svg><span class="nav-label">Exam</span></a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

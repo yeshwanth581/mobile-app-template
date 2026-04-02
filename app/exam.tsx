@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, useColorScheme, Alert, BackHandler } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, BackHandler } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
+import { Ionicons } from '@expo/vector-icons'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { useProgressStore } from '@/store/useProgressStore'
 import { QuestionCard } from '@/components/QuestionCard'
 import { OptionButton } from '@/components/OptionButton'
 import { ProgressBar } from '@/components/ProgressBar'
 import { useQuizSession } from '@/hooks/useQuizSession'
-import { getQuestionLabel } from '@/data/questionBank'
-import { getStateLabel } from '@/data/states'
-import { palette, spacing, radius, typography } from '@/theme'
+import { useThemeColors } from '@/hooks/useThemeColors'
+import { spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
@@ -34,60 +33,54 @@ function formatTime(seconds: number): string {
 export default function ExamScreen() {
   const router = useRouter()
   const { t } = useTranslation()
-  const colorScheme = useColorScheme()
-  const { theme, translationLocale, selectedStateCode } = useSettingsStore()
-  const { toggleBookmark, getProgress } = useProgressStore()
-
-  const isDark = theme === 'dark' || (theme === 'system' && colorScheme === 'dark')
-  const c = isDark ? palette.dark : palette.light
+  const { translationLocale } = useSettingsStore()
+  const { isDark, c } = useThemeColors()
 
   const totalSeconds = appConfig.examConfig.timeLimitMinutes * 60
   const [secondsLeft, setSecondsLeft] = useState(totalSeconds)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const { current, currentIndex, total, chosenIndex, isFinished, score, passed, answers, selectAnswer, next, finishSession } =
-    useQuizSession(EXAM_CONFIG)
+  const {
+    current, currentIndex, total, chosenIndex,
+    isFinished, score, passed, answers,
+    selectAnswer, next, previous, finishSession,
+  } = useQuizSession(EXAM_CONFIG)
 
   // Countdown timer
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current!)
-          return 0
-        }
+        if (prev <= 1) { clearInterval(timerRef.current!); return 0 }
         return prev - 1
       })
     }, 1000)
     return () => clearInterval(timerRef.current!)
   }, [])
 
-  // Auto-submit when timer hits 0
+  // Auto-submit on timer hit 0
   useEffect(() => {
-    if (secondsLeft === 0 && !isFinished) {
-      finishSession()
-    }
+    if (secondsLeft === 0 && !isFinished) finishSession()
   }, [secondsLeft, isFinished, finishSession])
 
-  // Navigate to results when quiz finishes normally
+  // Navigate to results when quiz finishes
   useEffect(() => {
-    if (isFinished) {
-      clearInterval(timerRef.current!)
-      const wrongIds = answers.filter((answer) => !answer.correct).map((answer) => answer.questionId)
-      router.replace({
-        pathname: '/results',
-        params: {
-          score: String(score),
-          total: String(total),
-          passed: passed ? '1' : '0',
-          config: JSON.stringify(EXAM_CONFIG),
-          wrongIds: JSON.stringify(wrongIds),
-        },
-      })
-    }
+    if (!isFinished) return
+    clearInterval(timerRef.current!)
+    const wrongIds = answers.filter((a) => !a.correct).map((a) => a.questionId)
+    router.replace({
+      pathname: '/results',
+      params: {
+        score: String(score),
+        total: String(total),
+        passed: passed ? '1' : '0',
+        config: JSON.stringify(EXAM_CONFIG),
+        wrongIds: JSON.stringify(wrongIds),
+        timeSeconds: String(totalSeconds - secondsLeft),
+      },
+    })
   }, [answers, isFinished, passed, router, score, total])
 
-  // Android back button — show confirmation
+  // Android back button
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       confirmExit()
@@ -103,12 +96,8 @@ export default function ExamScreen() {
       [
         { text: 'Keep Going', style: 'cancel' },
         {
-          text: 'Quit',
-          style: 'destructive',
-          onPress: () => {
-            clearInterval(timerRef.current!)
-            router.replace('/')
-          },
+          text: 'Quit', style: 'destructive',
+          onPress: () => { clearInterval(timerRef.current!); router.replace('/') },
         },
       ],
     )
@@ -116,72 +105,70 @@ export default function ExamScreen() {
 
   if (!current) return null
 
-  const showTranslation = translationLocale !== 'de'
-  const catLabel = current.category === selectedStateCode ? (getStateLabel(selectedStateCode) ?? 'Your state') : getQuestionLabel(current.category, selectedStateCode)
-  const isBookmarked = getProgress(current.id).bookmarked
-  const answered = chosenIndex !== null
+  const answered  = chosenIndex !== null
+  const isLast    = currentIndex + 1 >= total
 
-  // Timer warning thresholds
-  const isWarning  = secondsLeft <= 300  // ≤ 5 min
-  const isCritical = secondsLeft <= 60   // ≤ 1 min
-  const timerColor = isCritical ? palette.red : isWarning ? palette.amber : c.textPrimary
-  const timerBg    = isCritical
+  // Timer colours
+  const isCritical  = secondsLeft <= 60
+  const isWarning   = secondsLeft <= 300
+  const timerColor  = isCritical ? '#ef4444' : isWarning ? '#f59e0b' : c.textPrimary
+  const timerBg     = isCritical
     ? (isDark ? '#450a0a' : '#fef2f2')
     : isWarning
       ? (isDark ? '#1c1204' : '#fffbeb')
       : c.card
 
+  const btnBg   = isDark ? '#ffffff' : '#111111'
+  const btnText = isDark ? '#111111' : '#ffffff'
+
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
 
-      {/* Fixed header */}
-      <View style={[styles.header, { backgroundColor: c.bg, borderBottomColor: c.border }]}>
-        {/* Quit button */}
-        <TouchableOpacity style={[styles.iconBtn, { backgroundColor: c.card }]} onPress={confirmExit}>
-          <Text style={{ color: c.textSecond }}>✕</Text>
-        </TouchableOpacity>
+      {/* ─── Fixed top ─── */}
+      <View style={[styles.topSection, { backgroundColor: c.bg, borderBottomColor: c.border }]}>
+        <View style={styles.headerRow}>
+          {/* Quit */}
+          <TouchableOpacity style={[styles.iconBtn, { backgroundColor: c.card }]} onPress={confirmExit}>
+            <Ionicons name="close" size={16} color={c.textSecond} />
+          </TouchableOpacity>
 
-        {/* Timer */}
-        <View style={[styles.timerPill, { backgroundColor: timerBg }]}>
-          <Text style={[styles.timerText, { color: timerColor }]}>
-            {isCritical ? '⚠ ' : '⏱ '}{formatTime(secondsLeft)}
+          {/* Question counter */}
+          <Text style={[styles.qCounter, { color: c.textPrimary }]}>
+            {String(t('exam.questionWord')).toUpperCase()} {currentIndex + 1} / {total}
           </Text>
+
+          {/* Timer pill */}
+          <View style={[styles.timerPill, { backgroundColor: timerBg }]}>
+            <Ionicons name="time-outline" size={12} color={timerColor} />
+            <Text style={[styles.timerText, { color: timerColor }]}>{formatTime(secondsLeft)}</Text>
+          </View>
         </View>
 
-        <View style={styles.headerSpacer} />
+        <ProgressBar current={currentIndex} total={total} isDark={isDark} label="Mock Exam" />
+
+        <Text style={[styles.examNote, { color: c.textMuted }]}>
+          {t('session.examModeNote')}
+        </Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+      {/* ─── Scrollable body ─── */}
+      <ScrollView
+        style={styles.body}
+        contentContainerStyle={styles.bodyContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={[styles.qLabel, { color: c.textMuted }]}>
+          {String(t('exam.questionWord'))} {currentIndex + 1}
+        </Text>
 
-        {/* Progress */}
-        <View style={styles.progressRow}>
-          <Text style={[typography.tiny, { color: c.textMuted }]}>
-            {String(t('exam.questionWord')).toUpperCase()} {currentIndex + 1} OF {total}
-          </Text>
-          <TouchableOpacity onPress={() => toggleBookmark(current.id)}>
-            <Text style={{ fontSize: 18, opacity: isBookmarked ? 1 : 0.3 }}>🔖</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ProgressBar current={currentIndex} total={total} isDark={isDark} label="" />
-
-        {/* Exam mode badge */}
-        <View style={[styles.examBadge, { backgroundColor: isDark ? '#1e1b4b' : '#eef2ff' }]}>
-          <Text style={[styles.examBadgeText, { color: palette.primary }]}>
-            {String(t('exam.modeNote')).toUpperCase()}
-          </Text>
-        </View>
-
-        {/* Question */}
         <QuestionCard
           question={current}
           translationLocale={translationLocale}
-          showTranslation={showTranslation}
+          showTranslation={false}
           isDark={isDark}
-          categoryLabel={catLabel}
+          categoryLabel={undefined}
         />
 
-        {/* Answer options */}
         <View style={styles.options}>
           {current.options.map((_, i) => (
             <OptionButton
@@ -189,50 +176,76 @@ export default function ExamScreen() {
               index={i}
               question={current}
               translationLocale={translationLocale}
-              showTranslation={showTranslation}
+              showTranslation={false}
               chosenIndex={chosenIndex}
               isDark={isDark}
               onPress={selectAnswer}
             />
           ))}
         </View>
-
-        {/* Next button — shown once an option is selected */}
-        {answered && (
-          <TouchableOpacity
-            style={[styles.nextBtn, { backgroundColor: palette.primary }]}
-            onPress={next}
-          >
-            <Text style={styles.nextBtnText}>
-              {currentIndex + 1 >= total ? `${t('exam.submit')} →` : `${t('quiz.next')} →`}
-            </Text>
-          </TouchableOpacity>
-        )}
-
       </ScrollView>
+
+      {/* ─── Fixed bottom nav ─── */}
+      <View style={[styles.bottomBar, { backgroundColor: c.bg, borderTopColor: c.border }]}>
+        <TouchableOpacity
+          style={[
+            styles.navBtn, styles.navBtnSecondary,
+            { borderColor: c.border, opacity: currentIndex === 0 ? 0.35 : 1 },
+          ]}
+          onPress={previous}
+          disabled={currentIndex === 0}
+        >
+          <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>
+            ← {t('questionDetail.previous')}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
+          onPress={next}
+          disabled={!answered}
+        >
+          <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
+            {isLast ? `${t('exam.submit')} →` : `${t('quiz.next')} →`}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  safe:   { flex: 1 },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: spacing.lg, paddingVertical: 10,
+  safe: { flex: 1 },
+
+  topSection: {
+    paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.xs,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  iconBtn: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  headerSpacer: { width: 32, height: 32 },
-  timerPill: {
-    flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 14, paddingVertical: 6, borderRadius: radius.full,
+  headerRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    marginBottom: spacing.sm,
   },
-  timerText: { fontSize: 15, fontWeight: '800', letterSpacing: 0.5 },
-  scroll: { padding: spacing.lg, paddingBottom: 40 },
-  progressRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm },
-  examBadge: { borderRadius: radius.md, paddingHorizontal: 10, paddingVertical: 5, alignSelf: 'flex-start', marginBottom: spacing.md },
-  examBadgeText: { fontSize: 10, fontWeight: '700', letterSpacing: 0.6 },
+  iconBtn:    { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  qCounter:   { fontSize: 13, fontWeight: '700' },
+  timerPill:  { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.full },
+  timerText:  { fontSize: 13, fontWeight: '800', letterSpacing: 0.4 },
+  examNote:   { fontSize: 11, textAlign: 'center', paddingBottom: spacing.xs, fontStyle: 'italic' },
+
+  body:        { flex: 1 },
+  bodyContent: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
+
+  qLabel:  { fontSize: 11, fontWeight: '700', textTransform: 'uppercase', marginBottom: spacing.md, marginTop: spacing.sm },
   options: { gap: 9 },
-  nextBtn: { borderRadius: radius.lg, padding: 15, alignItems: 'center', marginTop: spacing.md },
-  nextBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
+
+  bottomBar: {
+    flexDirection: 'row', gap: spacing.sm,
+    paddingHorizontal: spacing.lg, paddingVertical: spacing.sm,
+    paddingBottom: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  navBtn:              { flex: 1, borderRadius: radius.lg, padding: 15, alignItems: 'center' },
+  navBtnSecondary:     { borderWidth: 1.5 },
+  navBtnSecondaryText: { fontSize: 15, fontWeight: '700' },
+  navBtnPrimaryText:   { fontSize: 15, fontWeight: '700' },
 })

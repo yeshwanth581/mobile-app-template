@@ -1,8 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
+import { Ionicons } from '@expo/vector-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
@@ -14,7 +17,7 @@ import { QuestionJumpPicker } from '@/components/QuestionJumpPicker'
 import { useQuizSession } from '@/hooks/useQuizSession'
 import { getQuestionLabel } from '@/data/questionBank'
 import { getStateLabel } from '@/data/states'
-import { palette, spacing, radius, typography } from '@/theme'
+import { spacing, radius, typography } from '@/theme'
 import type { SessionConfig } from '@/types'
 
 export default function SessionScreen() {
@@ -27,13 +30,17 @@ export default function SessionScreen() {
   const { translationLocale, selectedStateCode } = useSettingsStore()
   const { toggleBookmark, getProgress } = useProgressStore()
 
-  const { current, currentIndex, total, chosenIndex, answerState, isFinished, score, answers, passed, selectAnswer, previous, jumpTo, next } =
-    useQuizSession(config)
+  // Local translation toggle — starts from session config
+  const [translationActive, setTranslationActive] = useState(config.showTranslation)
+
+  const {
+    current, currentIndex, total, chosenIndex,
+    isFinished, score, answers, passed, selectAnswer, previous, jumpTo, next,
+  } = useQuizSession(config)
 
   useEffect(() => {
     if (!isFinished) return
-
-    const wrongIds = answers.filter((answer) => !answer.correct).map((answer) => answer.questionId)
+    const wrongIds = answers.filter((a) => !a.correct).map((a) => a.questionId)
     router.replace({
       pathname: '/results',
       params: {
@@ -46,32 +53,45 @@ export default function SessionScreen() {
     })
   }, [answers, configStr, isFinished, passed, router, score, total])
 
-  if (isFinished) return null
+  if (isFinished || !current) return null
 
-  if (!current) return null
-
-  const showTranslation = translationLocale !== 'de'
   const catLabel =
     current.category === selectedStateCode
       ? (getStateLabel(selectedStateCode) ?? t('session.yourState'))
       : current.category === 'general'
         ? t('session.germanyOnly')
         : getQuestionLabel(current.category, selectedStateCode)
-  const qProgress = getProgress(current.id)
+
+  const qProgress   = getProgress(current.id)
   const isBookmarked = qProgress.bookmarked
-  const answered = chosenIndex !== null
+  const answered    = chosenIndex !== null
+  const isLast      = currentIndex + 1 >= total
+
+  // Attempt stats for current question (below options)
+  const attempts    = qProgress.attempts ?? []
+  const correctCnt  = attempts.filter((a) => a.result === 'correct').length
+  const wrongCnt    = attempts.filter((a) => a.result === 'wrong').length
+
+  const btnBg   = isDark ? '#ffffff' : '#111111'
+  const btnText = isDark ? '#111111' : '#ffffff'
+
+  // Translate button styles
+  const transActive     = translationActive && translationLocale !== 'de'
+  const transBtnBg      = transActive ? btnBg : c.card
+  const transBtnColor   = transActive ? btnText : c.textMuted
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
 
-        {/* Top bar */}
-        <View style={styles.topBar}>
+      {/* ─── Fixed top ─── */}
+      <View style={[styles.topSection, { backgroundColor: c.bg }]}>
+        {/* Header row */}
+        <View style={styles.headerRow}>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
             onPress={() => router.back()}
           >
-            <Text style={{ color: c.textSecond }}>✕</Text>
+            <Ionicons name="arrow-back" size={16} color={c.textSecond} />
           </TouchableOpacity>
 
           <QuestionJumpPicker
@@ -83,26 +103,53 @@ export default function SessionScreen() {
             compact
           />
 
-          <View style={styles.topRight}>
-            <TouchableOpacity onPress={() => toggleBookmark(current.id)}>
-              <Text style={{ fontSize: 18, opacity: isBookmarked ? 1 : 0.3 }}>🔖</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[styles.iconBtn, { backgroundColor: transBtnBg }]}
+            onPress={() => setTranslationActive((v) => !v)}
+            disabled={translationLocale === 'de'}
+          >
+            <FontAwesomeIcon icon={faLanguage} size={14} color={transBtnColor} />
+          </TouchableOpacity>
         </View>
 
         {/* Progress bar */}
-        <ProgressBar current={currentIndex} total={total} isDark={isDark} label="" />
+        <ProgressBar current={currentIndex} total={total} isDark={isDark} label={catLabel ?? ''} />
+      </View>
+
+      {/* ─── Scrollable body ─── */}
+      <ScrollView
+        style={styles.body}
+        contentContainerStyle={styles.bodyContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Q number + bookmark */}
+        <View style={styles.qHeaderRow}>
+          <Text style={[styles.qLabel, { color: c.textMuted }]}>
+            {String(t('exam.questionWord'))} {currentIndex + 1}
+          </Text>
+          <TouchableOpacity
+            onPress={() => toggleBookmark(current.id)}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Ionicons
+              name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
+              size={16}
+              color={c.textPrimary}
+              style={{ opacity: isBookmarked ? 1 : 0.3 }}
+            />
+          </TouchableOpacity>
+        </View>
 
         {/* Question card */}
         <QuestionCard
           question={current}
           translationLocale={translationLocale}
-          showTranslation={showTranslation}
+          showTranslation={transActive}
           isDark={isDark}
-          categoryLabel={catLabel}
+          categoryLabel={undefined}
         />
 
-        {/* Answer options */}
+        {/* Options */}
         <View style={styles.options}>
           {current.options.map((_, i) => (
             <OptionButton
@@ -110,7 +157,7 @@ export default function SessionScreen() {
               index={i}
               question={current}
               translationLocale={translationLocale}
-              showTranslation={showTranslation}
+              showTranslation={transActive}
               chosenIndex={chosenIndex}
               isDark={isDark}
               onPress={selectAnswer}
@@ -118,55 +165,89 @@ export default function SessionScreen() {
           ))}
         </View>
 
-        {/* In exam mode: reminder */}
-        {config.mode === 'exam' && (
-          <Text style={[styles.examNote, { color: c.textMuted }]}>
-            {t('session.examModeNote')}
-          </Text>
+        {/* Attempt stats (show when question has history) */}
+        {attempts.length > 0 && (
+          <View style={styles.statsRow}>
+            <View style={styles.statItem}>
+              <View style={[styles.statDot, { backgroundColor: '#22c55e' }]} />
+              <Text style={[styles.statText, { color: c.textMuted }]}>{correctCnt} correct</Text>
+            </View>
+            <View style={styles.statItem}>
+              <View style={[styles.statDot, { backgroundColor: '#ef4444' }]} />
+              <Text style={[styles.statText, { color: c.textMuted }]}>{wrongCnt} wrong</Text>
+            </View>
+            <Text style={[styles.statText, { color: c.textMuted }]}>{attempts.length} attempts</Text>
+          </View>
         )}
-
-        <View style={styles.navRow}>
-          <TouchableOpacity
-            style={[
-              styles.navBtn,
-              styles.navBtnSecondary,
-              { borderColor: c.border, opacity: currentIndex === 0 ? 0.45 : 1 },
-            ]}
-            onPress={previous}
-            disabled={currentIndex === 0}
-          >
-            <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>← {t('questionDetail.previous')}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navBtn, styles.navBtnPrimary, { backgroundColor: palette.primary, opacity: answered ? 1 : 0.45 }]}
-            onPress={next}
-            disabled={!answered}
-          >
-            <Text style={styles.navBtnPrimaryText}>
-              {currentIndex + 1 >= total ? `${t('quiz.finish')} →` : `${t('questionDetail.next')} →`}
-            </Text>
-          </TouchableOpacity>
-        </View>
 
         <AdBanner isDark={isDark} />
       </ScrollView>
+
+      {/* ─── Fixed bottom nav ─── */}
+      <View style={[styles.bottomBar, { backgroundColor: c.bg, borderTopColor: c.border }]}>
+        <TouchableOpacity
+          style={[
+            styles.navBtn, styles.navBtnSecondary,
+            { borderColor: c.border, opacity: currentIndex === 0 ? 0.35 : 1 },
+          ]}
+          onPress={previous}
+          disabled={currentIndex === 0}
+        >
+          <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>
+            ← {t('questionDetail.previous')}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
+          onPress={next}
+          disabled={!answered}
+        >
+          <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
+            {isLast ? `${t('quiz.finish')} →` : `${t('questionDetail.next')} →`}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  safe:   { flex: 1 },
-  scroll: { padding: spacing.lg, paddingBottom: spacing.xxl },
-  topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.md },
-  topRight: { flexDirection: 'row', alignItems: 'center' },
-  iconBtn: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  options: { gap: 9 },
-  examNote: { textAlign: 'center', fontSize: 11, marginTop: spacing.md, fontStyle: 'italic' },
-  navRow: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
+  safe: { flex: 1 },
+
+  topSection:  { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  headerRow:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm },
+  iconBtn:     { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+
+  body:        { flex: 1 },
+  bodyContent: { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl },
+
+  qHeaderRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    marginBottom: spacing.md,
+    marginTop: spacing.sm,
+  },
+  qLabel: { fontSize: 11, fontWeight: '700', textTransform: 'uppercase' },
+
+  options: { gap: 9, marginBottom: spacing.md },
+
+  statsRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingVertical: 12, marginBottom: spacing.sm,
+  },
+  statItem:  { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  statDot:   { width: 6, height: 6, borderRadius: 3 },
+  statText:  { fontSize: 11, fontWeight: '600' },
+
+  bottomBar: {
+    flexDirection: 'row', gap: spacing.sm,
+    paddingHorizontal: spacing.lg, paddingVertical: spacing.sm,
+    paddingBottom: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
   navBtn: { flex: 1, borderRadius: radius.lg, padding: 15, alignItems: 'center' },
-  navBtnPrimary: {},
-  navBtnPrimaryText: { color: '#fff', fontSize: 15, fontWeight: '700' },
-  navBtnSecondary: { borderWidth: 1.5 },
+  navBtnSecondary:     { borderWidth: 1.5 },
   navBtnSecondaryText: { fontSize: 15, fontWeight: '700' },
+  navBtnPrimaryText:   { fontSize: 15, fontWeight: '700' },
 })

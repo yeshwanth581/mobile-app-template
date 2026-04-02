@@ -188,7 +188,7 @@ export default function QuestionBankScreen() {
         )}
       />
 
-      <BottomNav active="questions" />
+      <BottomNav active="study" />
     </SafeAreaView>
   )
 }
