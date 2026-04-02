@@ -4,7 +4,7 @@ import type { TranslationLocale } from '@/types'
 import { getQuestionContent, getQuestionTranslation } from '@/data/questionBank'
 import { palette, spacing, radius } from '@/theme'
 
-type State = 'default' | 'selected-correct' | 'selected-wrong' | 'correct-answer'
+type State = 'default' | 'selected' | 'selected-correct' | 'selected-wrong' | 'correct-answer'
 
 interface Props {
   index: number
@@ -13,6 +13,7 @@ interface Props {
   showTranslation: boolean
   chosenIndex: number | null
   isDark: boolean
+  revealAnswer?: boolean
   onPress: (index: number) => void
 }
 
@@ -25,13 +26,16 @@ export function OptionButton({
   showTranslation,
   chosenIndex,
   isDark,
+  revealAnswer = true,
   onPress,
 }: Props) {
   const answered = chosenIndex !== null
 
   let state: State = 'default'
   if (answered) {
-    if (index === question.correct && index === chosenIndex) state = 'selected-correct'
+    if (!revealAnswer) {
+      state = index === chosenIndex ? 'selected' : 'default'
+    } else if (index === question.correct && index === chosenIndex) state = 'selected-correct'
     else if (index === chosenIndex) state = 'selected-wrong'
     else if (index === question.correct) state = 'correct-answer'
   }
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    padding: 13,
+    padding: 14,
     borderRadius: radius.lg,
     borderWidth: 2,
   },
@@ -94,31 +98,30 @@ const styles = StyleSheet.create({
 // Light theme colour maps
 const light = {
   wrap: {
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
+    backgroundColor: '#f8f8f8',
   } as any,
-  default:          { borderColor: '#e2e8f0' },
+  default:            { borderColor: 'transparent' },
+  selected:           { borderColor: '#111111', backgroundColor: '#f8f8f8' },
   'selected-correct': { borderColor: palette.green, backgroundColor: palette.greenLight },
   'selected-wrong':   { borderColor: palette.red,   backgroundColor: palette.redLight },
   'correct-answer':   { borderColor: palette.green, backgroundColor: palette.greenLight },
   letterBg: {
     default:            { backgroundColor: '#f1f5f9' },
+    selected:           { backgroundColor: '#111111' },
     'selected-correct': { backgroundColor: palette.green },
     'selected-wrong':   { backgroundColor: palette.red },
     'correct-answer':   { backgroundColor: palette.green },
   },
   letterText: {
     default:            { color: '#475569' },
+    selected:           { color: '#ffffff' },
     'selected-correct': { color: '#fff' },
     'selected-wrong':   { color: '#fff' },
     'correct-answer':   { color: '#fff' },
   },
   optionText: {
     default:            { color: '#1e293b' },
+    selected:           { color: '#1e293b', fontWeight: '600' as const },
     'selected-correct': { color: '#15803d', fontWeight: '600' as const },
     'selected-wrong':   { color: '#b91c1c', fontWeight: '600' as const },
     'correct-answer':   { color: '#15803d', fontWeight: '600' as const },
@@ -127,25 +130,29 @@ const light = {
 
 // Dark theme colour maps
 const dark = {
-  wrap: { backgroundColor: '#1e293b' } as any,
-  default:            { borderColor: '#1e293b' },
+  wrap: { backgroundColor: '#1a1a1a' } as any,
+  default:            { borderColor: 'transparent' },
+  selected:           { borderColor: '#ffffff', backgroundColor: '#1a1a1a' },
   'selected-correct': { borderColor: palette.green, backgroundColor: palette.greenDim },
   'selected-wrong':   { borderColor: palette.red,   backgroundColor: palette.redDim },
   'correct-answer':   { borderColor: palette.green, backgroundColor: palette.greenDim },
   letterBg: {
-    default:            { backgroundColor: '#0f172a' },
+    default:            { backgroundColor: '#222222' },
+    selected:           { backgroundColor: '#ffffff' },
     'selected-correct': { backgroundColor: palette.green },
     'selected-wrong':   { backgroundColor: palette.red },
     'correct-answer':   { backgroundColor: palette.green },
   },
   letterText: {
-    default:            { color: '#64748b' },
+    default:            { color: '#777777' },
+    selected:           { color: '#111111' },
     'selected-correct': { color: '#fff' },
     'selected-wrong':   { color: '#fff' },
     'correct-answer':   { color: '#fff' },
   },
   optionText: {
     default:            { color: '#e2e8f0' },
+    selected:           { color: '#ffffff', fontWeight: '600' as const },
     'selected-correct': { color: '#4ade80', fontWeight: '600' as const },
     'selected-wrong':   { color: '#f87171', fontWeight: '600' as const },
     'correct-answer':   { color: '#4ade80', fontWeight: '600' as const },

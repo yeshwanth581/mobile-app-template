@@ -40,6 +40,7 @@ export interface QuestionProgress {
 // ─── Session ─────────────────────────────────────────────────────────────────
 
 export type QuestionFilter = 'all' | 'category' | 'weak' | 'bookmarked'
+export type SessionPresentation = 'study' | 'practice' | 'exam' | 'review'
 
 export interface SessionConfig {
   filter: QuestionFilter
@@ -49,7 +50,11 @@ export interface SessionConfig {
   showTranslation: boolean
   timed: boolean
   mode: SessionMode
+  presentation?: SessionPresentation
   _questionIds?: string[]   // override: practice specific question IDs directly
+  _reviewMode?: 'wrongAnswers'
+  _reviewAnswers?: Array<{ questionId: string; chosenIndex: number }>
+  _returnParams?: Record<string, string>
 }
 
 export interface SessionResult {

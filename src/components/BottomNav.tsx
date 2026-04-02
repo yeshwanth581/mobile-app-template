@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
+import type { ReactElement } from 'react'
+import { ExamIcon, HomeIcon, PracticeIcon, StudyIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { spacing } from '@/theme'
 
@@ -12,19 +14,19 @@ interface BottomNavProps {
 
 const ITEMS: {
   key: NavKey
-  label: string
+  labelKey: 'nav.home' | 'nav.study' | 'nav.practice' | 'nav.exam'
   route: string
-  icon: keyof typeof Ionicons.glyphMap
-  iconActive: keyof typeof Ionicons.glyphMap
+  Icon: ({ color, size }: { color: string; size?: number }) => ReactElement
 }[] = [
-  { key: 'home',     label: 'Home',     route: '/',          icon: 'home-outline',      iconActive: 'home' },
-  { key: 'study',    label: 'Study',    route: '/study',     icon: 'book-outline',      iconActive: 'book' },
-  { key: 'practice', label: 'Practice', route: '/practice',  icon: 'clipboard-outline', iconActive: 'clipboard' },
-  { key: 'exam',     label: 'Exam',     route: '/exam',      icon: 'timer-outline',     iconActive: 'timer' },
+  { key: 'home',     labelKey: 'nav.home',     route: '/',         Icon: HomeIcon },
+  { key: 'study',    labelKey: 'nav.study',    route: '/study',    Icon: StudyIcon },
+  { key: 'practice', labelKey: 'nav.practice', route: '/practice', Icon: PracticeIcon },
+  { key: 'exam',     labelKey: 'nav.exam',     route: '/exam',     Icon: ExamIcon },
 ]
 
 export function BottomNav({ active }: BottomNavProps) {
   const router = useRouter()
+  const { t } = useTranslation()
   const { c } = useThemeColors()
 
   return (
@@ -38,12 +40,8 @@ export function BottomNav({ active }: BottomNavProps) {
             style={styles.navItem}
             onPress={() => { if (!isActive) router.replace(item.route as never) }}
           >
-            <Ionicons
-              name={isActive ? item.iconActive : item.icon}
-              size={22}
-              color={color}
-            />
-            <Text style={[styles.navLabel, { color }]}>{item.label}</Text>
+            <item.Icon color={color} size={24} />
+            <Text style={[styles.navLabel, { color }]}>{t(item.labelKey)}</Text>
           </TouchableOpacity>
         )
       })}
@@ -67,9 +65,9 @@ const styles = StyleSheet.create({
     minHeight: 44,
   },
   navLabel: {
-    fontSize: 9,
-    fontWeight: '700',
+    fontSize: 10,
+    fontWeight: '800',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
 })

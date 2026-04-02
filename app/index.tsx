@@ -4,26 +4,25 @@ import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { Ionicons } from '@expo/vector-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faLanguage, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { BottomNav } from '@/components/BottomNav'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { GERMAN_STATES, getStateLabel } from '@/data/states'
+import { GERMAN_STATES, getStateLabel, TRANSLATION_OPTIONS } from '@/data/states'
 import { getRelevantQuestions } from '@/data/questionBank'
-import { spacing, radius, typography } from '@/theme'
+import { changeLanguage } from '@/i18n'
+import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 
 export default function HomeScreen() {
   const router = useRouter()
   const { t } = useTranslation()
   const { c, isDark } = useThemeColors()
-  const { selectedStateCode, setSelectedStateCode, theme, setTheme } = useSettingsStore()
+  const { selectedStateCode, setSelectedStateCode, theme, setTheme, translationLocale, setTranslationLocale, setUiLocale } = useSettingsStore()
   const [stateModalOpen, setStateModalOpen] = useState(false)
+  const [languageModalOpen, setLanguageModalOpen] = useState(false)
 
   const relevantQuestions = useMemo(() => getRelevantQuestions(selectedStateCode), [selectedStateCode])
   const selectedStateLabel = getStateLabel(selectedStateCode)
-
   const darkBtnBg   = isDark ? '#ffffff' : '#111111'
   const darkBtnText = isDark ? '#111111' : '#ffffff'
 
@@ -35,15 +34,15 @@ export default function HomeScreen() {
         <View style={styles.topRow}>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
-            onPress={() => router.push('/language')}
+            onPress={() => setLanguageModalOpen(true)}
           >
-            <FontAwesomeIcon icon={faLanguage} size={14} color={c.textPrimary} />
+            <Ionicons name="language-outline" size={16} color={c.textPrimary} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
             onPress={() => setTheme(isDark ? 'light' : 'dark')}
           >
-            <FontAwesomeIcon icon={isDark ? faSun : faMoon} size={13} color={c.textPrimary} />
+            <Ionicons name={isDark ? 'sunny-outline' : 'moon-outline'} size={15} color={c.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -51,7 +50,7 @@ export default function HomeScreen() {
         <View style={styles.centerBlock}>
           <Text style={styles.flagEmoji}>{appConfig.flagEmoji}</Text>
           <Text style={[styles.appName, { color: c.textPrimary }]}>{appConfig.appName}</Text>
-          <Text style={[styles.appDesc, { color: c.textSecond }]}>{appConfig.appTagline}</Text>
+          <Text style={[styles.appDesc, { color: c.textSecond }]}>{t('home.tagline')}</Text>
         </View>
 
         {/* State dropdown pill */}
@@ -76,9 +75,9 @@ export default function HomeScreen() {
           onPress={() => router.push('/practice')}
         >
           <View>
-            <Text style={[styles.bigBtnTitle, { color: darkBtnText }]}>Practice Questions</Text>
+            <Text style={[styles.bigBtnTitle, { color: darkBtnText }]}>{t('home.practice')}</Text>
             <Text style={[styles.bigBtnDesc, { color: darkBtnText, opacity: 0.5 }]}>
-              {relevantQuestions.length} active questions
+              {t('home.activeQuestions', { count: relevantQuestions.length })}
             </Text>
           </View>
           <Ionicons name="arrow-forward" size={20} color={darkBtnText} />
@@ -90,9 +89,12 @@ export default function HomeScreen() {
           onPress={() => router.push('/exam')}
         >
           <View>
-            <Text style={[styles.bigBtnTitle, { color: c.textPrimary }]}>Mock Exam</Text>
+            <Text style={[styles.bigBtnTitle, { color: c.textPrimary }]}>{t('exam.title')}</Text>
             <Text style={[styles.bigBtnDesc, { color: c.textMuted }]}>
-              {appConfig.examConfig.examQuestions} questions · {appConfig.examConfig.timeLimitMinutes} minutes
+              {t('home.examQuestionsMeta', {
+                count: appConfig.examConfig.examQuestions,
+                minutes: appConfig.examConfig.timeLimitMinutes,
+              })}
             </Text>
           </View>
           <Ionicons name="arrow-forward" size={20} color={c.textPrimary} />
@@ -107,18 +109,18 @@ export default function HomeScreen() {
             <Ionicons name="star" size={16} color="#ffffff" />
           </View>
           <View style={styles.premiumText}>
-            <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>Enjoying the app? Go ad-free</Text>
-            <Text style={[styles.premiumSub, { color: c.textMuted }]}>All questions stay free, always</Text>
+            <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
+            <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
           </View>
           <Ionicons name="chevron-forward" size={16} color={c.textMuted} />
         </TouchableOpacity>
 
         {/* Stats row */}
         <View style={[styles.statsRow, { borderTopColor: c.border }]}>
-          <StatCell value={String(appConfig.examConfig.totalQuestions)} label="Total" c={c} />
-          <StatCell value={String(appConfig.examConfig.examQuestions)} label="Exam" c={c} />
-          <StatCell value={`${appConfig.examConfig.timeLimitMinutes}m`} label="Duration" c={c} />
-          <StatCell value={String(appConfig.examConfig.passMark)} label="To Pass" c={c} />
+          <StatCell value={String(appConfig.examConfig.totalQuestions)} label={t('home.totalLabel')} c={c} />
+          <StatCell value={String(appConfig.examConfig.examQuestions)} label={t('home.examLabel')} c={c} />
+          <StatCell value={`${appConfig.examConfig.timeLimitMinutes}m`} label={t('home.durationLabel')} c={c} />
+          <StatCell value={String(appConfig.examConfig.passMark)} label={t('home.toPassLabel')} c={c} />
         </View>
 
       </ScrollView>
@@ -148,8 +150,8 @@ export default function HomeScreen() {
                     style={[
                       styles.modalOption,
                       {
-                        backgroundColor: isSelected ? c.textPrimary : c.card,
-                        borderColor: isSelected ? c.textPrimary : c.border,
+                        backgroundColor: isSelected ? '#111111' : c.card,
+                        borderColor: isSelected ? '#111111' : c.border,
                       },
                     ]}
                     onPress={() => {
@@ -157,8 +159,56 @@ export default function HomeScreen() {
                       setStateModalOpen(false)
                     }}
                   >
-                    <Text style={[styles.modalOptionText, { color: isSelected ? c.bg : c.textPrimary }]}>
+                    <Text style={[styles.modalOptionText, { color: isSelected ? '#ffffff' : c.textPrimary }]}>
                       {state.label}
+                    </Text>
+                  </TouchableOpacity>
+                )
+              })}
+            </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal
+        visible={languageModalOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setLanguageModalOpen(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalBackdrop}
+          activeOpacity={1}
+          onPress={() => setLanguageModalOpen(false)}
+        >
+          <View style={[styles.modalSheet, { backgroundColor: c.bg }]}>
+            <Text style={[styles.modalTitle, { color: c.textPrimary }]}>
+              {t('language.title')}
+            </Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {TRANSLATION_OPTIONS.map((option) => {
+                const isSelected = translationLocale === option.code
+                return (
+                  <TouchableOpacity
+                    key={option.code}
+                    style={[
+                      styles.modalOption,
+                      {
+                        backgroundColor: isSelected ? '#111111' : c.card,
+                        borderColor: isSelected ? '#111111' : c.border,
+                      },
+                    ]}
+                    onPress={() => {
+                      setTranslationLocale(option.code)
+                      if (option.code === 'de' || option.code === 'en') {
+                        setUiLocale(option.code)
+                        changeLanguage(option.code)
+                      }
+                      setLanguageModalOpen(false)
+                    }}
+                  >
+                    <Text style={[styles.modalOptionText, { color: isSelected ? '#ffffff' : c.textPrimary }]}>
+                      {option.label}
                     </Text>
                   </TouchableOpacity>
                 )
@@ -230,7 +280,6 @@ const styles = StyleSheet.create({
   premiumText:  { flex: 1 },
   premiumTitle: { fontSize: 13, fontWeight: '700' },
   premiumSub:   { fontSize: 11 },
-
   statsRow: {
     flexDirection: 'row', justifyContent: 'space-between',
     marginTop: 28, paddingTop: 20,

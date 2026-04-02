@@ -10,7 +10,7 @@ import { OptionButton } from '@/components/OptionButton'
 import { ProgressBar } from '@/components/ProgressBar'
 import { useQuizSession } from '@/hooks/useQuizSession'
 import { useThemeColors } from '@/hooks/useThemeColors'
-import { spacing, radius } from '@/theme'
+import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
@@ -22,6 +22,7 @@ const EXAM_CONFIG: SessionConfig = {
   showTranslation: false,
   timed: true,
   mode: 'exam',
+  presentation: 'exam',
 }
 
 function formatTime(seconds: number): string {
@@ -75,6 +76,7 @@ export default function ExamScreen() {
         passed: passed ? '1' : '0',
         config: JSON.stringify(EXAM_CONFIG),
         wrongIds: JSON.stringify(wrongIds),
+        answers: JSON.stringify(answers),
         timeSeconds: String(totalSeconds - secondsLeft),
       },
     })
@@ -113,13 +115,13 @@ export default function ExamScreen() {
   const isWarning   = secondsLeft <= 300
   const timerColor  = isCritical ? '#ef4444' : isWarning ? '#f59e0b' : c.textPrimary
   const timerBg     = isCritical
-    ? (isDark ? '#450a0a' : '#fef2f2')
+    ? (isDark ? palette.redDim : '#fef2f2')
     : isWarning
-      ? (isDark ? '#1c1204' : '#fffbeb')
+      ? (isDark ? '#1c1204' : palette.amberLight)
       : c.card
 
-  const btnBg   = isDark ? '#ffffff' : '#111111'
-  const btnText = isDark ? '#111111' : '#ffffff'
+  const btnBg   = isLast ? palette.green : isDark ? '#ffffff' : '#111111'
+  const btnText = '#ffffff'
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
@@ -144,7 +146,7 @@ export default function ExamScreen() {
           </View>
         </View>
 
-        <ProgressBar current={currentIndex} total={total} isDark={isDark} label="Mock Exam" />
+        <ProgressBar current={currentIndex} total={total} isDark={isDark} label={t('exam.title')} />
 
         <Text style={[styles.examNote, { color: c.textMuted }]}>
           {t('session.examModeNote')}
@@ -157,10 +159,6 @@ export default function ExamScreen() {
         contentContainerStyle={styles.bodyContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={[styles.qLabel, { color: c.textMuted }]}>
-          {String(t('exam.questionWord'))} {currentIndex + 1}
-        </Text>
-
         <QuestionCard
           question={current}
           translationLocale={translationLocale}
@@ -179,6 +177,7 @@ export default function ExamScreen() {
               showTranslation={false}
               chosenIndex={chosenIndex}
               isDark={isDark}
+              revealAnswer={false}
               onPress={selectAnswer}
             />
           ))}
@@ -206,7 +205,7 @@ export default function ExamScreen() {
           disabled={!answered}
         >
           <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
-            {isLast ? `${t('exam.submit')} →` : `${t('quiz.next')} →`}
+            {isLast ? t('exam.submit') : `${t('quiz.next')} →`}
           </Text>
         </TouchableOpacity>
       </View>

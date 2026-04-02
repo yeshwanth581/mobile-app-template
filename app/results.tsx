@@ -1,9 +1,9 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useTranslation } from 'react-i18next'
 import { Ionicons } from '@expo/vector-icons'
 import { useThemeColors } from '@/hooks/useThemeColors'
-import { AdBanner } from '@/components/AdBanner'
 import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
@@ -16,10 +16,11 @@ function formatTime(secs: number): string {
 
 export default function ResultsScreen() {
   const router = useRouter()
-  const { score, total, passed, config: configStr, wrongIds: wrongIdsStr, timeSeconds } =
+  const { t } = useTranslation()
+  const { score, total, passed, config: configStr, wrongIds: wrongIdsStr, answers: answersStr, timeSeconds } =
     useLocalSearchParams<{
       score: string; total: string; passed: string; config: string
-      wrongIds?: string; timeSeconds?: string
+      wrongIds?: string; answers?: string; timeSeconds?: string
     }>()
   const { isDark, c } = useThemeColors()
 
@@ -29,12 +30,17 @@ export default function ResultsScreen() {
   const pct       = Math.round((scoreNum / totalNum) * 100)
   const passMark  = appConfig.examConfig.passMark
   const wrongIds  = wrongIdsStr ? (JSON.parse(wrongIdsStr) as string[]) : []
+  const answers = answersStr
+    ? (JSON.parse(answersStr) as Array<{ questionId: string; correct: boolean; chosenIndex: number }>)
+    : []
   const elapsed   = timeSeconds ? parseInt(timeSeconds) : null
   const config    = configStr ? (JSON.parse(configStr) as SessionConfig) : null
 
   const badgeColor = isPassed ? palette.green : palette.red
   const btnBg      = isDark ? '#ffffff' : '#111111'
   const btnText    = isDark ? '#111111' : '#ffffff'
+  const screenBg   = isDark ? c.bg : '#ffffff'
+  const statCardBg = isDark ? c.card : '#f5f5f5'
 
   function reviewWrongAnswers() {
     if (wrongIds.length === 0) {
@@ -44,7 +50,22 @@ export default function ResultsScreen() {
     const reviewConfig: SessionConfig = {
       filter: 'all', category: null, count: wrongIds.length,
       shuffle: false, showTranslation: true, timed: false,
-      mode: 'practice', _questionIds: wrongIds,
+      mode: 'practice',
+      presentation: 'review',
+      _questionIds: wrongIds,
+      _reviewMode: 'wrongAnswers',
+      _reviewAnswers: answers
+        .filter((answer) => !answer.correct)
+        .map((answer) => ({ questionId: answer.questionId, chosenIndex: answer.chosenIndex })),
+      _returnParams: {
+        score: score ?? '0',
+        total: total ?? '0',
+        passed: passed ?? '0',
+        config: configStr ?? '',
+        wrongIds: wrongIdsStr ?? '[]',
+        answers: answersStr ?? '[]',
+        ...(timeSeconds ? { timeSeconds } : {}),
+      },
     }
     router.replace({ pathname: '/practice/session', params: { config: JSON.stringify(reviewConfig) } })
   }
@@ -58,9 +79,10 @@ export default function ResultsScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: screenBg }]}>
       <ScrollView
         contentContainerStyle={styles.scroll}
+        style={{ backgroundColor: screenBg }}
         showsVerticalScrollIndicator={false}
       >
         {/* Badge circle */}
@@ -74,12 +96,12 @@ export default function ResultsScreen() {
 
         {/* Title */}
         <Text style={[styles.title, { color: c.textPrimary }]}>
-          {isPassed ? 'Congratulations!' : 'Keep Practising'}
+          {isPassed ? t('results.pass') : t('results.fail')}
         </Text>
         <Text style={[styles.subtitle, { color: c.textSecond }]}>
           {isPassed
-            ? 'You passed the mock exam'
-            : `You need ${passMark} correct to pass`}
+            ? t('results.passedExam')
+            : t('results.passThreshold', { pass: passMark })}
         </Text>
 
         {/* Score */}
@@ -87,18 +109,18 @@ export default function ResultsScreen() {
           <Text style={[styles.scoreNum, { color: c.textPrimary }]}>{scoreNum}</Text>
           <Text style={[styles.scoreDenom, { color: c.textMuted }]}> / {totalNum}</Text>
         </View>
-        <Text style={[styles.scoreLabel, { color: c.textMuted }]}>CORRECT ANSWERS</Text>
+        <Text style={[styles.scoreLabel, { color: c.textMuted }]}>{t('results.correctAnswers').toUpperCase()}</Text>
 
         {/* Pass threshold */}
-        <Text style={[styles.threshold, { color: badgeColor }]}>
-          Pass threshold: {passMark} / {totalNum}
-        </Text>
+        {/* <Text style={[styles.threshold, { color: badgeColor }]}>
+          {t('results.passThreshold', { pass: passMark })}: {passMark} / {totalNum}
+        </Text> */}
 
         {/* Stats */}
         <View style={styles.statsRow}>
-          <StatCard value={`${pct}%`} label="Score" c={c} />
+          <StatCard value={`${pct}%`} label={t('results.score')} cardBg={statCardBg} c={c} />
           {elapsed !== null && (
-            <StatCard value={formatTime(elapsed)} label="Time" c={c} />
+            <StatCard value={formatTime(elapsed)} label={t('results.time')} cardBg={statCardBg} c={c} />
           )}
         </View>
 
@@ -109,7 +131,7 @@ export default function ResultsScreen() {
             onPress={reviewWrongAnswers}
           >
             <Text style={[styles.btnPrimaryText, { color: btnText }]}>
-              {wrongIds.length > 0 ? 'Review Wrong Answers' : 'Browse Questions'}
+              {wrongIds.length > 0 ? t('results.reviewWrong') : t('results.browseQuestions')}
             </Text>
           </TouchableOpacity>
 
@@ -118,24 +140,32 @@ export default function ResultsScreen() {
             onPress={retrySession}
           >
             <Text style={[styles.btnSecondaryText, { color: c.textPrimary }]}>
-              {config?.mode === 'exam' ? 'Retry Exam' : 'Try Again'}
+              {config?.mode === 'exam' ? t('results.retryExam') : t('results.tryAgain')}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.btnText} onPress={() => router.replace('/')}>
-            <Text style={[styles.btnTextLabel, { color: c.textMuted }]}>Back to Home</Text>
+            <Text style={[styles.btnTextLabel, { color: c.textMuted }]}>{t('results.backHome')}</Text>
           </TouchableOpacity>
         </View>
-
-        <AdBanner isDark={isDark} />
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-function StatCard({ value, label, c }: { value: string; label: string; c: { card: string; textPrimary: string; textMuted: string } }) {
+function StatCard({
+  value,
+  label,
+  cardBg,
+  c,
+}: {
+  value: string
+  label: string
+  cardBg: string
+  c: { textPrimary: string; textMuted: string }
+}) {
   return (
-    <View style={[styles.statCard, { backgroundColor: c.card }]}>
+    <View style={[styles.statCard, { backgroundColor: cardBg }]}>
       <Text style={[styles.statVal, { color: c.textPrimary }]}>{value}</Text>
       <Text style={[styles.statLbl, { color: c.textMuted }]}>{label.toUpperCase()}</Text>
     </View>

@@ -4,8 +4,6 @@ import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { Ionicons } from '@expo/vector-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
@@ -14,9 +12,11 @@ import { OptionButton } from '@/components/OptionButton'
 import { ProgressBar } from '@/components/ProgressBar'
 import { AdBanner } from '@/components/AdBanner'
 import { QuestionJumpPicker } from '@/components/QuestionJumpPicker'
+import { BookmarkIcon } from '@/components/AppIcons'
 import { useQuizSession } from '@/hooks/useQuizSession'
 import { getQuestionLabel } from '@/data/questionBank'
 import { getStateLabel } from '@/data/states'
+import appConfig from '@/config/app.config'
 import { spacing, radius, typography } from '@/theme'
 import type { SessionConfig } from '@/types'
 
@@ -25,6 +25,10 @@ export default function SessionScreen() {
   const { t } = useTranslation()
   const { config: configStr } = useLocalSearchParams<{ config: string }>()
   const config: SessionConfig = JSON.parse(configStr)
+  const presentation = config.presentation ?? (config._reviewMode === 'wrongAnswers' ? 'review' : config.mode === 'exam' ? 'exam' : 'practice')
+  const isStudyMode = presentation === 'study'
+  const isPracticeMode = presentation === 'practice'
+  const isReviewMode = presentation === 'review'
 
   const { isDark, c } = useThemeColors()
   const { translationLocale, selectedStateCode } = useSettingsStore()
@@ -55,16 +59,25 @@ export default function SessionScreen() {
 
   if (isFinished || !current) return null
 
+  const reviewAnswer = config._reviewAnswers?.find((item) => item.questionId === current.id) ?? null
+  const effectiveChosenIndex = isReviewMode
+    ? (reviewAnswer?.chosenIndex ?? chosenIndex)
+    : chosenIndex
+
   const catLabel =
-    current.category === selectedStateCode
-      ? (getStateLabel(selectedStateCode) ?? t('session.yourState'))
-      : current.category === 'general'
-        ? t('session.germanyOnly')
-        : getQuestionLabel(current.category, selectedStateCode)
+    isReviewMode
+      ? t('results.reviewWrong')
+      : isStudyMode
+        ? t('study.title')
+      : current.category === selectedStateCode
+        ? (getStateLabel(selectedStateCode) ?? t('session.yourState'))
+        : current.category === 'general'
+          ? t('session.germanyOnly')
+          : getQuestionLabel(current.category, selectedStateCode)
 
   const qProgress   = getProgress(current.id)
   const isBookmarked = qProgress.bookmarked
-  const answered    = chosenIndex !== null
+  const answered    = effectiveChosenIndex !== null
   const isLast      = currentIndex + 1 >= total
 
   // Attempt stats for current question (below options)
@@ -74,11 +87,23 @@ export default function SessionScreen() {
 
   const btnBg   = isDark ? '#ffffff' : '#111111'
   const btnText = isDark ? '#111111' : '#ffffff'
+  const translationDisabled = translationLocale === appConfig.originalLocale
 
   // Translate button styles
-  const transActive     = translationActive && translationLocale !== 'de'
+  const transActive     = translationActive && !translationDisabled
   const transBtnBg      = transActive ? btnBg : c.card
   const transBtnColor   = transActive ? btnText : c.textMuted
+
+  const handleBack = () => {
+    if (isReviewMode && config._returnParams) {
+      router.replace({
+        pathname: '/results',
+        params: config._returnParams,
+      })
+      return
+    }
+    router.back()
+  }
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
@@ -89,7 +114,7 @@ export default function SessionScreen() {
         <View style={styles.headerRow}>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
-            onPress={() => router.back()}
+            onPress={handleBack}
           >
             <Ionicons name="arrow-back" size={16} color={c.textSecond} />
           </TouchableOpacity>
@@ -99,21 +124,21 @@ export default function SessionScreen() {
             total={total}
             onSelect={jumpTo}
             isDark={isDark}
-            prefix={String(t('exam.questionWord')).toUpperCase()}
+            prefix={isReviewMode ? String(t('results.reviewWrong')).toUpperCase() : String(t('exam.questionWord')).toUpperCase()}
             compact
           />
 
           <TouchableOpacity
-            style={[styles.iconBtn, { backgroundColor: transBtnBg }]}
+            style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
             onPress={() => setTranslationActive((v) => !v)}
-            disabled={translationLocale === 'de'}
+            disabled={translationDisabled}
           >
-            <FontAwesomeIcon icon={faLanguage} size={14} color={transBtnColor} />
+            <Ionicons name="language-outline" size={16} color={transBtnColor} />
           </TouchableOpacity>
         </View>
 
         {/* Progress bar */}
-        <ProgressBar current={currentIndex} total={total} isDark={isDark} label={catLabel ?? ''} />
+        <ProgressBar current={currentIndex} total={total} isDark={isDark} label={catLabel ?? t('session.screenTitle')} />
       </View>
 
       {/* ─── Scrollable body ─── */}
@@ -125,18 +150,15 @@ export default function SessionScreen() {
         {/* Q number + bookmark */}
         <View style={styles.qHeaderRow}>
           <Text style={[styles.qLabel, { color: c.textMuted }]}>
-            {String(t('exam.questionWord'))} {currentIndex + 1}
+            {isReviewMode
+              ? `${t('results.reviewWrong')} ${currentIndex + 1} / ${total}`
+              : `${String(t('exam.questionWord'))} ${currentIndex + 1}`}
           </Text>
           <TouchableOpacity
             onPress={() => toggleBookmark(current.id)}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
-            <Ionicons
-              name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
-              size={16}
-              color={c.textPrimary}
-              style={{ opacity: isBookmarked ? 1 : 0.3 }}
-            />
+            <BookmarkIcon color={c.textPrimary} fill={isBookmarked ? c.textPrimary : 'none'} size={16} />
           </TouchableOpacity>
         </View>
 
@@ -158,9 +180,10 @@ export default function SessionScreen() {
               question={current}
               translationLocale={translationLocale}
               showTranslation={transActive}
-              chosenIndex={chosenIndex}
+              chosenIndex={effectiveChosenIndex}
               isDark={isDark}
-              onPress={selectAnswer}
+              onPress={isPracticeMode ? selectAnswer : () => {}}
+              revealAnswer={isStudyMode || isPracticeMode || isReviewMode}
             />
           ))}
         </View>
@@ -170,13 +193,13 @@ export default function SessionScreen() {
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <View style={[styles.statDot, { backgroundColor: '#22c55e' }]} />
-              <Text style={[styles.statText, { color: c.textMuted }]}>{correctCnt} correct</Text>
+              <Text style={[styles.statText, { color: c.textMuted }]}>{correctCnt} {t('quiz.correct').toLowerCase()}</Text>
             </View>
             <View style={styles.statItem}>
               <View style={[styles.statDot, { backgroundColor: '#ef4444' }]} />
-              <Text style={[styles.statText, { color: c.textMuted }]}>{wrongCnt} wrong</Text>
+              <Text style={[styles.statText, { color: c.textMuted }]}>{wrongCnt} {t('quiz.incorrect').toLowerCase()}</Text>
             </View>
-            <Text style={[styles.statText, { color: c.textMuted }]}>{attempts.length} attempts</Text>
+            <Text style={[styles.statText, { color: c.textMuted }]}>{attempts.length} {t('quiz.attempts').toLowerCase()}</Text>
           </View>
         )}
 
@@ -198,15 +221,26 @@ export default function SessionScreen() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
-          onPress={next}
-          disabled={!answered}
-        >
-          <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
-            {isLast ? `${t('quiz.finish')} →` : `${t('questionDetail.next')} →`}
-          </Text>
-        </TouchableOpacity>
+        {isReviewMode ? (
+          <TouchableOpacity
+            style={[styles.navBtn, { backgroundColor: btnBg, opacity: 1 }]}
+            onPress={isLast ? handleBack : jumpTo.bind(null, currentIndex + 1)}
+          >
+            <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
+              {isLast ? t('results.backHome') : `${t('questionDetail.next')} →`}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
+            onPress={next}
+            disabled={!answered}
+          >
+            <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
+              {isLast ? `${t('quiz.finish')} →` : `${t('questionDetail.next')} →`}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
 
     </SafeAreaView>

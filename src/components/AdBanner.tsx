@@ -16,9 +16,8 @@ export function AdBanner({ isDark }: { isDark: boolean }) {
   if (Platform.OS === 'web') {
     return (
       <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
-        <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>
-          📢 Advertisement
-        </Text>
+        <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
+        <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
       </View>
     )
   }
@@ -43,9 +42,8 @@ export function AdBanner({ isDark }: { isDark: boolean }) {
 
   return (
     <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
-      <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>
-        📢 Advertisement
-      </Text>
+      <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
+      <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
     </View>
   )
 }
@@ -53,15 +51,19 @@ export function AdBanner({ isDark }: { isDark: boolean }) {
 const styles = StyleSheet.create({
   wrap: {
     marginTop: spacing.sm,
+    marginBottom: spacing.sm,
     borderRadius: radius.md,
     paddingVertical: spacing.sm,
     alignItems: 'center',
     borderWidth: 1.5,
     borderStyle: 'dashed',
   },
-  wrapLight: { backgroundColor: '#f8fafc', borderColor: palette.light.border },
-  wrapDark:  { backgroundColor: palette.dark.bg,   borderColor: palette.dark.border },
+  wrapLight: { backgroundColor: '#f8f8f8', borderColor: '#d9d9d9' },
+  wrapDark:  { backgroundColor: '#1a1a1a', borderColor: '#333333' },
   text:  { fontSize: 11, fontWeight: '600' },
-  textLight: { color: palette.light.textMuted },
-  textDark:  { color: palette.dark.textMuted },
+  textLight: { color: '#aaaaaa' },
+  textDark:  { color: '#777777' },
+  link: { fontSize: 10, marginTop: 4, textDecorationLine: 'underline' },
+  linkLight: { color: '#cccccc' },
+  linkDark: { color: '#666666' },
 })

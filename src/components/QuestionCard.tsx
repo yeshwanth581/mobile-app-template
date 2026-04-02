@@ -28,7 +28,7 @@ export function QuestionCard({
   const c = isDark ? palette.dark : palette.light
 
   return (
-    <View style={[styles.card, { backgroundColor: c.card }]}>
+    <View style={styles.card}>
       {categoryLabel && (
         <Text style={[styles.categoryLabel, { color: c.textMuted }]}>
           {categoryLabel.toUpperCase()}
@@ -55,32 +55,21 @@ export function QuestionCard({
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: radius.xl,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
+  card: { marginBottom: spacing.md },
   categoryLabel: {
     fontSize: 9,
     fontWeight: '700',
     letterSpacing: 0.8,
     marginBottom: spacing.sm,
   },
-  questionText: {
-    lineHeight: 24,
-  },
+  questionText: { lineHeight: 24, marginBottom: spacing.xs },
   translationText: {
-    marginTop: spacing.sm,
     fontSize: 13,
     lineHeight: 20,
+    fontStyle: 'italic',
+    marginBottom: spacing.md,
   },
   imageWrap: {
-    marginTop: spacing.md,
     borderWidth: 1,
     borderRadius: radius.lg,
     overflow: 'hidden',

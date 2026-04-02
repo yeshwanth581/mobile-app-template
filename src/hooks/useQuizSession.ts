@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'react'
 import questions from '@/data/questions'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { getGeneralQuestions, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
+import { getGeneralQuestions, getQuestionSetByCategory, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
 import type { Question, SessionConfig, SessionResult, Attempt } from '@/types'
 import appConfig from '@/config/app.config'
 
@@ -32,7 +32,7 @@ function buildQueue(config: SessionConfig): Question[] {
 
   switch (filter) {
     case 'category':
-      pool = questions.filter((q) => q.category === category)
+      pool = getQuestionSetByCategory(category, selectedStateCode)
       break
     case 'weak': {
       const weakIds = new Set(getWeakIds())
@@ -68,7 +68,9 @@ export function useQuizSession(config: SessionConfig) {
 
   const [queue] = useState<Question[]>(() => buildQueue(config))
   const [selectedAnswers, setSelectedAnswers] = useState<Array<number | null>>(() =>
-    Array.from({ length: queue.length }, () => null)
+    config.presentation === 'study'
+      ? queue.map((question) => question.correct)
+      : Array.from({ length: queue.length }, () => null)
   )
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
@@ -85,14 +87,14 @@ export function useQuizSession(config: SessionConfig) {
 
   const selectAnswer = useCallback(
     (index: number) => {
-      if (chosenIndex !== null || !current) return  // already answered
+      if (!current) return
       setSelectedAnswers((prev) => {
         const nextAnswers = [...prev]
         nextAnswers[currentIndex] = index
         return nextAnswers
       })
 
-      if (config.mode === 'practice') {
+      if (config.mode === 'practice' && chosenIndex === null) {
         const attempt: Attempt = {
           result: index === current.correct ? 'correct' : 'wrong',
           chosenIndex: index,

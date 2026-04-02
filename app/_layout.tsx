@@ -33,6 +33,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" />
+        <Stack.Screen name="study/index" />
         <Stack.Screen name="language" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
         <Stack.Screen name="subscription" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
         <Stack.Screen name="practice/index" />
