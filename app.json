@@ -10,22 +10,15 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.rygapps.lebenindeutschland",
-      "buildNumber": "1",
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-REPLACE_WITH_YOUR_ID~REPLACE"
-      }
+      "buildNumber": "1"
     },
     "android": {
       "package": "com.rygapps.lebenindeutschland",
       "versionCode": 1,
+      "splits": { "abi": { "enable": true } },
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "config": {
-        "googleMobileAds": {
-          "appId": "ca-app-pub-REPLACE_WITH_YOUR_ID~REPLACE"
-        }
       }
     },
     "web": {
@@ -34,17 +27,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization",
-      [
-        "react-native-google-mobile-ads",
-        {
-          "androidAppId": "ca-app-pub-REPLACE~REPLACE",
-          "iosAppId": "ca-app-pub-REPLACE~REPLACE"
-        }
-      ]
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6f798c4c-3fac-4cf4-b0cd-4d397bc510c9"
+      }
     }
   }
 }

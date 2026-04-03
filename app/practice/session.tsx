@@ -216,7 +216,7 @@ export default function SessionScreen() {
           </View>
         )}
 
-        <AdBanner isDark={isDark} />
+        {/* <AdBanner isDark={isDark} /> */}
       </ScrollView>
 
       {/* ─── Fixed bottom nav ─── */}
