@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, BackHandle
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
+import { CloseIcon, ClockIcon } from '@/components/AppIcons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { QuestionCard } from '@/components/QuestionCard'
 import { OptionButton } from '@/components/OptionButton'
@@ -12,6 +12,7 @@ import { useQuizSession } from '@/hooks/useQuizSession'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { palette, spacing, radius } from '@/theme'
 import appConfig from '@/config/app.config'
+import { hapticLight, hapticMedium } from '@/hooks/useHaptics'
 import type { SessionConfig } from '@/types'
 
 const EXAM_CONFIG: SessionConfig = {
@@ -113,15 +114,15 @@ export default function ExamScreen() {
   // Timer colours
   const isCritical  = secondsLeft <= 60
   const isWarning   = secondsLeft <= 300
-  const timerColor  = isCritical ? '#ef4444' : isWarning ? '#f59e0b' : c.textPrimary
+  const timerColor  = isCritical ? palette.red : isWarning ? palette.amber : c.textPrimary
   const timerBg     = isCritical
-    ? (isDark ? palette.redDim : '#fef2f2')
+    ? (isDark ? palette.redDim : palette.redLight)
     : isWarning
-      ? (isDark ? '#1c1204' : palette.amberLight)
+      ? (isDark ? palette.amberDim : palette.amberLight)
       : c.card
 
-  const btnBg   = isLast ? palette.green : isDark ? '#ffffff' : '#111111'
-  const btnText = isLast ? '#ffffff' : isDark ? '#111111' : '#ffffff'
+  const btnBg   = isLast ? palette.green : c.btnPrimaryBg
+  const btnText = isLast ? '#ffffff' : c.btnPrimaryText
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]} edges={['top', 'bottom']}>
@@ -131,7 +132,7 @@ export default function ExamScreen() {
         <View style={styles.headerRow}>
           {/* Quit */}
           <TouchableOpacity style={[styles.iconBtn, { backgroundColor: c.card }]} onPress={confirmExit}>
-            <Ionicons name="close" size={16} color={c.textSecond} />
+            <CloseIcon size={16} color={c.textSecond} />
           </TouchableOpacity>
 
           {/* Question counter */}
@@ -141,7 +142,7 @@ export default function ExamScreen() {
 
           {/* Timer pill */}
           <View style={[styles.timerPill, { backgroundColor: timerBg }]}>
-            <Ionicons name="time-outline" size={12} color={timerColor} />
+            <ClockIcon size={12} color={timerColor} />
             <Text style={[styles.timerText, { color: timerColor }]}>{formatTime(secondsLeft)}</Text>
           </View>
         </View>
@@ -191,7 +192,7 @@ export default function ExamScreen() {
             styles.navBtn, styles.navBtnSecondary,
             { borderColor: c.border, opacity: currentIndex === 0 ? 0.35 : 1 },
           ]}
-          onPress={previous}
+          onPress={() => { hapticLight(); previous() }}
           disabled={currentIndex === 0}
         >
           <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>
@@ -201,7 +202,7 @@ export default function ExamScreen() {
 
         <TouchableOpacity
           style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
-          onPress={next}
+          onPress={() => { isLast ? hapticMedium() : hapticLight(); next() }}
           disabled={!answered}
         >
           <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>

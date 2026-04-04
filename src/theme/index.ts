@@ -60,10 +60,69 @@ export const palette = {
 
   amber:       '#f59e0b',
   amberLight:  '#fef3c7',
+  amberDim:    '#1c1204',
+
+  // Accent backgrounds for badges/highlights
+  accentBg:      { light: '#eef2ff', dark: '#1e1b4b' },
+  infoBg:        { light: '#eff6ff', dark: '#1e3a5f' },
+  infoBorder:    { light: '#bfdbfe', dark: '#1e40af' },
+  infoText:      { light: '#1d4ed8', dark: '#93c5fd' },
 
   light: surfaceThemes.cream.light,
   dark: surfaceThemes.cream.dark,
 }
+
+// ─── Semantic tokens (light / dark) ──────────────────────────────────────────
+// Use these via `useThemeColors().c` — never hardcode the raw hex in screens.
+
+export const semanticLight = {
+  ...surfaceThemes.cream.light,
+
+  // Primary button (dark bg on light)
+  btnPrimaryBg:   '#111111',
+  btnPrimaryText: '#ffffff',
+
+  // Modal selected item
+  selectedBg:     '#111111',
+  selectedText:   '#ffffff',
+
+  // Subtle chip/chevron backgrounds
+  chipBg:         '#dddddd',
+  chipText:       '#666666',
+
+  // Option button colors
+  optionBg:           '#f8f8f8',
+  optionLetterBg:     '#f1f5f9',
+  optionLetterText:   '#475569',
+  optionText:         '#1e293b',
+  optionCorrectText:  '#15803d',
+  optionWrongText:    '#b91c1c',
+  translationText:    '#64748b',
+}
+
+export const semanticDark = {
+  ...surfaceThemes.cream.dark,
+
+  btnPrimaryBg:   '#ffffff',
+  btnPrimaryText: '#111111',
+
+  selectedBg:     '#ffffff',
+  selectedText:   '#111111',
+
+  chipBg:         '#333333',
+  chipText:       '#aaaaaa',
+
+  optionBg:           '#1a1a1a',
+  optionLetterBg:     '#222222',
+  optionLetterText:   '#777777',
+  optionText:         '#e2e8f0',
+  optionCorrectText:  '#4ade80',
+  optionWrongText:    '#f87171',
+  translationText:    '#94a3b8',
+}
+
+// Widened type so light/dark are interchangeable
+export type SemanticColors = { [K in keyof typeof semanticLight]: string }
 
 export const radius = {
   sm:   8,

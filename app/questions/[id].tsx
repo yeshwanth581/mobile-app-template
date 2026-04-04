@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
+import { LanguageIcon } from '@/components/AppIcons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
@@ -11,7 +11,8 @@ import { QuestionCard } from '@/components/QuestionCard'
 import { OptionButton } from '@/components/OptionButton'
 import { QuestionJumpPicker } from '@/components/QuestionJumpPicker'
 import { palette, spacing, radius, typography } from '@/theme'
-import questions from '@/data/questions'
+import { hapticLight } from '@/hooks/useHaptics'
+import { getQuestionById } from '@/data/questionBank'
 import appConfig from '@/config/app.config'
 
 export default function QuestionDetailScreen() {
@@ -35,14 +36,14 @@ export default function QuestionDetailScreen() {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const [translationActive, setTranslationActive] = useState(false)
   const currentId = questionIds[currentIndex] ?? params.id
-  const question = questions.find((item) => item.id === currentId)
+  const question = getQuestionById(currentId)
 
   if (!question) return null
 
   const translationDisabled = translationLocale === appConfig.originalLocale
   const showTranslation = translationActive && !translationDisabled
-  const transBtnBg = showTranslation ? (isDark ? '#ffffff' : '#111111') : c.card
-  const transBtnColor = showTranslation ? (isDark ? '#111111' : '#ffffff') : c.textMuted
+  const transBtnBg = showTranslation ? c.btnPrimaryBg : c.card
+  const transBtnColor = showTranslation ? c.btnPrimaryText : c.textMuted
   const bookmarked = getProgress(question.id).bookmarked
 
   return (
@@ -66,13 +67,14 @@ export default function QuestionDetailScreen() {
 
           <View style={styles.topRight}>
             <TouchableOpacity
-              style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
-              onPress={() => setTranslationActive((value) => !value)}
+              style={[styles.localePill, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
+              onPress={() => { hapticLight(); setTranslationActive((value) => !value) }}
               disabled={translationDisabled}
             >
-              <Ionicons name="language-outline" size={16} color={transBtnColor} />
+              <LanguageIcon size={14} color={transBtnColor} />
+              <Text style={[styles.localeText, { color: transBtnColor }]}>{translationLocale.toUpperCase()}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => toggleBookmark(question.id)}>
+            <TouchableOpacity onPress={() => { hapticLight(); toggleBookmark(question.id) }}>
               <Text style={{ fontSize: 18, opacity: bookmarked ? 1 : 0.3 }}>🔖</Text>
             </TouchableOpacity>
           </View>
@@ -111,7 +113,7 @@ export default function QuestionDetailScreen() {
               styles.navBtnSecondary,
               { borderColor: c.border, opacity: currentIndex === 0 ? 0.45 : 1 },
             ]}
-            onPress={() => setCurrentIndex((index) => Math.max(index - 1, 0))}
+            onPress={() => { hapticLight(); setCurrentIndex((index) => Math.max(index - 1, 0)) }}
             disabled={currentIndex === 0}
           >
             <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>← {t('questionDetail.previous')}</Text>
@@ -123,7 +125,7 @@ export default function QuestionDetailScreen() {
               styles.navBtnPrimary,
               { backgroundColor: palette.primary, opacity: currentIndex === questionIds.length - 1 ? 0.45 : 1 },
             ]}
-            onPress={() => setCurrentIndex((index) => Math.min(index + 1, questionIds.length - 1))}
+            onPress={() => { hapticLight(); setCurrentIndex((index) => Math.min(index + 1, questionIds.length - 1)) }}
             disabled={currentIndex === questionIds.length - 1}
           >
             <Text style={styles.navBtnPrimaryText}>{t('questionDetail.next')} →</Text>
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   scroll: { padding: spacing.lg, paddingBottom: 40 },
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.md },
-  topRight: { flexDirection: 'row', alignItems: 'center' },
+  topRight: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   iconBtn: {
     width: 32,
     height: 32,
@@ -146,6 +148,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  localePill: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 32, borderRadius: 10, paddingHorizontal: 10 },
+  localeText: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
   highlightText: { fontSize: 11, marginTop: -2, marginBottom: spacing.md, textAlign: 'right' },
   options: { gap: 9 },
   navRow: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },

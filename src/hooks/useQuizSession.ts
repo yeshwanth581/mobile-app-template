@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef, useMemo } from 'react'
-import questions from '@/data/questions'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { getGeneralQuestions, getQuestionSetByCategory, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
+import { getAllQuestions, getGeneralQuestions, getQuestionSetByCategory, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
 import type { Question, SessionConfig, SessionResult, Attempt } from '@/types'
 import appConfig from '@/config/app.config'
 
@@ -25,7 +24,7 @@ function buildQueue(config: SessionConfig): Question[] {
   // Direct ID override — used when practising a specific question
   if (_questionIds && _questionIds.length > 0) {
     const idSet = new Set(_questionIds)
-    pool = questions.filter((q) => idSet.has(q.id))
+    pool = getAllQuestions().filter((q) => idSet.has(q.id))
     if (shuffle) pool = shuffleArray(pool)
     return pool.slice(0, count === 0 ? pool.length : count)
   }

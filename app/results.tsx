@@ -1,10 +1,12 @@
+import { useEffect } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
+import { CheckIcon, CloseIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { palette, spacing, radius } from '@/theme'
+import { hapticSuccess, hapticError } from '@/hooks/useHaptics'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
@@ -27,6 +29,11 @@ export default function ResultsScreen() {
   const scoreNum  = parseInt(score ?? '0')
   const totalNum  = parseInt(total ?? '1')
   const isPassed  = passed === '1'
+
+  useEffect(() => {
+    isPassed ? hapticSuccess() : hapticError()
+  }, [isPassed])
+
   const pct       = Math.round((scoreNum / totalNum) * 100)
   const passMark  = appConfig.examConfig.passMark
   const wrongIds  = wrongIdsStr ? (JSON.parse(wrongIdsStr) as string[]) : []
@@ -37,8 +44,8 @@ export default function ResultsScreen() {
   const config    = configStr ? (JSON.parse(configStr) as SessionConfig) : null
 
   const badgeColor = isPassed ? palette.green : palette.red
-  const btnBg      = isDark ? '#ffffff' : '#111111'
-  const btnText    = isDark ? '#111111' : '#ffffff'
+  const btnBg      = c.btnPrimaryBg
+  const btnText    = c.btnPrimaryText
   const screenBg   = isDark ? c.bg : '#ffffff'
   const statCardBg = isDark ? c.card : '#f5f5f5'
 
@@ -88,9 +95,9 @@ export default function ResultsScreen() {
         {/* Badge circle */}
         <View style={[styles.badge, { backgroundColor: badgeColor }]}>
           {isPassed ? (
-            <Ionicons name="checkmark" size={44} color="#fff" />
+            <CheckIcon size={44} color="#fff" />
           ) : (
-            <Ionicons name="close" size={44} color="#fff" />
+            <CloseIcon size={44} color="#fff" />
           )}
         </View>
 

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
+import { ArrowBackIcon, LanguageIcon } from '@/components/AppIcons'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
@@ -17,7 +17,8 @@ import { useQuizSession } from '@/hooks/useQuizSession'
 import { getQuestionLabel } from '@/data/questionBank'
 import { getStateLabel } from '@/data/states'
 import appConfig from '@/config/app.config'
-import { spacing, radius, typography } from '@/theme'
+import { palette, spacing, radius, typography } from '@/theme'
+import { hapticLight, hapticSelection } from '@/hooks/useHaptics'
 import type { SessionConfig } from '@/types'
 
 export default function SessionScreen() {
@@ -78,9 +79,9 @@ export default function SessionScreen() {
       : isStudyMode
         ? t('study.title')
       : current.category === selectedStateCode
-        ? (getStateLabel(selectedStateCode) ?? t('session.yourState'))
+        ? (getStateLabel(selectedStateCode) ?? t('session.yourRegion'))
         : current.category === 'general'
-          ? t('session.germanyOnly')
+          ? t('session.generalOnly')
           : getQuestionLabel(current.category, selectedStateCode)
 
   const qProgress   = getProgress(current.id)
@@ -93,8 +94,8 @@ export default function SessionScreen() {
   const correctCnt  = attempts.filter((a) => a.result === 'correct').length
   const wrongCnt    = attempts.filter((a) => a.result === 'wrong').length
 
-  const btnBg   = isDark ? '#ffffff' : '#111111'
-  const btnText = isDark ? '#111111' : '#ffffff'
+  const btnBg   = c.btnPrimaryBg
+  const btnText = c.btnPrimaryText
   const translationDisabled = translationLocale === appConfig.originalLocale
   const showTranslationControl = isStudyMode || isPracticeMode || isReviewMode
 
@@ -125,7 +126,7 @@ export default function SessionScreen() {
             style={[styles.iconBtn, { backgroundColor: c.card }]}
             onPress={handleBack}
           >
-            <Ionicons name="arrow-back" size={16} color={c.textSecond} />
+            <ArrowBackIcon size={16} color={c.textSecond} />
           </TouchableOpacity>
 
           <QuestionJumpPicker
@@ -139,11 +140,12 @@ export default function SessionScreen() {
 
           {showTranslationControl ? (
             <TouchableOpacity
-              style={[styles.iconBtn, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
-              onPress={() => setTranslationActive((v) => !v)}
+              style={[styles.localePill, { backgroundColor: transBtnBg, opacity: translationDisabled ? 0.35 : 1 }]}
+              onPress={() => { hapticLight(); setTranslationActive((v) => !v) }}
               disabled={translationDisabled}
             >
-              <Ionicons name="language-outline" size={16} color={transBtnColor} />
+              <LanguageIcon size={14} color={transBtnColor} />
+              <Text style={[styles.localeText, { color: transBtnColor }]}>{translationLocale.toUpperCase()}</Text>
             </TouchableOpacity>
           ) : (
             <View style={styles.iconPlaceholder} />
@@ -168,7 +170,7 @@ export default function SessionScreen() {
               : `${String(t('exam.questionWord'))} ${currentIndex + 1}`}
           </Text>
           <TouchableOpacity
-            onPress={() => toggleBookmark(current.id)}
+            onPress={() => { hapticLight(); toggleBookmark(current.id) }}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <BookmarkIcon color={c.textPrimary} fill={isBookmarked ? c.textPrimary : 'none'} size={16} />
@@ -205,11 +207,11 @@ export default function SessionScreen() {
         {attempts.length > 0 && (
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
-              <View style={[styles.statDot, { backgroundColor: '#22c55e' }]} />
+              <View style={[styles.statDot, { backgroundColor: palette.green }]} />
               <Text style={[styles.statText, { color: c.textMuted }]}>{correctCnt} {t('quiz.correct').toLowerCase()}</Text>
             </View>
             <View style={styles.statItem}>
-              <View style={[styles.statDot, { backgroundColor: '#ef4444' }]} />
+              <View style={[styles.statDot, { backgroundColor: palette.red }]} />
               <Text style={[styles.statText, { color: c.textMuted }]}>{wrongCnt} {t('quiz.incorrect').toLowerCase()}</Text>
             </View>
             <Text style={[styles.statText, { color: c.textMuted }]}>{attempts.length} {t('quiz.attempts').toLowerCase()}</Text>
@@ -226,7 +228,7 @@ export default function SessionScreen() {
             styles.navBtn, styles.navBtnSecondary,
             { borderColor: c.border, opacity: currentIndex === 0 ? 0.35 : 1 },
           ]}
-          onPress={previous}
+          onPress={() => { hapticLight(); previous() }}
           disabled={currentIndex === 0}
         >
           <Text style={[styles.navBtnSecondaryText, { color: c.textPrimary }]}>
@@ -237,7 +239,7 @@ export default function SessionScreen() {
         {isReviewMode ? (
           <TouchableOpacity
             style={[styles.navBtn, { backgroundColor: btnBg, opacity: 1 }]}
-            onPress={isLast ? handleBack : jumpTo.bind(null, currentIndex + 1)}
+            onPress={() => { hapticLight(); isLast ? handleBack() : jumpTo(currentIndex + 1) }}
           >
             <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
               {isLast ? t('results.backHome') : `${t('questionDetail.next')} →`}
@@ -246,7 +248,7 @@ export default function SessionScreen() {
         ) : (
           <TouchableOpacity
             style={[styles.navBtn, { backgroundColor: btnBg, opacity: answered ? 1 : 0.35 }]}
-            onPress={next}
+            onPress={() => { hapticLight(); next() }}
             disabled={!answered}
           >
             <Text style={[styles.navBtnPrimaryText, { color: btnText }]}>
@@ -266,6 +268,8 @@ const styles = StyleSheet.create({
   topSection:  { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, paddingBottom: spacing.sm },
   headerRow:   { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm },
   iconBtn:     { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  localePill:  { flexDirection: 'row', alignItems: 'center', gap: 4, height: 32, borderRadius: 10, paddingHorizontal: 10 },
+  localeText:  { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
   iconPlaceholder: { width: 32, height: 32 },
 
   body:        { flex: 1 },

@@ -1,31 +1,22 @@
-import type { GermanStateCode, TranslationLocale } from '@/types'
+import type { RegionCode, TranslationLocale } from '@/types'
+import appConfig from '@/config/app.config'
 
-export const GERMAN_STATES: Array<{ code: GermanStateCode; label: string; apiCode: string }> = [
-  { code: 'bw', label: 'Baden-Württemberg', apiCode: 'BW' },
-  { code: 'by', label: 'Bayern', apiCode: 'BY' },
-  { code: 'be', label: 'Berlin', apiCode: 'BE' },
-  { code: 'bb', label: 'Brandenburg', apiCode: 'BB' },
-  { code: 'hb', label: 'Bremen', apiCode: 'HB' },
-  { code: 'hh', label: 'Hamburg', apiCode: 'HH' },
-  { code: 'he', label: 'Hessen', apiCode: 'HE' },
-  { code: 'mv', label: 'Mecklenburg-Vorpommern', apiCode: 'MV' },
-  { code: 'ni', label: 'Niedersachsen', apiCode: 'NI' },
-  { code: 'nw', label: 'Nordrhein-Westfalen', apiCode: 'NW' },
-  { code: 'rp', label: 'Rheinland-Pfalz', apiCode: 'RP' },
-  { code: 'sl', label: 'Saarland', apiCode: 'SL' },
-  { code: 'sn', label: 'Sachsen', apiCode: 'SN' },
-  { code: 'st', label: 'Sachsen-Anhalt', apiCode: 'ST' },
-  { code: 'sh', label: 'Schleswig-Holstein', apiCode: 'SH' },
-  { code: 'th', label: 'Thüringen', apiCode: 'TH' },
-]
+// Regions are now driven by app.config.ts
+// For backward compatibility, GERMAN_STATES still works if hasRegions is true
+
+export const REGIONS = appConfig.regions
+
+export function getRegionLabel(code: RegionCode | null | undefined): string | null {
+  if (!code) return null
+  return REGIONS.find((r) => r.code === code)?.label ?? null
+}
+
+// Backward compat aliases
+export const GERMAN_STATES = REGIONS.map((r) => ({ code: r.code, label: r.label, apiCode: r.code.toUpperCase() }))
+export const getStateLabel = getRegionLabel
 
 export const TRANSLATION_OPTIONS: Array<{ code: TranslationLocale; label: string }> = [
   { code: 'de', label: 'Deutsch (DE)' },
   { code: 'en', label: 'English (EN)' },
   { code: 'fr', label: 'Français (FR)' },
 ]
-
-export function getStateLabel(code: GermanStateCode | null | undefined): string | null {
-  if (!code) return null
-  return GERMAN_STATES.find((state) => state.code === code)?.label ?? null
-}

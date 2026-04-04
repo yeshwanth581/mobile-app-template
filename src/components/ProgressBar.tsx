@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { palette, spacing, radius } from '@/theme'
+import { semanticLight, semanticDark, spacing, radius } from '@/theme'
 
 interface Props {
   current: number   // 0-based index
@@ -9,22 +9,21 @@ interface Props {
 }
 
 export function ProgressBar({ current, total, isDark, label }: Props) {
-  const pct      = total > 0 ? (current / total) * 100 : 0
-  const fillColor = isDark ? '#ffffff' : '#111111'
-  const textColor = isDark ? palette.dark.textSecond : palette.light.textSecond
+  const pct = total > 0 ? (current / total) * 100 : 0
+  const s = isDark ? semanticDark : semanticLight
 
   return (
     <View style={styles.wrap}>
       <View style={styles.row}>
-        <Text style={[styles.label, { color: textColor }]}>
+        <Text style={[styles.label, { color: s.textSecond }]}>
           {label ?? `Question ${current + 1} / ${total}`}
         </Text>
-        <Text style={[styles.pct, { color: fillColor }]}>
+        <Text style={[styles.pct, { color: s.btnPrimaryBg }]}>
           {Math.round(pct)}%
         </Text>
       </View>
-      <View style={[styles.track, { backgroundColor: isDark ? palette.dark.border : palette.light.border }]}>
-        <View style={[styles.fill, { width: `${pct}%` as any, backgroundColor: fillColor }]} />
+      <View style={[styles.track, { backgroundColor: s.border }]}>
+        <View style={[styles.fill, { width: `${pct}%` as any, backgroundColor: s.btnPrimaryBg }]} />
       </View>
     </View>
   )

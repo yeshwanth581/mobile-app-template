@@ -3,13 +3,14 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Modal } from 'rea
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import { Ionicons } from '@expo/vector-icons'
 import { BottomNav } from '@/components/BottomNav'
+import { LanguageIcon, SunIcon, MoonIcon, ChevronDownIcon, ArrowForwardIcon, StarIcon, ChevronForwardIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { GERMAN_STATES, getStateLabel, TRANSLATION_OPTIONS } from '@/data/states'
+import { REGIONS, getRegionLabel, TRANSLATION_OPTIONS } from '@/data/states'
 import { getRelevantQuestions } from '@/data/questionBank'
 import { palette, spacing, radius } from '@/theme'
+import { hapticLight, hapticSelection } from '@/hooks/useHaptics'
 import appConfig from '@/config/app.config'
 
 export default function HomeScreen() {
@@ -27,19 +28,21 @@ export default function HomeScreen() {
   const [languageModalOpen, setLanguageModalOpen] = useState(false)
 
   const relevantQuestions = useMemo(() => getRelevantQuestions(selectedStateCode), [selectedStateCode])
-  const selectedStateLabel = useMemo(() => getStateLabel(selectedStateCode), [selectedStateCode])
+  const selectedStateLabel = useMemo(() => getRegionLabel(selectedStateCode), [selectedStateCode])
 
-  const darkBtnBg       = isDark ? '#ffffff' : '#111111'
-  const darkBtnText     = isDark ? '#111111' : '#ffffff'
-  const modalSelectedBg   = isDark ? '#ffffff' : '#111111'
-  const modalSelectedText = isDark ? '#111111' : '#ffffff'
+  const darkBtnBg       = c.btnPrimaryBg
+  const darkBtnText     = c.btnPrimaryText
+  const modalSelectedBg   = c.selectedBg
+  const modalSelectedText = c.selectedText
 
   const handleSelectState = useCallback((code: Parameters<typeof setSelectedStateCode>[0]) => {
+    hapticSelection()
     setStateModalOpen(false)
     startTransition(() => setSelectedStateCode(code))
   }, [setSelectedStateCode])
 
   const handleSelectLanguage = useCallback((code: Parameters<typeof setTranslationLocale>[0]) => {
+    hapticSelection()
     setLanguageModalOpen(false)
     startTransition(() => {
       setTranslationLocale(code)
@@ -54,21 +57,20 @@ export default function HomeScreen() {
         {/* Top row */}
         <View style={styles.topRow}>
           <TouchableOpacity
-            style={[styles.iconBtn, { backgroundColor: c.card }]}
+            style={[styles.localePill, { backgroundColor: c.card }]}
             onPress={() => setLanguageModalOpen(true)}
           >
-            <Ionicons name="language-outline" size={16} color={c.textPrimary} />
+            <LanguageIcon size={14} color={c.textPrimary} />
+            <Text style={[styles.localeText, { color: c.textPrimary }]}>
+              {translationLocale.toUpperCase()}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.iconBtn, { backgroundColor: c.card }]}
-            onPress={() => startTransition(() => setTheme(isDark ? 'light' : 'dark'))}
+            onPress={() => { hapticLight(); startTransition(() => setTheme(isDark ? 'light' : 'dark')) }}
             activeOpacity={1}
           >
-            <Ionicons
-              name={isDark ? 'sunny' : 'moon'}
-              size={15}
-              color={c.textPrimary}
-            />
+            {isDark ? <SunIcon size={15} color={c.textPrimary} /> : <MoonIcon size={15} color={c.textPrimary} />}
           </TouchableOpacity>
         </View>
 
@@ -79,21 +81,23 @@ export default function HomeScreen() {
           <Text style={[styles.appDesc, { color: c.textSecond }]}>{t('home.tagline')}</Text>
         </View>
 
-        {/* State dropdown pill */}
-        <View style={styles.dropdownRow}>
-          <TouchableOpacity
-            style={[styles.stateDropdown, { backgroundColor: c.card, borderColor: c.border }]}
-            onPress={() => setStateModalOpen(true)}
-          >
-            <Text style={styles.ddPin}>📍</Text>
-            <Text style={[styles.ddText, { color: c.textPrimary }]}>
-              {selectedStateLabel ?? t('home.selectState')}
-            </Text>
-            <View style={[styles.ddChevron, { backgroundColor: isDark ? '#333333' : '#dddddd' }]}>
-              <Ionicons name="chevron-down" size={10} color={isDark ? '#aaaaaa' : '#666666'} />
-            </View>
-          </TouchableOpacity>
-        </View>
+        {/* Region dropdown pill (only when app has regions) */}
+        {appConfig.hasRegions && (
+          <View style={styles.dropdownRow}>
+            <TouchableOpacity
+              style={[styles.stateDropdown, { backgroundColor: c.card, borderColor: c.border }]}
+              onPress={() => setStateModalOpen(true)}
+            >
+              <Text style={styles.ddPin}>📍</Text>
+              <Text style={[styles.ddText, { color: c.textPrimary }]}>
+                {selectedStateLabel ?? t('home.selectRegion')}
+              </Text>
+              <View style={[styles.ddChevron, { backgroundColor: c.chipBg }]}>
+                <ChevronDownIcon size={10} color={c.chipText} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Big dark button — Practice */}
         <TouchableOpacity
@@ -106,7 +110,7 @@ export default function HomeScreen() {
               {t('home.activeQuestions', { count: relevantQuestions.length })}
             </Text>
           </View>
-          <Ionicons name="arrow-forward" size={20} color={darkBtnText} />
+          <ArrowForwardIcon size={20} color={darkBtnText} />
         </TouchableOpacity>
 
         {/* Big light button — Mock Exam */}
@@ -123,7 +127,7 @@ export default function HomeScreen() {
               })}
             </Text>
           </View>
-          <Ionicons name="arrow-forward" size={20} color={c.textPrimary} />
+          <ArrowForwardIcon size={20} color={c.textPrimary} />
         </TouchableOpacity>
 
         {/* Premium card */}
@@ -132,13 +136,13 @@ export default function HomeScreen() {
           onPress={() => router.navigate('/subscription')}
         >
           <View style={styles.premiumIcon}>
-            <Ionicons name="star" size={16} color="#ffffff" />
+            <StarIcon size={16} color="#ffffff" />
           </View>
           <View style={styles.premiumText}>
             <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
             <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={16} color={c.textMuted} />
+          <ChevronForwardIcon size={16} color={c.textMuted} />
         </TouchableOpacity>
 
         {/* Stats row */}
@@ -151,47 +155,49 @@ export default function HomeScreen() {
 
       </ScrollView>
 
-      {/* State picker modal */}
-      <Modal
-        visible={stateModalOpen}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setStateModalOpen(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalBackdrop}
-          activeOpacity={1}
-          onPress={() => setStateModalOpen(false)}
+      {/* Region picker modal */}
+      {appConfig.hasRegions && (
+        <Modal
+          visible={stateModalOpen}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setStateModalOpen(false)}
         >
-          <View style={[styles.modalSheet, { backgroundColor: c.bg }]}>
-            <Text style={[styles.modalTitle, { color: c.textPrimary }]}>
-              {t('home.yourState')}
-            </Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {GERMAN_STATES.map((state) => {
-                const isSelected = selectedStateCode === state.code
-                return (
-                  <TouchableOpacity
-                    key={state.code}
-                    style={[
-                      styles.modalOption,
-                      {
-                        backgroundColor: isSelected ? modalSelectedBg : c.card,
-                        borderColor: isSelected ? modalSelectedBg : c.border,
-                      },
-                    ]}
-                    onPress={() => handleSelectState(state.code)}
-                  >
-                    <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
-                      {state.label}
-                    </Text>
-                  </TouchableOpacity>
-                )
-              })}
-            </ScrollView>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+          <TouchableOpacity
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={() => setStateModalOpen(false)}
+          >
+            <View style={[styles.modalSheet, { backgroundColor: c.bg }]}>
+              <Text style={[styles.modalTitle, { color: c.textPrimary }]}>
+                {t('home.yourRegion')}
+              </Text>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {REGIONS.map((region) => {
+                  const isSelected = selectedStateCode === region.code
+                  return (
+                    <TouchableOpacity
+                      key={region.code}
+                      style={[
+                        styles.modalOption,
+                        {
+                          backgroundColor: isSelected ? modalSelectedBg : c.card,
+                          borderColor: isSelected ? modalSelectedBg : c.border,
+                        },
+                      ]}
+                      onPress={() => handleSelectState(region.code)}
+                    >
+                      <Text style={[styles.modalOptionText, { color: isSelected ? modalSelectedText : c.textPrimary }]}>
+                        {region.label}
+                      </Text>
+                    </TouchableOpacity>
+                  )
+                })}
+              </ScrollView>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+      )}
 
       <Modal
         visible={languageModalOpen}
@@ -262,6 +268,8 @@ const styles = StyleSheet.create({
 
   topRow:     { flexDirection: 'row', justifyContent: 'flex-end', gap: 6, marginBottom: 32 },
   iconBtn:    { width: 32, height: 32, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  localePill: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 32, borderRadius: radius.full, paddingHorizontal: 10 },
+  localeText: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
 
   centerBlock: { alignItems: 'center', marginBottom: 24 },
   flagEmoji:   { fontSize: 28, marginBottom: 10 },

@@ -5,6 +5,9 @@ import type { GermanStateCode, SupportedLocale, TranslationLocale } from '@/type
 import appConfig from '@/config/app.config'
 
 interface SettingsState {
+  // Hydration flag for splash screen
+  _hasHydrated: boolean
+
   // Theme
   theme: 'light' | 'dark' | 'system'
   setTheme: (t: 'light' | 'dark' | 'system') => void
@@ -65,6 +68,8 @@ const debouncedSettingsStorage = {
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
+      _hasHydrated: false,
+
       theme: 'system',
       setTheme: (theme) => set({ theme }),
       surfaceStyle: 'cream',
@@ -76,7 +81,7 @@ export const useSettingsStore = create<SettingsState>()(
       translationLocale: 'en',
       setTranslationLocale: (translationLocale) => set({ translationLocale }),
 
-      selectedStateCode: 'be',
+      selectedStateCode: appConfig.defaultRegion,
       setSelectedStateCode: (selectedStateCode) => set({ selectedStateCode }),
 
       isSubscribed: false,
@@ -88,6 +93,13 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: 'ryg-settings',
       storage: createJSONStorage(() => debouncedSettingsStorage),
+      onRehydrateStorage: () => () => {
+        useSettingsStore.setState({ _hasHydrated: true })
+      },
+      partialize: (state) => {
+        const { _hasHydrated, ...rest } = state
+        return rest
+      },
     }
   )
 )

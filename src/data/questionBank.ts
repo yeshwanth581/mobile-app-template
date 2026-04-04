@@ -1,126 +1,85 @@
-import questions from '@/data/questions'
-import type { GermanStateCode, Question, TranslationLocale } from '@/types'
+import type { RegionCode, Question, TranslationLocale } from '@/types'
+import appConfig from '@/config/app.config'
 
-export type TopicCategoryId = 'politik' | 'recht' | 'geschichte' | 'gesellschaft' | 'wirtschaft'
-
-const TOPIC_PATTERNS: Record<TopicCategoryId, Array<{ pattern: RegExp; score: number }>> = {
-  politik: [
-    { pattern: /\bdemokratie/i, score: 4 },
-    { pattern: /\bbundestag/i, score: 4 },
-    { pattern: /\bbundesrat/i, score: 4 },
-    { pattern: /\bbundeskanzler/i, score: 4 },
-    { pattern: /\bregierung/i, score: 4 },
-    { pattern: /\bpartei/i, score: 3 },
-    { pattern: /\bwahl/i, score: 4 },
-    { pattern: /\bwahlrecht/i, score: 4 },
-    { pattern: /\bminister/i, score: 3 },
-    { pattern: /\bpräsident/i, score: 3 },
-    { pattern: /\bparlament/i, score: 3 },
-    { pattern: /\bopposition/i, score: 3 },
-    { pattern: /\beuropäische union/i, score: 3 },
-    { pattern: /\beu\b/i, score: 2 },
-    { pattern: /\bpolitik/i, score: 2 },
-  ],
-  recht: [
-    { pattern: /\brechtsstaat/i, score: 5 },
-    { pattern: /\bgesetz/i, score: 4 },
-    { pattern: /\bgrundgesetz/i, score: 5 },
-    { pattern: /\bverfassung/i, score: 4 },
-    { pattern: /\bgrundrecht/i, score: 5 },
-    { pattern: /\bgericht/i, score: 4 },
-    { pattern: /\brecht\b/i, score: 4 },
-    { pattern: /\banwalt/i, score: 4 },
-    { pattern: /\bstrafe/i, score: 3 },
-    { pattern: /\bpolizei/i, score: 3 },
-    { pattern: /\bverboten/i, score: 2 },
-    { pattern: /\bfreizügigkeit/i, score: 3 },
-  ],
-  geschichte: [
-    { pattern: /\bgeschichte/i, score: 3 },
-    { pattern: /\bddr\b/i, score: 5 },
-    { pattern: /\bbundesrepublik/i, score: 2 },
-    { pattern: /\bnationalsozial/i, score: 5 },
-    { pattern: /\bns-staat/i, score: 5 },
-    { pattern: /\bholocaust/i, score: 5 },
-    { pattern: /\bzweite[nrms]* weltkrieg/i, score: 5 },
-    { pattern: /\berste[nrms]* weltkrieg/i, score: 4 },
-    { pattern: /\bwiedervereinigung/i, score: 5 },
-    { pattern: /\bberliner mauer/i, score: 5 },
-    { pattern: /\bwirtschaftswunder/i, score: 4 },
-    { pattern: /\b194[5-9]\b/i, score: 3 },
-    { pattern: /\b19[5-9]\d\b/i, score: 2 },
-  ],
-  gesellschaft: [
-    { pattern: /\bfamilie/i, score: 4 },
-    { pattern: /\bschule/i, score: 4 },
-    { pattern: /\bkind(er)?/i, score: 4 },
-    { pattern: /\breligion/i, score: 4 },
-    { pattern: /\bgesellschaft/i, score: 4 },
-    { pattern: /\bgleichberecht/i, score: 4 },
-    { pattern: /\bintegration/i, score: 4 },
-    { pattern: /\behe/i, score: 3 },
-    { pattern: /\bwohnung/i, score: 3 },
-    { pattern: /\bnachbar/i, score: 2 },
-    { pattern: /\berziehung/i, score: 3 },
-    { pattern: /\bfeiertag/i, score: 2 },
-    { pattern: /\bkultur/i, score: 2 },
-  ],
-  wirtschaft: [
-    { pattern: /\bwirtschaft/i, score: 5 },
-    { pattern: /\bmarktwirtschaft/i, score: 5 },
-    { pattern: /\bsoziale marktwirtschaft/i, score: 6 },
-    { pattern: /\bplanwirtschaft/i, score: 5 },
-    { pattern: /\bsteuer/i, score: 4 },
-    { pattern: /\beuro/i, score: 4 },
-    { pattern: /\bgeld/i, score: 2 },
-    { pattern: /\bsozialversicherung/i, score: 4 },
-    { pattern: /\brente/i, score: 4 },
-    { pattern: /\barbeit(nehmer|geber|slos)?/i, score: 4 },
-    { pattern: /\bkündigung/i, score: 3 },
-    { pattern: /\bunternehmer/i, score: 3 },
-    { pattern: /\bfinanz/i, score: 3 },
-  ],
+// Lazy-load the 370KB question bank — only evaluated on first access
+let _questions: Question[] | null = null
+function getQuestions(): Question[] {
+  if (!_questions) {
+    _questions = require('@/data/questions').default
+  }
+  return _questions!
 }
 
-const TOPIC_FALLBACK_ORDER: TopicCategoryId[] = ['politik', 'recht', 'geschichte', 'gesellschaft', 'wirtschaft']
+// Category IDs are driven by app.config.ts, not hardcoded
+const categoryIds = appConfig.categories.map((c) => c.id)
 
-export function getRelevantQuestions(selectedStateCode: GermanStateCode | null): Question[] {
-  return questions.filter((question) => question.category === 'general' || question.category === selectedStateCode)
+export function getAllQuestions(): Question[] {
+  return getQuestions()
+}
+
+export function getQuestionById(id: string): Question | undefined {
+  return getQuestions().find((q) => q.id === id)
+}
+
+export function getRelevantQuestions(selectedRegion: RegionCode | null): Question[] {
+  if (!appConfig.hasRegions || !selectedRegion) {
+    return getQuestions().filter((q) => q.category === 'general')
+  }
+  return getQuestions().filter((q) => q.category === 'general' || q.category === selectedRegion)
 }
 
 export function getGeneralQuestions(): Question[] {
-  return questions.filter((question) => question.category === 'general')
+  return getQuestions().filter((q) => q.category === 'general')
 }
 
-export function getStateQuestions(selectedStateCode: GermanStateCode | null): Question[] {
-  if (!selectedStateCode) return []
-  return questions.filter((question) => question.category === selectedStateCode)
+export function getRegionQuestions(regionCode: RegionCode | null): Question[] {
+  if (!regionCode) return []
+  return getQuestions().filter((q) => q.category === regionCode)
 }
 
-export function getQuestionSetByCategory(category: string | null, selectedStateCode: GermanStateCode | null): Question[] {
-  if (!category) return getRelevantQuestions(selectedStateCode)
+// Backward compat alias
+export const getStateQuestions = getRegionQuestions
+
+export function getQuestionSetByCategory(category: string | null, selectedRegion: RegionCode | null): Question[] {
+  if (!category) return getRelevantQuestions(selectedRegion)
   if (isTopicCategory(category)) {
-    return getQuestionsForTopicCategory(category, selectedStateCode)
+    return getQuestionsForTopicCategory(category, selectedRegion)
   }
-  return questions.filter((question) => question.category === category)
+  return getQuestions().filter((q) => q.category === category)
 }
 
-export function getQuestionLabel(category: string, selectedStateCode: GermanStateCode | null): string {
-  if (category === 'general') return 'Germany'
-  if (category === selectedStateCode) return 'Your State'
-  if (isTopicCategory(category)) return category
+export function getQuestionLabel(category: string, selectedRegion: RegionCode | null): string {
+  // Check if it's a config-defined topic category
+  const configCat = appConfig.categories.find((c) => c.id === category)
+  if (configCat) return configCat.label
+  if (category === 'general') return 'General'
+  if (category === selectedRegion) return 'Your Region'
   return category.toUpperCase()
 }
 
-export function isTopicCategory(category: string): category is TopicCategoryId {
-  return category in TOPIC_PATTERNS
+export function isTopicCategory(category: string): boolean {
+  return categoryIds.includes(category)
 }
 
-const _topicCategoryCache = new Map<string, TopicCategoryId>()
+// ─── Topic classification ────────────────────────────────────────────────────
+// If questions have topicCategory set, use it directly.
+// Otherwise, fall back to regex classifier from app.config.ts (legacy support).
 
-export function getTopicCategory(question: Question): TopicCategoryId {
+const _topicCategoryCache = new Map<string, string>()
+
+export function getTopicCategory(question: Question): string {
+  // Prefer explicit topicCategory on the question
+  if (question.topicCategory) return question.topicCategory
+
   const cached = _topicCategoryCache.get(question.id)
   if (cached) return cached
+
+  // Fall back to regex classifier from config
+  const classifier = appConfig.topicClassifier
+  if (!classifier) {
+    // No classifier and no topicCategory — default to first category
+    return categoryIds[0] ?? 'general'
+  }
 
   const haystack = [
     question.question,
@@ -129,28 +88,18 @@ export function getTopicCategory(question: Question): TopicCategoryId {
     ...question.options,
   ].join(' ')
 
-  let bestCategory: TopicCategoryId = 'gesellschaft'
+  let bestCategory = categoryIds[0] ?? 'general'
   let bestScore = -1
 
-  for (const category of TOPIC_FALLBACK_ORDER) {
-    const score = TOPIC_PATTERNS[category].reduce((sum, rule) => (
+  for (const catId of categoryIds) {
+    const rules = classifier[catId]
+    if (!rules) continue
+    const score = rules.reduce((sum, rule) => (
       rule.pattern.test(haystack) ? sum + rule.score : sum
     ), 0)
-
     if (score > bestScore) {
       bestScore = score
-      bestCategory = category
-    }
-  }
-
-  if (bestScore <= 0) {
-    const numericId = Number.parseInt(question.id, 10)
-    if (!Number.isNaN(numericId) && numericId >= 1 && numericId <= 300) {
-      if (numericId <= 120) return 'politik'
-      if (numericId <= 180) return 'recht'
-      if (numericId <= 230) return 'geschichte'
-      if (numericId <= 270) return 'gesellschaft'
-      return 'wirtschaft'
+      bestCategory = catId
     }
   }
 
@@ -158,12 +107,14 @@ export function getTopicCategory(question: Question): TopicCategoryId {
   return bestCategory
 }
 
-export function getQuestionsForTopicCategory(category: TopicCategoryId, selectedStateCode: GermanStateCode | null): Question[] {
-  return getRelevantQuestions(selectedStateCode).filter((question) => getTopicCategory(question) === category)
+export function getQuestionsForTopicCategory(category: string, selectedRegion: RegionCode | null): Question[] {
+  return getRelevantQuestions(selectedRegion).filter((q) => getTopicCategory(q) === category)
 }
 
+// ─── Translation helpers ─────────────────────────────────────────────────────
+
 export function getQuestionTranslation(question: Question, locale: TranslationLocale): Question['translations'][TranslationLocale] | null {
-  if (locale === 'de') return null
+  if (locale === appConfig.originalLocale) return null
   return question.translations[locale] ?? null
 }
 

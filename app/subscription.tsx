@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
-import { palette, spacing, radius, typography } from '@/theme'
+import { palette, semanticLight, semanticDark, spacing, radius, typography } from '@/theme'
 import appConfig from '@/config/app.config'
 
 const FEATURES = [
@@ -22,8 +22,8 @@ export default function SubscriptionScreen() {
 
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
-  const primaryBtnBg = isDark ? '#ffffff' : '#111111'
-  const primaryBtnText = isDark ? '#111111' : '#ffffff'
+  const primaryBtnBg = c.btnPrimaryBg
+  const primaryBtnText = c.btnPrimaryText
 
   async function subscribe() {
     setLoading(true)
@@ -145,23 +145,23 @@ function PlanCard({
   label: string; price: string; sub: string; selected: boolean
   onPress: () => void; isDark: boolean; badge?: string
 }) {
-  const c = isDark ? palette.dark : palette.light
+  const sc = isDark ? semanticDark : semanticLight
   return (
     <TouchableOpacity
       style={[
         styles.plan,
-        { backgroundColor: c.card, borderColor: selected ? c.textPrimary : c.border },
+        { backgroundColor: sc.card, borderColor: selected ? sc.textPrimary : sc.border },
       ]}
       onPress={onPress}
     >
       {badge && (
-        <View style={[styles.badge, { backgroundColor: isDark ? '#ffffff' : '#111111' }]}>
-          <Text style={[styles.badgeText, { color: isDark ? '#111111' : '#ffffff' }]}>{badge}</Text>
+        <View style={[styles.badge, { backgroundColor: sc.btnPrimaryBg }]}>
+          <Text style={[styles.badgeText, { color: sc.btnPrimaryText }]}>{badge}</Text>
         </View>
       )}
-      <Text style={[typography.tiny, { color: c.textMuted }]}>{label}</Text>
-      <Text style={{ fontSize: 24, fontWeight: '900', color: c.textPrimary }}>{price}</Text>
-      <Text style={[typography.tiny, { color: c.textMuted }]}>{sub}</Text>
+      <Text style={[typography.tiny, { color: sc.textMuted }]}>{label}</Text>
+      <Text style={{ fontSize: 24, fontWeight: '900', color: sc.textPrimary }}>{price}</Text>
+      <Text style={[typography.tiny, { color: sc.textMuted }]}>{sub}</Text>
     </TouchableOpacity>
   )
 }

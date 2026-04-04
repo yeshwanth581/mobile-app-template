@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'react'
 import { ExamIcon, HomeIcon, PracticeIcon, StudyIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
+import { hapticSelection } from '@/hooks/useHaptics'
 import { spacing } from '@/theme'
 
 export type NavKey = 'home' | 'study' | 'practice' | 'exam'
@@ -38,7 +39,7 @@ export function BottomNav({ active }: BottomNavProps) {
           <TouchableOpacity
             key={item.key}
             style={styles.navItem}
-            onPress={() => { if (!isActive) router.navigate(item.route as never) }}
+            onPress={() => { if (!isActive) { hapticSelection(); router.navigate(item.route as never) } }}
             activeOpacity={0.85}
           >
             <item.Icon color={color} size={24} />

@@ -6,6 +6,7 @@ import { useSettingsStore } from '@/store/useSettingsStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { TRANSLATION_OPTIONS } from '@/data/states'
 import { palette, spacing, radius, typography } from '@/theme'
+import { hapticSelection } from '@/hooks/useHaptics'
 
 export default function LanguageScreen() {
   const router = useRouter()
@@ -46,6 +47,7 @@ export default function LanguageScreen() {
                 },
               ]}
               onPress={() => {
+                hapticSelection()
                 setTranslationLocale(option.code)
                 if (option.code === 'de' || option.code === 'en') {
                   setUiLocale(option.code)

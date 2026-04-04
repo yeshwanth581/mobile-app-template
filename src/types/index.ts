@@ -13,7 +13,8 @@ export interface Question {
   correct: number          // index into options[]
   explanation: string      // always in the original language
   image?: string
-  category: string
+  category: string         // 'general' or a region code (e.g. 'be', 'bw')
+  topicCategory?: string   // topic ID matching a config category (e.g. 'politik', 'traffic-signs')
   difficulty: 'easy' | 'medium' | 'hard'
   source: string           // law/regulation section this tests
   translations: Partial<Record<TranslationLocale, QuestionTranslation>>
@@ -68,23 +69,13 @@ export interface SessionResult {
 
 export type SupportedLocale = 'de' | 'en' | 'tr' | 'pl' | 'ru' | 'ar' | 'fr' | 'ro'
 export type TranslationLocale = 'de' | 'en' | 'fr'
-export type GermanStateCode =
-  | 'bw'
-  | 'by'
-  | 'be'
-  | 'bb'
-  | 'hb'
-  | 'hh'
-  | 'he'
-  | 'mv'
-  | 'ni'
-  | 'nw'
-  | 'rp'
-  | 'sl'
-  | 'sn'
-  | 'st'
-  | 'sh'
-  | 'th'
+
+// Generic region code — can represent German states, cities, etc.
+// Use `string` so any app can define its own region codes in app.config.ts.
+export type RegionCode = string
+
+// Backward compat alias
+export type GermanStateCode = RegionCode
 
 export interface LocaleInfo {
   code: SupportedLocale
@@ -103,6 +94,11 @@ export interface ExamConfig {
   timeLimitMinutes: number  // 0 = untimed
 }
 
+export interface RegionConfig {
+  code: RegionCode
+  label: string
+}
+
 export interface AdConfig {
   bannerIdAndroid: string
   bannerIdIOS: string
@@ -117,6 +113,11 @@ export interface RevenueCatConfig {
   yearlyProductId: string
 }
 
+export interface TopicClassifierRule {
+  pattern: RegExp
+  score: number
+}
+
 export interface AppConfig {
   appName: string
   appTagline: string
@@ -128,4 +129,12 @@ export interface AppConfig {
   examConfig: ExamConfig
   adConfig: AdConfig
   revenueCatConfig: RevenueCatConfig
+
+  // Optional regions (German states for Leben in Deutschland, nothing for driving license)
+  hasRegions: boolean
+  regions: RegionConfig[]
+  defaultRegion: RegionCode | null
+
+  // Optional regex-based topic classifier (only needed when questions lack topicCategory)
+  topicClassifier?: Record<string, TopicClassifierRule[]>
 }

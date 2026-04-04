@@ -2,15 +2,15 @@ import { useMemo, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons'
+import { ChevronForwardIcon } from '@/components/AppIcons'
 import { useTranslation } from 'react-i18next'
 import { BottomNav, type NavKey } from '@/components/BottomNav'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import appConfig from '@/config/app.config'
-import { getGeneralQuestions, getQuestionsForTopicCategory, getRelevantQuestions, getStateQuestions } from '@/data/questionBank'
-import { getStateLabel } from '@/data/states'
+import { getGeneralQuestions, getQuestionsForTopicCategory, getRelevantQuestions, getRegionQuestions } from '@/data/questionBank'
+import { getRegionLabel } from '@/data/states'
 import { palette, spacing, radius } from '@/theme'
 import type { SessionConfig } from '@/types'
 
@@ -35,7 +35,7 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
 
   const relevantQuestions = useMemo(() => getRelevantQuestions(selectedStateCode), [selectedStateCode])
   const generalQuestions = useMemo(() => getGeneralQuestions(), [])
-  const stateQuestions = useMemo(() => getStateQuestions(selectedStateCode), [selectedStateCode])
+  const stateQuestions = useMemo(() => getRegionQuestions(selectedStateCode), [selectedStateCode])
 
   const activityCount = useMemo(
     () => Object.values(progress).filter((item) => item.attempts.length > 0).length,
@@ -63,7 +63,7 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
     () => bookmarkedIds.filter((id) => relevantQuestionIds.has(id)).length,
     [bookmarkedIds, relevantQuestionIds]
   )
-  const selectedStateLabel = getStateLabel(selectedStateCode)
+  const selectedStateLabel = getRegionLabel(selectedStateCode)
 
   function launchSession(overrides: Partial<SessionConfig>) {
     const config: SessionConfig = {
@@ -88,7 +88,8 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
     const weakIdSet = new Set(weakIds)
     const items: Array<{ id: string; label: string; emoji: string; count: number; weakCount: number }> = []
 
-    if (selectedStateCode && selectedStateLabel) {
+    // Region-specific group (only when app has regions)
+    if (appConfig.hasRegions && selectedStateCode && selectedStateLabel) {
       items.push({
         id: selectedStateCode,
         label: selectedStateLabel,
@@ -98,32 +99,12 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
       })
     }
 
-    for (const topic of [
-      {
-        id: 'politik',
-        emoji: '🏛️',
-      },
-      {
-        id: 'recht',
-        emoji: '⚖️',
-      },
-      {
-        id: 'geschichte',
-        emoji: '🗺️',
-      },
-      {
-        id: 'gesellschaft',
-        emoji: '🌍',
-      },
-      {
-        id: 'wirtschaft',
-        emoji: '💶',
-      },
-    ] as const) {
+    // Topic categories from app config
+    for (const topic of appConfig.categories) {
       const topicQuestions = getQuestionsForTopicCategory(topic.id, selectedStateCode)
       items.push({
         id: topic.id,
-        label: t(`categories.${topic.id}`),
+        label: t(`categories.${topic.id}`, { defaultValue: topic.label }),
         emoji: topic.emoji,
         count: topicQuestions.length,
         weakCount: topicQuestions.filter((question) => weakIdSet.has(question.id)).length,
@@ -133,8 +114,8 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
     return items
   }, [selectedStateCode, selectedStateLabel, stateQuestions, t, weakIds])
 
-  const primaryButtonBg = isDark ? '#ffffff' : '#111111'
-  const primaryButtonText = isDark ? '#111111' : '#ffffff'
+  const primaryButtonBg = c.btnPrimaryBg
+  const primaryButtonText = c.btnPrimaryText
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
@@ -187,7 +168,7 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
                   {weakSuffix}
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color={c.textMuted} />
+              <ChevronForwardIcon size={16} color={c.textMuted} />
             </TouchableOpacity>
           )
         })}

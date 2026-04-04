@@ -67,7 +67,7 @@ export default function QuestionBankScreen() {
         translationQuestion: showEnglishUnderGerman ? localized.question : undefined,
         scopeLabel:
           question.category === 'general'
-            ? t('questions.germanyOnly')
+            ? t('questions.generalOnly')
             : getStateLabel(question.category as typeof selectedStateCode) ?? question.category.toUpperCase(),
         bookmarked,
         weak,
@@ -96,9 +96,9 @@ export default function QuestionBankScreen() {
 
   const filterLabel =
     activeCategory === 'general'
-      ? t('questions.germanyOnly')
+      ? t('questions.generalOnly')
       : activeCategory && selectedStateCode
-        ? getStateLabel(selectedStateCode) ?? t('questions.yourState')
+        ? getStateLabel(selectedStateCode) ?? t('questions.yourRegion')
         : t('questions.allActive')
   const visibleIds = useMemo(() => listData.map((item) => item.id), [listData])
   const visibleIdsParam = useMemo(() => JSON.stringify(visibleIds), [visibleIds])
@@ -128,7 +128,7 @@ export default function QuestionBankScreen() {
           {isFilterOpen && (
             <View style={[styles.dropdownOptions, { borderTopColor: c.border }]}>
               <DropdownOption label={`${t('session.all')} (${relevantQuestions.length})`} active={activeCategory === null} onPress={() => { setActiveCategory(null); setIsFilterOpen(false) }} isDark={isDark} />
-              <DropdownOption label={`${t('questions.germanyOnly')} (${generalCount})`} active={activeCategory === 'general'} onPress={() => { setActiveCategory('general'); setIsFilterOpen(false) }} isDark={isDark} />
+              <DropdownOption label={`${t('questions.generalOnly')} (${generalCount})`} active={activeCategory === 'general'} onPress={() => { setActiveCategory('general'); setIsFilterOpen(false) }} isDark={isDark} />
               {!!selectedStateCode && (
                 <DropdownOption
                   label={`${getStateLabel(selectedStateCode)} (${stateQuestions.length})`}
