@@ -11,8 +11,8 @@ export function getRegionLabel(code: RegionCode | null | undefined): string | nu
   return REGIONS.find((r) => r.code === code)?.label ?? null
 }
 
-// Backward compat aliases
-export const GERMAN_STATES = REGIONS.map((r) => ({ code: r.code, label: r.label, apiCode: r.code.toUpperCase() }))
+// Backward compat aliases — used by questions/index.tsx and practice/session.tsx
+export const GERMAN_STATES = REGIONS
 export const getStateLabel = getRegionLabel
 
 export const TRANSLATION_OPTIONS: Array<{ code: TranslationLocale; label: string }> = [

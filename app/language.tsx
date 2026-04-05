@@ -27,9 +27,9 @@ export default function LanguageScreen() {
           <View style={{ width: 32 }} />
         </View>
 
-        <View style={[styles.infoNote, { backgroundColor: isDark ? '#1e3a5f' : '#eff6ff', borderColor: isDark ? '#1e40af' : '#bfdbfe' }]}>
+        <View style={[styles.infoNote, { backgroundColor: isDark ? palette.infoBg.dark : palette.infoBg.light, borderColor: isDark ? palette.infoBorder.dark : palette.infoBorder.light }]}>
           <Text style={{ fontSize: 16 }}>ℹ️</Text>
-          <Text style={[styles.infoText, { color: isDark ? '#93c5fd' : '#1d4ed8' }]}>
+          <Text style={[styles.infoText, { color: isDark ? palette.infoText.dark : palette.infoText.light }]}>
             {t('language.note')}
           </Text>
         </View>

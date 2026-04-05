@@ -35,6 +35,15 @@ const config: AppConfig = {
     timeLimitMinutes: 60,   // 60 minute time limit
   },
 
+  // ─── Feature flags (flip to false to disable entire features) ───────────────
+  featureFlags: {
+    enableAds: true,               // set false to disable all ads globally
+    enableRevenueCat: true,        // set false to skip subscription init
+    enableExamGating: true,        // set false for unlimited free exams
+    enableHaptics: true,           // set false to silence all haptics
+    enableTranslations: true,      // set false to hide translation toggle
+  },
+
   // ─── Regions (set hasRegions: false for apps without regional questions) ───
   hasRegions: true,
   defaultRegion: 'be',
@@ -59,74 +68,48 @@ const config: AppConfig = {
 
   // Replace with your actual AdMob IDs from Google AdMob console
   // Test IDs are safe to use during development
+  // ─── Ad unit IDs (Google AdMob) ─────────────────────────────────────────────
+  // Replace with your real IDs before release. Test IDs are safe during dev.
   adConfig: {
-    bannerIdAndroid:         'ca-app-pub-3940256099942544/6300978111', // test ID
-    bannerIdIOS:             'ca-app-pub-3940256099942544/2934735716', // test ID
-    interstitialIdAndroid:   'ca-app-pub-3940256099942544/1033173712', // test ID
-    interstitialIdIOS:       'ca-app-pub-3940256099942544/4411468910', // test ID
+    bannerIdAndroid:         'ca-app-pub-3940256099942544/6300978111', // test
+    bannerIdIOS:             'ca-app-pub-3940256099942544/2934735716', // test
+    interstitialIdAndroid:   'ca-app-pub-3940256099942544/1033173712', // test
+    interstitialIdIOS:       'ca-app-pub-3940256099942544/4411468910', // test
+    rewardedIdAndroid:       'ca-app-pub-3940256099942544/5224354917', // test
+    rewardedIdIOS:           'ca-app-pub-3940256099942544/1712485313', // test
   },
 
-  // Replace with your actual RevenueCat API keys and product IDs
+  // ─── RevenueCat ────────────────────────────────────────────────────────────
+  // Replace with your real keys from the RevenueCat dashboard.
   revenueCatConfig: {
     apiKeyAndroid:    'REVENUECAT_ANDROID_KEY',
     apiKeyIOS:        'REVENUECAT_IOS_KEY',
     monthlyProductId: 'ryg_leben_monthly_199',
     yearlyProductId:  'ryg_leben_yearly_999',
+    entitlementId:    'ad_free',
   },
 
-  // ─── Topic classifier (only used when questions lack topicCategory field) ──
-  // For new apps, add topicCategory directly to each question and skip this.
-  topicClassifier: {
-    politik: [
-      { pattern: /\bdemokratie/i, score: 4 },
-      { pattern: /\bbundestag/i, score: 4 },
-      { pattern: /\bbundesrat/i, score: 4 },
-      { pattern: /\bbundeskanzler/i, score: 4 },
-      { pattern: /\bregierung/i, score: 4 },
-      { pattern: /\bpartei/i, score: 3 },
-      { pattern: /\bwahl/i, score: 4 },
-      { pattern: /\bminister/i, score: 3 },
-      { pattern: /\bpräsident/i, score: 3 },
-      { pattern: /\bparlament/i, score: 3 },
-      { pattern: /\bopposition/i, score: 3 },
-      { pattern: /\beuropäische union/i, score: 3 },
-    ],
-    recht: [
-      { pattern: /\brechtsstaat/i, score: 5 },
-      { pattern: /\bgesetz/i, score: 4 },
-      { pattern: /\bgrundgesetz/i, score: 5 },
-      { pattern: /\bverfassung/i, score: 4 },
-      { pattern: /\bgrundrecht/i, score: 5 },
-      { pattern: /\bgericht/i, score: 4 },
-      { pattern: /\brecht\b/i, score: 4 },
-      { pattern: /\bpolizei/i, score: 3 },
-    ],
-    geschichte: [
-      { pattern: /\bddr\b/i, score: 5 },
-      { pattern: /\bnationalsozial/i, score: 5 },
-      { pattern: /\bholocaust/i, score: 5 },
-      { pattern: /\bweltkrieg/i, score: 5 },
-      { pattern: /\bwiedervereinigung/i, score: 5 },
-      { pattern: /\bberliner mauer/i, score: 5 },
-      { pattern: /\bgeschichte/i, score: 3 },
-    ],
-    gesellschaft: [
-      { pattern: /\bfamilie/i, score: 4 },
-      { pattern: /\bschule/i, score: 4 },
-      { pattern: /\breligion/i, score: 4 },
-      { pattern: /\bgleichberecht/i, score: 4 },
-      { pattern: /\bintegration/i, score: 4 },
-      { pattern: /\bkultur/i, score: 2 },
-    ],
-    wirtschaft: [
-      { pattern: /\bwirtschaft/i, score: 5 },
-      { pattern: /\bmarktwirtschaft/i, score: 5 },
-      { pattern: /\bsteuer/i, score: 4 },
-      { pattern: /\bsozialversicherung/i, score: 4 },
-      { pattern: /\brente/i, score: 4 },
-      { pattern: /\barbeit/i, score: 4 },
-    ],
+  // ─── Monetization tuning ──────────────────────────────────────────────────
+  // All values can be adjusted without code changes.
+  monetizationConfig: {
+    // Exam gating
+    freeExamsPerDay: 2,              // free users get 2 exams/day
+    rewardedAdExamUnlocks: 1,        // each rewarded ad grants 1 extra exam
+    maxRewardedExamsPerDay: 3,        // max 3 rewarded unlocks/day
+
+    // Interstitial pacing
+    interstitialEveryNSessions: 3,    // show after every 3rd practice finish
+    cooldownBetweenInterstitials: 120, // at least 2 min between interstitials
+
+    // Banner placement
+    showBannerOnResults: true,        // natural pause point
+    showBannerOnHome: false,          // keep home clean
+    showBannerOnQuestionBank: false,   // don't clutter browsing
+
+    // Upsell nudge
+    softPromptAfterNSessions: 5,      // suggest premium after 5th session
   },
+
 }
 
 export default config

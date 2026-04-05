@@ -1,69 +1,87 @@
 import { useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+// Lazy — not available in Expo Go
+let Purchases: typeof import('react-native-purchases').default | null = null
+try { Purchases = require('react-native-purchases').default } catch {}
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
+import { useTranslation } from 'react-i18next'
 import { palette, semanticLight, semanticDark, spacing, radius, typography } from '@/theme'
 import appConfig from '@/config/app.config'
-
-const FEATURES = [
-  'All questions — always free',
-  'Zero ads — anywhere in app',
-  'Offline mode',
-  'Detailed progress stats',
-  'Cancel anytime',
-]
 
 export default function SubscriptionScreen() {
   const router = useRouter()
   const { isDark, c } = useThemeColors()
   const { setSubscribed } = useSettingsStore()
 
+  const { t } = useTranslation()
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
   const primaryBtnBg = c.btnPrimaryBg
   const primaryBtnText = c.btnPrimaryText
 
+  const FEATURES = [
+    t('subscription.feature1'),
+    t('subscription.feature2'),
+    t('subscription.feature3'),
+    t('subscription.feature4'),
+    t('subscription.feature5'),
+  ]
+
+  const { entitlementId } = appConfig.revenueCatConfig
+
   async function subscribe() {
+    if (Platform.OS === 'web' || !appConfig.featureFlags.enableRevenueCat || !Purchases) {
+      Alert.alert('Coming soon', 'Subscriptions are not available yet.')
+      return
+    }
+
     setLoading(true)
     try {
-      /**
-       * RevenueCat integration:
-       *
-       * import Purchases from 'react-native-purchases'
-       *
-       * const offerings = await Purchases.getOfferings()
-       * const pkg = selectedPlan === 'yearly'
-       *   ? offerings.current?.annual
-       *   : offerings.current?.monthly
-       * if (pkg) {
-       *   const { customerInfo } = await Purchases.purchasePackage(pkg)
-       *   if (customerInfo.entitlements.active['ad_free']) {
-       *     setSubscribed(true)
-       *     router.back()
-       *   }
-       * }
-       */
+      const offerings = await Purchases!.getOfferings()
+      const pkg = selectedPlan === 'yearly'
+        ? offerings.current?.annual
+        : offerings.current?.monthly
 
-      // Placeholder until RevenueCat is wired up
-      Alert.alert('Coming soon', 'Payment integration will be added before release.')
+      if (!pkg) {
+        Alert.alert('Error', 'No packages available. Please try again later.')
+        return
+      }
+
+      const { customerInfo } = await Purchases!.purchasePackage(pkg)
+      if (customerInfo.entitlements.active[entitlementId]) {
+        setSubscribed(true)
+        router.back()
+      }
     } catch (e: any) {
-      if (!e.userCancelled) Alert.alert('Error', 'Purchase failed. Please try again.')
+      if (!e.userCancelled) {
+        Alert.alert('Error', 'Purchase failed. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
   }
 
   async function restore() {
-    /**
-     * const { customerInfo } = await Purchases.restorePurchases()
-     * if (customerInfo.entitlements.active['ad_free']) {
-     *   setSubscribed(true)
-     *   router.back()
-     * }
-     */
-    Alert.alert('Restore', 'No previous purchase found.')
+    if (Platform.OS === 'web' || !appConfig.featureFlags.enableRevenueCat || !Purchases) return
+
+    setLoading(true)
+    try {
+      const customerInfo = await Purchases!.restorePurchases()
+      if (customerInfo.entitlements.active[entitlementId]) {
+        setSubscribed(true)
+        Alert.alert('Restored', 'Your subscription has been restored.')
+        router.back()
+      } else {
+        Alert.alert('Restore', 'No previous purchase found.')
+      }
+    } catch {
+      Alert.alert('Error', 'Could not restore purchases. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -78,30 +96,30 @@ export default function SubscriptionScreen() {
         {/* Hero */}
         <View style={styles.hero}>
           <View style={styles.icon}><Text style={{ fontSize: 30 }}>⭐</Text></View>
-          <Text style={[typography.h2, { color: c.textPrimary }]}>Go Ad-Free</Text>
+          <Text style={[typography.h2, { color: c.textPrimary }]}>{t('subscription.title')}</Text>
           <Text style={[typography.small, { color: c.textMuted, textAlign: 'center', lineHeight: 20 }]}>
-            All questions stay free. Remove ads for{'\n'}a distraction-free experience.
+            {t('subscription.description')}
           </Text>
         </View>
 
         {/* Price options */}
         <View style={styles.plans}>
           <PlanCard
-            label="Monthly"
+            label={t('subscription.monthly')}
             price="€1.99"
-            sub="per month"
+            sub={t('subscription.perMonth')}
             selected={selectedPlan === 'monthly'}
             onPress={() => setSelectedPlan('monthly')}
             isDark={isDark}
           />
           <PlanCard
-            label="Yearly"
+            label={t('subscription.yearly')}
             price="€9.99"
-            sub="€0.83/month · Save 58%"
+            sub={t('subscription.savePercent', { pct: 58 })}
             selected={selectedPlan === 'yearly'}
             onPress={() => setSelectedPlan('yearly')}
             isDark={isDark}
-            badge="Best Value"
+            badge={t('subscription.bestValue')}
           />
         </View>
 
@@ -122,16 +140,16 @@ export default function SubscriptionScreen() {
           disabled={loading}
         >
           <Text style={[styles.ctaText, { color: primaryBtnText }]}>
-            {loading ? 'Processing…' : `Subscribe · ${selectedPlan === 'yearly' ? '€9.99/year' : '€1.99/month'}`}
+            {loading ? t('common.processing', { defaultValue: 'Processing...' }) : t('subscription.cta', { price: selectedPlan === 'yearly' ? '€9.99' : '€1.99' })}
           </Text>
         </TouchableOpacity>
 
         <Text style={[styles.fine, { color: c.textMuted }]}>
-          Billed {selectedPlan === 'yearly' ? 'annually' : 'monthly'} · Cancel anytime
+          {t('subscription.fine')}
         </Text>
 
         <TouchableOpacity onPress={restore}>
-          <Text style={[styles.restore, { color: c.textSecond }]}>Restore purchase</Text>
+          <Text style={[styles.restore, { color: c.textSecond }]}>{t('subscription.restore', { defaultValue: 'Restore purchase' })}</Text>
         </TouchableOpacity>
 
       </ScrollView>

@@ -23,7 +23,7 @@ export function ProgressBar({ current, total, isDark, label }: Props) {
         </Text>
       </View>
       <View style={[styles.track, { backgroundColor: s.border }]}>
-        <View style={[styles.fill, { width: `${pct}%` as any, backgroundColor: s.btnPrimaryBg }]} />
+        <View style={[styles.fill, { width: `${pct}%`, backgroundColor: s.btnPrimaryBg }]} />
       </View>
     </View>
   )

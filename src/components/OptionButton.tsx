@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 // Build theme maps from semantic tokens — change colors in theme/index.ts, not here.
 function buildThemeMap(s: SemanticColors) {
   return {
-    wrap: { backgroundColor: s.optionBg } as any,
+    wrap: { backgroundColor: s.optionBg },
     default:            { borderColor: 'transparent' },
     selected:           { borderColor: s.btnPrimaryBg, backgroundColor: s.optionBg },
     'selected-correct': { borderColor: palette.green, backgroundColor: palette.greenLight },

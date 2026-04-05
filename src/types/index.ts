@@ -13,8 +13,8 @@ export interface Question {
   correct: number          // index into options[]
   explanation: string      // always in the original language
   image?: string
-  category: string         // 'general' or a region code (e.g. 'be', 'bw')
-  topicCategory?: string   // topic ID matching a config category (e.g. 'politik', 'traffic-signs')
+  category: string         // 'general' or a region code (e.g. 'be', 'bw') — scope filtering
+  tags: string[]           // topic tags matching IDs from app.config.ts categories
   difficulty: 'easy' | 'medium' | 'hard'
   source: string           // law/regulation section this tests
   translations: Partial<Record<TranslationLocale, QuestionTranslation>>
@@ -104,6 +104,8 @@ export interface AdConfig {
   bannerIdIOS: string
   interstitialIdAndroid: string
   interstitialIdIOS: string
+  rewardedIdAndroid: string
+  rewardedIdIOS: string
 }
 
 export interface RevenueCatConfig {
@@ -111,11 +113,34 @@ export interface RevenueCatConfig {
   apiKeyIOS: string
   monthlyProductId: string
   yearlyProductId: string
+  entitlementId: string           // RevenueCat entitlement that grants premium
 }
 
-export interface TopicClassifierRule {
-  pattern: RegExp
-  score: number
+export interface MonetizationConfig {
+  // Exam limits
+  freeExamsPerDay: number          // daily exam cap for free users (0 = unlimited)
+  rewardedAdExamUnlocks: number    // extra exams granted per rewarded ad
+  maxRewardedExamsPerDay: number   // cap on rewarded unlocks per day
+
+  // Interstitial cadence
+  interstitialEveryNSessions: number  // show interstitial every Nth practice finish (0 = disabled)
+  cooldownBetweenInterstitials: number // min seconds between interstitials
+
+  // Banner placement flags
+  showBannerOnResults: boolean     // banner ad on results screen
+  showBannerOnHome: boolean        // banner on home screen (recommend false)
+  showBannerOnQuestionBank: boolean // banner on question list screen
+
+  // Upsell prompts
+  softPromptAfterNSessions: number // "Go ad-free" nudge after N sessions (0 = disabled)
+}
+
+export interface FeatureFlags {
+  enableAds: boolean              // master kill-switch for all ads
+  enableRevenueCat: boolean       // enable/disable subscription purchases
+  enableExamGating: boolean       // enforce daily exam limits
+  enableHaptics: boolean          // haptic feedback on interactions
+  enableTranslations: boolean     // show translation toggle UI
 }
 
 export interface AppConfig {
@@ -127,14 +152,14 @@ export interface AppConfig {
   supportedLocales: SupportedLocale[]
   categories: { id: string; label: string; emoji: string }[]
   examConfig: ExamConfig
+  featureFlags: FeatureFlags
   adConfig: AdConfig
   revenueCatConfig: RevenueCatConfig
+  monetizationConfig: MonetizationConfig
 
   // Optional regions (German states for Leben in Deutschland, nothing for driving license)
   hasRegions: boolean
   regions: RegionConfig[]
   defaultRegion: RegionCode | null
 
-  // Optional regex-based topic classifier (only needed when questions lack topicCategory)
-  topicClassifier?: Record<string, TopicClassifierRule[]>
 }

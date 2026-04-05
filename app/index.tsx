@@ -20,6 +20,7 @@ export default function HomeScreen() {
   // Subscribe only to state values that affect rendering
   const selectedStateCode = useSettingsStore((s) => s.selectedStateCode)
   const translationLocale = useSettingsStore((s) => s.translationLocale)
+  const isSubscribed = useSettingsStore((s) => s.isSubscribed)
 
   // Setters are stable references — access without creating a subscription
   const { setTheme, setSelectedStateCode, setTranslationLocale, setUiLocale } = useSettingsStore.getState()
@@ -130,20 +131,22 @@ export default function HomeScreen() {
           <ArrowForwardIcon size={20} color={c.textPrimary} />
         </TouchableOpacity>
 
-        {/* Premium card */}
-        <TouchableOpacity
-          style={[styles.premiumCard, { backgroundColor: c.card, borderColor: c.border }]}
-          onPress={() => router.navigate('/subscription')}
-        >
-          <View style={styles.premiumIcon}>
-            <StarIcon size={16} color="#ffffff" />
-          </View>
-          <View style={styles.premiumText}>
-            <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
-            <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
-          </View>
-          <ChevronForwardIcon size={16} color={c.textMuted} />
-        </TouchableOpacity>
+        {/* Premium card — hidden when RevenueCat is off or user is already subscribed */}
+        {appConfig.featureFlags.enableRevenueCat && !isSubscribed && (
+          <TouchableOpacity
+            style={[styles.premiumCard, { backgroundColor: c.card, borderColor: c.border }]}
+            onPress={() => router.navigate('/subscription')}
+          >
+            <View style={styles.premiumIcon}>
+              <StarIcon size={16} color="#ffffff" />
+            </View>
+            <View style={styles.premiumText}>
+              <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
+              <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
+            </View>
+            <ChevronForwardIcon size={16} color={c.textMuted} />
+          </TouchableOpacity>
+        )}
 
         {/* Stats row */}
         <View style={[styles.statsRow, { borderTopColor: c.border }]}>

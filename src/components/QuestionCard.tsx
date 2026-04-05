@@ -4,6 +4,7 @@ import type { TranslationLocale } from '@/types'
 import { getQuestionTranslation } from '@/data/questionBank'
 import { getQuestionImage } from '@/data/questionImages'
 import { palette, spacing, radius, typography } from '@/theme'
+// QuestionCard uses palette.dark/light directly since it receives isDark as a prop
 
 interface Props {
   question: Question
@@ -45,7 +46,7 @@ export function QuestionCard({
       )}
 
       {imageSource && (
-        <View style={[styles.imageWrap, { borderColor: c.border, backgroundColor: isDark ? '#0f172a' : '#f8fafc' }]}>
+        <View style={[styles.imageWrap, { borderColor: c.border, backgroundColor: isDark ? palette.imageBg.dark : palette.imageBg.light }]}>
           <Image source={imageSource} style={styles.image} resizeMode="contain" />
         </View>
       )}

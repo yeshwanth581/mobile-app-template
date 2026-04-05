@@ -148,7 +148,7 @@ export default function QuestionBankScreen() {
           <Text style={[typography.tiny, { color: c.textMuted }]}>
             {t('common.questionCount', { count: listData.length })}
           </Text>
-          <TouchableOpacity style={[styles.shuffleBtn, { backgroundColor: shuffle ? (isDark ? '#1e1b4b' : '#eef2ff') : c.card }]} onPress={() => setShuffle(!shuffle)}>
+          <TouchableOpacity style={[styles.shuffleBtn, { backgroundColor: shuffle ? (isDark ? palette.accentBg.dark : palette.accentBg.light) : c.card }]} onPress={() => setShuffle(!shuffle)}>
             <Text style={{ fontSize: 11, fontWeight: '700', color: shuffle ? palette.primary : c.textMuted }}>
               🔀 {shuffle ? t('questions.shuffleOn') : t('questions.shuffleOff')}
             </Text>
@@ -248,11 +248,11 @@ const QuestionRow = memo(function QuestionRow({
             )}
 
             {item.neverAnswered ? (
-              <View style={[styles.badge, { backgroundColor: isDark ? '#1c1204' : palette.amberLight }]}>
+              <View style={[styles.badge, { backgroundColor: isDark ? palette.amberBadgeBg.dark : palette.amberBadgeBg.light }]}>
                 <Text style={[styles.badgeText, { color: palette.amber }]}>{newLabel}</Text>
               </View>
             ) : item.weak ? (
-              <View style={[styles.badge, { backgroundColor: isDark ? '#450a0a' : palette.redLight }]}>
+              <View style={[styles.badge, { backgroundColor: isDark ? palette.redBadgeBg.dark : palette.redBadgeBg.light }]}>
                 <Text style={[styles.badgeText, { color: palette.red }]}>{weakLabel}</Text>
               </View>
             ) : (
@@ -261,7 +261,7 @@ const QuestionRow = memo(function QuestionRow({
               </Text>
             )}
 
-            <View style={[styles.badge, { backgroundColor: isDark ? '#1e1b4b' : '#ede9fe' }]}>
+            <View style={[styles.badge, { backgroundColor: isDark ? palette.accentBgAlt.dark : palette.accentBgAlt.light }]}>
               <Text style={[styles.badgeText, { color: palette.primary }]}>{item.scopeLabel}</Text>
             </View>
           </View>
@@ -286,9 +286,9 @@ function DropdownOption({
   onPress: () => void
   isDark: boolean
 }) {
-  const bg = active ? palette.primary : (isDark ? '#0f172a' : '#ffffff')
-  const color = active ? '#ffffff' : (isDark ? '#e2e8f0' : '#334155')
-  const borderColor = active ? palette.primary : (isDark ? '#1e293b' : '#e2e8f0')
+  const bg = active ? palette.primary : (isDark ? palette.dropdownBg.dark : palette.dropdownBg.light)
+  const color = active ? '#ffffff' : (isDark ? palette.dropdownText.dark : palette.dropdownText.light)
+  const borderColor = active ? palette.primary : (isDark ? palette.dropdownBorder.dark : palette.dropdownBorder.light)
 
   return (
     <TouchableOpacity style={[styles.tab, { backgroundColor: bg, borderColor }]} onPress={onPress}>

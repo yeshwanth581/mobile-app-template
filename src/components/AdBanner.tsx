@@ -1,54 +1,66 @@
-import { View, Text, StyleSheet, Platform } from 'react-native'
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
+import { useRouter } from 'expo-router'
 import { useSettingsStore } from '@/store/useSettingsStore'
-import { palette, spacing, radius } from '@/theme'
+import appConfig from '@/config/app.config'
+import { spacing, radius } from '@/theme'
 
 /**
  * Shows an ad banner for free users.
  * Returns null for subscribers — no banner at all.
- * On web, shows a placeholder (swap for AdSense script in index.html).
- * On native, uses react-native-google-mobile-ads BannerAd.
  */
 export function AdBanner({ isDark }: { isDark: boolean }) {
   const isSubscribed = useSettingsStore((s) => s.isSubscribed)
-  if (isSubscribed) return null
+  const router = useRouter()
 
-  // On web: placeholder div (wire up AdSense separately in web/index.html)
+  if (!appConfig.featureFlags.enableAds || isSubscribed) return null
+
+  // On web: placeholder (wire up AdSense separately)
   if (Platform.OS === 'web') {
     return (
       <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
         <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
-        <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
+        <TouchableOpacity onPress={() => router.push('/subscription')}>
+          <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 
-  // On native: real AdMob banner
-  // Uncomment once react-native-google-mobile-ads is installed:
-  //
-  // import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
-  // import appConfig from '@/config/app.config'
-  //
-  // const adUnitId = Platform.OS === 'ios'
-  //   ? appConfig.adConfig.bannerIdIOS
-  //   : appConfig.adConfig.bannerIdAndroid
-  //
-  // return (
-  //   <BannerAd
-  //     unitId={adUnitId}
-  //     size={BannerAdSize.BANNER}
-  //     requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-  //   />
-  // )
+  // On native: real AdMob banner (or placeholder if module unavailable in Expo Go)
+  try {
+    const { BannerAd, BannerAdSize } = require('react-native-google-mobile-ads')
+    const { getBannerAdUnitId } = require('@/services/ads')
 
-  return (
-    <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
-      <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
-      <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
-    </View>
-  )
+    return (
+      <View style={styles.nativeWrap}>
+        <BannerAd
+          unitId={getBannerAdUnitId()}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+        />
+      </View>
+    )
+  } catch {
+    // Expo Go fallback
+    return (
+      <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
+        <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
+        <TouchableOpacity onPress={() => router.push('/subscription')}>
+          <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
+  nativeWrap: {
+    marginTop: spacing.sm,
+    marginBottom: spacing.sm,
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: radius.md,
+  },
   wrap: {
     marginTop: spacing.sm,
     marginBottom: spacing.sm,

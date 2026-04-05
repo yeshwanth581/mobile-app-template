@@ -1,49 +1,24 @@
 import appConfig from '@/config/app.config'
 
-export const surfaceThemes = {
-  cream: {
-    light: {
-      bg: '#f5f5f5',
-      card: '#ffffff',
-      border: '#d9d9d9',
-      textPrimary: '#111111',
-      textSecond: '#3a3a3a',
-      textMuted: '#7a7a7a',
-      statusBar: 'dark' as const,
-    },
-    dark: {
-      bg: '#050505',
-      card: '#111111',
-      border: '#272727',
-      borderSub: '#3a3a3a',
-      textPrimary: '#ffffff',
-      textSecond: '#d0d0d0',
-      textMuted: '#8d8d8d',
-      statusBar: 'light' as const,
-    },
+// Surface colors — the base layer that semantic tokens extend
+const surface = {
+  light: {
+    bg: '#f5f5f5',
+    card: '#ffffff',
+    border: '#d9d9d9',
+    textPrimary: '#111111',
+    textSecond: '#3a3a3a',
+    textMuted: '#7a7a7a',
   },
-  bluegray: {
-    light: {
-      bg: '#eef1f3',
-      card: '#ffffff',
-      border: '#d7dde2',
-      textPrimary: '#111111',
-      textSecond: '#3f4a52',
-      textMuted: '#7f8a92',
-      statusBar: 'dark' as const,
-    },
-    dark: {
-      bg: '#06080a',
-      card: '#14181c',
-      border: '#2a3137',
-      borderSub: '#3c4650',
-      textPrimary: '#ffffff',
-      textSecond: '#d1d7dc',
-      textMuted: '#89939b',
-      statusBar: 'light' as const,
-    },
+  dark: {
+    bg: '#050505',
+    card: '#111111',
+    border: '#272727',
+    textPrimary: '#ffffff',
+    textSecond: '#d0d0d0',
+    textMuted: '#8d8d8d',
   },
-} as const
+}
 
 export const palette = {
   primary:     appConfig.primaryColor,
@@ -62,21 +37,27 @@ export const palette = {
   amberLight:  '#fef3c7',
   amberDim:    '#1c1204',
 
-  // Accent backgrounds for badges/highlights
+  amberBadgeBg:  { light: '#fef3c7', dark: '#1c1204' },
+  redBadgeBg:    { light: '#fee2e2', dark: '#450a0a' },
   accentBg:      { light: '#eef2ff', dark: '#1e1b4b' },
+  accentBgAlt:   { light: '#ede9fe', dark: '#1e1b4b' },
   infoBg:        { light: '#eff6ff', dark: '#1e3a5f' },
   infoBorder:    { light: '#bfdbfe', dark: '#1e40af' },
   infoText:      { light: '#1d4ed8', dark: '#93c5fd' },
+  dropdownBg:    { light: '#ffffff', dark: '#0f172a' },
+  dropdownText:  { light: '#334155', dark: '#e2e8f0' },
+  dropdownBorder:{ light: '#e2e8f0', dark: '#1e293b' },
+  imageBg:       { light: '#f8fafc', dark: '#0f172a' },
 
-  light: surfaceThemes.cream.light,
-  dark: surfaceThemes.cream.dark,
+  light: surface.light,
+  dark: surface.dark,
 }
 
 // ─── Semantic tokens (light / dark) ──────────────────────────────────────────
 // Use these via `useThemeColors().c` — never hardcode the raw hex in screens.
 
 export const semanticLight = {
-  ...surfaceThemes.cream.light,
+  ...surface.light,
 
   // Primary button (dark bg on light)
   btnPrimaryBg:   '#111111',
@@ -101,7 +82,7 @@ export const semanticLight = {
 }
 
 export const semanticDark = {
-  ...surfaceThemes.cream.dark,
+  ...surface.dark,
 
   btnPrimaryBg:   '#ffffff',
   btnPrimaryText: '#111111',

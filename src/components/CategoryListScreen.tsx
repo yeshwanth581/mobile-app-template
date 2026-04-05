@@ -9,7 +9,7 @@ import { useThemeColors } from '@/hooks/useThemeColors'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import appConfig from '@/config/app.config'
-import { getGeneralQuestions, getQuestionsForTopicCategory, getRelevantQuestions, getRegionQuestions } from '@/data/questionBank'
+import { getGeneralQuestions, getQuestionsForTag, getRelevantQuestions, getRegionQuestions } from '@/data/questionBank'
 import { getRegionLabel } from '@/data/states'
 import { palette, spacing, radius } from '@/theme'
 import type { SessionConfig } from '@/types'
@@ -24,7 +24,9 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
   const router = useRouter()
   const { t } = useTranslation()
   const { c, isDark } = useThemeColors()
-  const { progress, getWeakIds, getBookmarked } = useProgressStore()
+  const progress = useProgressStore((s) => s.progress)
+  const getWeakIds = useProgressStore((s) => s.getWeakIds)
+  const getBookmarked = useProgressStore((s) => s.getBookmarked)
   const selectedStateCode = useSettingsStore((state) => state.selectedStateCode)
   const translationLocale = useSettingsStore((state) => state.translationLocale)
   const [shuffle, setShuffle] = useState(mode === 'study')
@@ -101,7 +103,7 @@ export function CategoryListScreen({ mode }: CategoryListScreenProps) {
 
     // Topic categories from app config
     for (const topic of appConfig.categories) {
-      const topicQuestions = getQuestionsForTopicCategory(topic.id, selectedStateCode)
+      const topicQuestions = getQuestionsForTag(topic.id, selectedStateCode)
       items.push({
         id: topic.id,
         label: t(`categories.${topic.id}`, { defaultValue: topic.label }),

@@ -67,7 +67,7 @@ export function QuestionJumpPicker({ currentIndex, total, onSelect, isDark, pref
                       style={[
                         styles.optionRow,
                         {
-                          backgroundColor: selected ? (isDark ? '#1e1b4b' : '#eef2ff') : bg,
+                          backgroundColor: selected ? (isDark ? palette.accentBg.dark : palette.accentBg.light) : bg,
                           borderBottomColor: border,
                         },
                       ]}

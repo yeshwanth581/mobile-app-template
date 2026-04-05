@@ -11,9 +11,6 @@ interface SettingsState {
   // Theme
   theme: 'light' | 'dark' | 'system'
   setTheme: (t: 'light' | 'dark' | 'system') => void
-  surfaceStyle: 'cream' | 'bluegray'
-  setSurfaceStyle: (s: 'cream' | 'bluegray') => void
-
   // Language for UI chrome (labels, buttons, etc.)
   uiLocale: SupportedLocale
   setUiLocale: (l: SupportedLocale) => void
@@ -72,9 +69,6 @@ export const useSettingsStore = create<SettingsState>()(
 
       theme: 'system',
       setTheme: (theme) => set({ theme }),
-      surfaceStyle: 'cream',
-      setSurfaceStyle: (surfaceStyle) => set({ surfaceStyle }),
-
       uiLocale: 'en',
       setUiLocale: (uiLocale) => set({ uiLocale }),
 

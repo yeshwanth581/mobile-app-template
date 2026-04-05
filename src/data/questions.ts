@@ -13,6 +13,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: hier Meinungsfreiheit gilt.",
     "category": "general",
+    "tags": ["politik","gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -40,6 +41,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Religionsunterricht teilnimmt.",
     "category": "general",
+    "tags": ["gesellschaft","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -67,6 +69,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Alle Einwohner / Einwohnerinnen und der Staat müssen sich an die Gesetze halten.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -94,6 +97,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Meinungsfreiheit",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -121,6 +125,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Der Wähler darf bei der Wahl weder beeinflusst noch zu einer bestimmten Stimmabgabe gezwungen werden und keine Nachteile durch die Wahl haben.",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -148,6 +153,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Grundgesetz",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -175,6 +181,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Glaubens- und Gewissensfreiheit",
     "category": "general",
+    "tags": ["recht","gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -202,6 +209,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Alle sollen gleich viel Geld haben.",
     "category": "general",
+    "tags": ["recht","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -229,6 +237,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Asyl",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -256,6 +265,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: die Geldstrafe",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -283,6 +293,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Grundgesetz",
     "category": "general",
+    "tags": ["recht","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -310,6 +321,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Nein, denn die Pressefreiheit ist ein Grundrecht. Sie kann nicht abgeschafft werden.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -337,6 +349,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: alle Abgeordneten, die nicht zu der Regierungspartei/den Regierungsparteien gehören.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -364,6 +377,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: meine Meinung im Internet äußern kann.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -391,6 +405,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Zwangsarbeit",
     "category": "general",
+    "tags": ["recht","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -418,6 +433,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei der öffentlichen Verbreitung falscher Behauptungen über einzelne Personen",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -445,6 +461,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ungleichbehandlung der Bürger und Bürgerinnen durch den Staat.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -472,6 +489,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: die Unantastbarkeit der Menschenwürde",
     "category": "general",
+    "tags": ["recht","geschichte","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -499,6 +517,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Man darf sich seinen Wohnort selbst aussuchen.",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -526,6 +545,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: verfassungswidrig.",
     "category": "general",
+    "tags": ["recht","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -553,6 +573,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -580,6 +601,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Republik",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -607,6 +629,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei einer Firma oder Behörde beschäftigt.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -634,6 +657,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 16",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -661,6 +685,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Elsass-Lothringen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -688,6 +713,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: ein demokratischer und sozialer Bundesstaat.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -715,6 +741,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: ein Bundesstaat.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -742,6 +769,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: das wahlberechtigte Volk",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -769,6 +797,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Adler",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -796,6 +825,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Pressezensur",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -823,6 +853,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Koalition.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -850,6 +881,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Presse",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -877,6 +909,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: sind Staat und Religionsgemeinschaften voneinander getrennt.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -904,6 +937,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: eine Monarchie",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -931,6 +965,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Sozialabgaben",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -958,6 +993,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: die Krankenversicherung",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -985,6 +1021,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1012,6 +1049,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Bundesstaat.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1039,6 +1077,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: eine eigene Regierung",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1066,6 +1105,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Einigkeit und Recht und Freiheit …",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1093,6 +1133,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: weil dadurch die unterschiedlichen Meinungen der Bürger und Bürgerinnen vertreten werden",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1120,6 +1161,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: das Parlament",
     "category": "general",
+    "tags": ["recht","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1147,6 +1189,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: wenn sie gegen die Verfassung kämpft",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1174,6 +1217,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: den Bundespräsidenten / die Bundespräsidentin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1201,6 +1245,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Sozialversicherung",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1228,6 +1273,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Er baut Straßen und Schulen.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1255,6 +1301,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Er bezahlt für alle Staatsangehörigen Urlaubsreisen.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1282,6 +1329,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die Bürgerversammlung",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1309,6 +1357,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: die Bundesländer",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1336,6 +1385,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: soziale Marktwirtschaft.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1363,6 +1413,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Menschen von einer Privatpolizei ohne Grund verhaftet werden.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1390,6 +1441,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Volke aus.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1417,6 +1469,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Der Staat muss die Gesetze einhalten.",
     "category": "general",
+    "tags": ["recht","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1444,6 +1497,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Direktive",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1471,6 +1525,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: den Bundestagssitz in Berlin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1498,6 +1553,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Ordnungsamt",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1525,6 +1581,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: ein Abgeordneter / eine Abgeordnete der stärksten Fraktion",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1552,6 +1609,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: der Bundespräsident / die Bundespräsidentin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1579,6 +1637,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: vor etwa 1700 Jahren",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1606,6 +1665,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Legislative.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1633,6 +1693,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Die Staatsgewalt geht vom Volke aus.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1660,6 +1721,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Landtagswahl.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1687,6 +1749,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: die Gerichte",
     "category": "general",
+    "tags": ["recht","politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1714,6 +1777,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Bund, Länder und Kommunen.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1741,6 +1805,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: das Bundeskabinett zu bilden.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1768,6 +1833,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Berlin und München",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1795,6 +1861,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Schulpolitik",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1822,6 +1889,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: weil es nach dem Grundgesetz seine Aufgabe ist",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1849,6 +1917,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Gemeinden",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1876,6 +1945,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Er / Sie schlägt den Kanzler / die Kanzlerin zur Wahl vor.",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1903,6 +1973,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: in Berlin, weil sich dort das Bundeskanzleramt und der Bundestag befinden.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1930,6 +2001,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Friedrich Merz",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1957,6 +2029,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: CDU/CSU und SPD.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -1984,6 +2057,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Bundestag",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2011,6 +2085,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Frank-Walter Steinmeier",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2038,6 +2113,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Christlich Demokratische Union",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2065,6 +2141,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: die deutsche Armee",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2092,6 +2169,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Sozialdemokratische Partei Deutschlands",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2119,6 +2197,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Freie Demokratische Partei",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2146,6 +2225,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Bundesverfassungsgericht",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2173,6 +2253,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: der Bundestag",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2200,6 +2281,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: der Bundeskanzler / die Bundeskanzlerin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2227,6 +2309,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: der Bundestag",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2254,6 +2337,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: repräsentiert das Land.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2281,6 +2365,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die Regierungsvertreter der Bundesländer",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2308,6 +2393,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: die Bundesversammlung",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2335,6 +2421,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: der Bundespräsident / die Bundespräsidentin",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2362,6 +2449,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: kontrolliert die Regierung.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2389,6 +2477,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Fraktion",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2416,6 +2505,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: den Bundesrat.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2443,6 +2533,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: schwieriger, wenn dadurch die Mehrheit im Bundesrat verändert wird.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2470,6 +2561,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Christlich Soziale Union",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2497,6 +2589,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: mehr Sitze erhält die Partei im Parlament.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2524,6 +2617,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 18",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2551,6 +2645,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Schulpflicht",
     "category": "general",
+    "tags": ["gesellschaft","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2578,6 +2673,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: mit Freiheitsstrafe bis zu fünf Jahren oder mit Geldstrafe",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2605,6 +2701,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Sozialversicherung",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2632,6 +2729,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: kann die Regierung ihre Mehrheit verlieren.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2659,6 +2757,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Arbeitgeber / Arbeitgeberinnen und Arbeitnehmer / Arbeitnehmerinnen",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2686,6 +2785,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: die Lebensversicherung",
     "category": "general",
+    "tags": ["wirtschaft","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2713,6 +2813,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Arbeitnehmer und Arbeitnehmerinnen.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2740,6 +2841,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Bundesverdienstkreuz",
     "category": "general",
+    "tags": ["geschichte","gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2767,6 +2869,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: von SPD, FDP und Bündnis 90/Die Grünen in einer Regierung",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2794,6 +2897,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Die Frau bekommt ein Kind und ihr Chef weiß das.",
     "category": "general",
+    "tags": ["gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2821,6 +2925,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Sie zählen die Stimmen nach dem Ende der Wahl.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2848,6 +2953,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Sie zählen die Stimmen nach dem Ende der Wahl.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2875,6 +2981,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 4 Jahre",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2902,6 +3009,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Bürger / Bürgerin der Bundesrepublik Deutschland ist und mindestens 18 Jahre alt ist.",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2929,6 +3037,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: alle vier Jahre",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2956,6 +3065,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 4 Jahre",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -2983,6 +3093,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Der öffentliche Aufruf zur Vernichtung Israels.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3010,6 +3121,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: geheim.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3037,6 +3149,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: die meisten Stimmen bekommt.",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3064,6 +3177,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: ein Recht.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3091,6 +3205,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Man kann wählen.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3118,6 +3233,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: aktives Wahlrecht.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3145,6 +3261,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5 %",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3172,6 +3289,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: alle Menschen",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3199,6 +3317,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Jede Person kann ohne Zwang entscheiden, ob sie wählen möchte und wen sie wählen möchte.",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3226,6 +3345,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Mehrheits- und Verhältniswahlrecht.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3253,6 +3373,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 5 %-Hürde.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3280,6 +3401,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: frei, gleich, geheim.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3307,6 +3429,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Mindestanteil an Wählerstimmen, um ins Parlament zu kommen",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3334,6 +3457,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: des Parlaments für Deutschland.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3361,6 +3485,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: nach dem Willen der Wählermehrheit den Wechsel der Regierung zu ermöglichen.",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3388,6 +3513,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: eine Wahlbenachrichtigung von der Gemeinde",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3415,6 +3541,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: viele kleine Parteien die Regierungsbildung erschweren.",
     "category": "general",
+    "tags": ["politik","geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3442,6 +3569,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Abgeordnete.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3469,6 +3597,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: der Bundestag.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3496,6 +3625,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3523,6 +3653,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: das Oberhaupt einer Gemeinde.",
     "category": "general",
+    "tags": ["politik","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3550,6 +3681,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Sie arbeiten freiwillig und unbezahlt in Vereinen und Verbänden.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3577,6 +3709,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Man kann durch Briefwahl seine Stimme abgeben.",
     "category": "general",
+    "tags": ["politik","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3604,6 +3737,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Ich beteilige mich an einer Bürgerinitiative für die Erhaltung der Buslinie oder gründe selber eine Initiative.",
     "category": "general",
+    "tags": ["wirtschaft","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3631,6 +3765,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Arbeitnehmer und Arbeitnehmerinnen",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3658,6 +3793,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: ungerechtfertigter Kündigung durch Ihren Chef / Ihre Chefin.",
     "category": "general",
+    "tags": ["wirtschaft","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3685,6 +3821,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: das Arbeitsgericht",
     "category": "general",
+    "tags": ["recht","gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3712,6 +3849,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Kündigungsschutzklage erheben",
     "category": "general",
+    "tags": ["wirtschaft","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3739,6 +3877,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: eine Straftat begangen hat und angeklagt wird.",
     "category": "general",
+    "tags": ["politik","recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3766,6 +3905,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: entscheidet mit Richtern / Richterinnen über Schuld und Strafe.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3793,6 +3933,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: ein Rechtsanwalt / eine Rechtsanwältin",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3820,6 +3961,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: arbeitet an einem Gericht und spricht Urteile.",
     "category": "general",
+    "tags": ["recht","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3847,6 +3989,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Judikative.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3874,6 +4017,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: rechtsprechenden Gewalt.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3901,6 +4045,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Judikative.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3928,6 +4073,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Prozess",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3955,6 +4101,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Recht sprechen",
     "category": "general",
+    "tags": ["recht","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -3982,6 +4129,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: die Einhaltung von Gesetzen zu überwachen",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4009,6 +4157,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: den Holocaust leugnen",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4036,6 +4185,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: ein ehrenamtlicher Richter / eine ehrenamtliche Richterin.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4063,6 +4213,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die DDR",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4090,6 +4241,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1933 bis 1945",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4117,6 +4269,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ende des Zweiten Weltkriegs in Europa",
     "category": "general",
+    "tags": ["geschichte","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4144,6 +4297,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 1945",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4171,6 +4325,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1933 bis 1945",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4198,6 +4353,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1933",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4225,6 +4381,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: eine Diktatur.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4252,6 +4409,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Diktatur.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4279,6 +4437,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: freie Wahlen",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4306,6 +4465,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: der Zweite Weltkrieg",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4333,6 +4493,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: des staatlichen Rassismus",
     "category": "general",
+    "tags": ["politik","geschichte","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4360,6 +4521,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: das Attentat auf Hitler am 20. Juli 1944.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4387,6 +4549,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1938",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4414,6 +4577,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Jüdische Geschäfte und Synagogen werden durch Nationalsozialisten und ihre Anhänger zerstört.",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4441,6 +4605,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Konrad Adenauer",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4468,6 +4633,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei den Montagsdemonstrationen 1989 in der DDR",
     "category": "general",
+    "tags": ["geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4495,6 +4661,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: USA, Sowjetunion, Großbritannien, Frankreich",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4522,6 +4689,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Japan",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4549,6 +4717,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1949",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4576,6 +4745,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: das Verbot von Parteien",
     "category": "general",
+    "tags": ["politik","recht","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4603,6 +4773,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: richtet sich nach Angebot und Nachfrage, aber der Staat sorgt für einen sozialen Ausgleich.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4630,6 +4801,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: sowjetischen Besatzungszone.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4657,6 +4829,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: der Europäischen Union (EU).",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4684,6 +4857,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 1949",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4711,6 +4885,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 4",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4738,6 +4913,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1=Großbritannien, 2=Sowjetunion, 3=USA, 4=Frankreich",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4765,6 +4941,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Berlin",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4792,6 +4969,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Die Sowjetunion unterbrach den gesamten Verkehr auf dem Landwege.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4819,6 +4997,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: durch die bedingungslose Kapitulation Deutschlands",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4846,6 +5025,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Konrad Adenauer.",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4873,6 +5053,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Er bat Polen und die polnischen Juden um Vergebung.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4900,6 +5081,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Synagoge",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4927,6 +5109,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 50er Jahre",
     "category": "general",
+    "tags": ["geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4954,6 +5137,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: eine Resolution der Vereinten Nationen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -4981,6 +5165,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: des Warschauer Pakts gegen den Westen.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5008,6 +5193,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 17. Juni",
     "category": "general",
+    "tags": ["geschichte","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5035,6 +5221,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: DDR",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5062,6 +5249,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 1961",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5089,6 +5277,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1961",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5116,6 +5305,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Deutsche Demokratische Republik",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5143,6 +5333,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 1989",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5170,6 +5361,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Brandenburg",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5197,6 +5389,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: durch eine Mauer geteilt.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5224,6 +5417,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Einheit.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5251,6 +5445,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Sachsen-Anhalt",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5278,6 +5473,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: von einer Diktatur zur Demokratie.",
     "category": "general",
+    "tags": ["geschichte","politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5305,6 +5501,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Thüringen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5332,6 +5529,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Sachsen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5359,6 +5557,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: das Ministerium für Staatssicherheit.",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5386,6 +5585,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Mecklenburg-Vorpommern",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5413,6 +5613,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Mecklenburg-Vorpommern, Brandenburg, Sachsen, Sachsen-Anhalt, Thüringen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5440,6 +5641,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: zum Warschauer Pakt",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5467,6 +5669,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Planwirtschaft",
     "category": "general",
+    "tags": ["wirtschaft","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5494,6 +5697,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Die heutigen fünf östlichen Bundesländer sind der Bundesrepublik Deutschland beigetreten.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5521,6 +5725,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: zur Europäischen Union.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5548,6 +5753,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: an die Opfer des Nationalsozialismus",
     "category": "general",
+    "tags": ["politik","geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5575,6 +5781,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: im Warschauer Pakt",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5602,6 +5809,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: der Geheimdienst der DDR",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5629,6 +5837,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5656,6 +5865,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: landesweite Streiks und ein Volksaufstand",
     "category": "general",
+    "tags": ["geschichte","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5683,6 +5893,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Willy Brandt",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5710,6 +5921,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Bundesrepublik Deutschland",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5737,6 +5949,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 83 Millionen",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5764,6 +5977,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: schwarz-rot-gold",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5791,6 +6005,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Helmut Kohl",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5818,6 +6033,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: der Bundesadler.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5845,6 +6061,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 1949 bis 1990",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5872,6 +6089,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 5",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5899,6 +6117,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 1990.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5926,6 +6145,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: an die Opfer des Nationalsozialismus (Tag der Befreiung des Vernichtungslagers Auschwitz)",
     "category": "general",
+    "tags": ["geschichte","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5953,6 +6173,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Deutsche können in viele Länder Europas ohne Passkontrolle reisen.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -5980,6 +6201,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Schweiz",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6007,6 +6229,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Polen",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6034,6 +6257,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Europäische Union",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6061,6 +6285,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Österreich",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6088,6 +6313,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6115,6 +6341,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Dänemark",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6142,6 +6369,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Deutsche Wiedervereinigung",
     "category": "general",
+    "tags": ["geschichte","politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6169,6 +6397,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Luxemburg",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6196,6 +6425,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 5 Jahre.",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6223,6 +6453,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Der Begriff meint den Zusammenschluss europäischer Staaten zur EU.",
     "category": "general",
+    "tags": ["politik","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6250,6 +6481,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: die Abgeordneten des Europäischen Parlaments",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6277,6 +6509,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Tschechien",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6304,6 +6537,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Straßburg",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6331,6 +6565,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Frieden und Sicherheit in den Ländern der EU",
     "category": "general",
+    "tags": ["politik","geschichte","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6358,6 +6593,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 27",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6385,6 +6621,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Gründung der Europäischen Wirtschaftsgemeinschaft (EWG)",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6412,6 +6649,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Straßburg, Luxemburg und Brüssel",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6439,6 +6677,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: durch die \"Römischen Verträge\"",
     "category": "general",
+    "tags": ["geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6466,6 +6705,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 2002",
     "category": "general",
+    "tags": ["geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6493,6 +6733,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Sie muss einen Antrag bei der Elterngeldstelle stellen.",
     "category": "general",
+    "tags": ["gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6520,6 +6761,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die Eltern / die Erziehungsberechtigten",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6547,6 +6789,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Sie müssen die Demonstration anmelden.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6574,6 +6817,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: das Abitur",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6601,6 +6845,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Anne (13 Jahre) und Tim (25 Jahre)",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6628,6 +6873,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 18",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6655,6 +6901,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Mutterschutz",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6682,6 +6929,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: der Eltern.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6709,6 +6957,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: die Eltern",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6736,6 +6985,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: gut ausgebildet ist.",
     "category": "general",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6763,6 +7013,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: kann man dafür bestraft werden.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6790,6 +7041,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: darf man zur gleichen Zeit nur mit einem Partner / einer Partnerin verheiratet sein.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6817,6 +7069,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: beim Einwohnermeldeamt",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6844,6 +7097,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Mann und Frau führen mindestens ein Jahr getrennt ihr eigenes Leben. Danach ist die Scheidung möglich.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6871,6 +7125,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Jugendamt.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6898,6 +7153,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: eine Gaststättenerlaubnis von der zuständigen Behörde",
     "category": "general",
+    "tags": ["politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6925,6 +7181,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: einem Abendgymnasium.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6952,6 +7209,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Es kann ein Kind, das geschlagen wird oder hungern muss, aus der Familie nehmen.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -6979,6 +7237,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Lehrstellensuche.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7006,6 +7265,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Anwesenheitspflicht.",
     "category": "general",
+    "tags": ["gesellschaft","politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7033,6 +7293,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: einem Abendgymnasium",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7060,6 +7321,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Niemand darf z.B. wegen einer Behinderung benachteiligt werden.",
     "category": "general",
+    "tags": ["recht","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7087,6 +7349,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: werden bestraft.",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7114,6 +7377,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: am Rosenmontag",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7141,6 +7405,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: zum Standesamt",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7168,6 +7433,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: um 22 Uhr",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7195,6 +7461,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Sie müssen die Entscheidung der volljährigen Tochter respektieren.",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7222,6 +7489,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Sie kann die Theorie-Prüfung vielleicht in ihrer Muttersprache machen. Es gibt mehr als zehn Sprachen zur Auswahl.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7249,6 +7517,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: einen Kindergartenplatz.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7276,6 +7545,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: zur Weiterbildung.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7303,6 +7573,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: einen Tannenbaum schmücken",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7330,6 +7601,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ein Mann ist mit zwei Frauen zur selben Zeit verheiratet.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7357,6 +7629,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: zum Jugendamt.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7384,6 +7657,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: das Briefgeheimnis",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7411,6 +7685,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: die Unterstützung eines Anwalts / einer Anwältin",
     "category": "general",
+    "tags": ["recht","gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7438,6 +7713,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ich kann mich beim Behördenleiter / bei der Behördenleiterin beschweren.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7465,6 +7741,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Mutter ist.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7492,6 +7769,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: im Rollstuhl sitzt.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7519,6 +7797,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Regeln, an die sich alle Bewohner und Bewohnerinnen halten müssen.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7546,6 +7825,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Einspruch einlegen.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7573,6 +7853,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Gleichbehandlung",
     "category": "general",
+    "tags": ["recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7600,6 +7881,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Wahlhelfer / Wahlhelferin",
     "category": "general",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7627,6 +7909,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Ich lege Widerspruch bei der Behörde ein.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7654,6 +7937,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Erwachsene müssen auch nach der Ausbildung immer weiter lernen.",
     "category": "general",
+    "tags": ["gesellschaft","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7681,6 +7965,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Umsatzsteuer",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7708,6 +7993,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: der Betriebsrat",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7735,6 +8021,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die Kündigungsfrist",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7762,6 +8049,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: aus den nationalsozialistischen Verbrechen gegen Juden",
     "category": "general",
+    "tags": ["geschichte","politik","recht"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7789,6 +8077,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: er eine dunkle Haut hat.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7816,6 +8105,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: den Fernseher reklamieren",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7843,6 +8133,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: es eine Kirchensteuer gibt, die an die Einkommen- und Lohnsteuer geknüpft ist.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7870,6 +8161,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Jeder kann glauben, was er möchte.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7897,6 +8189,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Eier bemalen",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7924,6 +8217,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: christlicher Feiertag.",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7951,6 +8245,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: das Christentum",
     "category": "general",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -7978,6 +8273,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: die Adventszeit.",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8005,6 +8301,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Türkei",
     "category": "general",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8032,6 +8329,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Vietnam, Polen, Mosambik.",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8059,6 +8357,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Gastarbeiter / Gastarbeiterinnen",
     "category": "general",
+    "tags": ["geschichte","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8086,6 +8385,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Italien",
     "category": "general",
+    "tags": ["geschichte"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8113,6 +8413,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8140,6 +8441,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Prignitz",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8167,6 +8469,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8194,6 +8497,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 16",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8221,6 +8525,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: rot-weiß",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8248,6 +8553,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8275,6 +8581,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Potsdam.",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8302,6 +8609,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "bb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8329,6 +8637,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "bb",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8356,6 +8665,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "bb",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8383,6 +8693,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8410,6 +8721,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Pankow",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8437,6 +8749,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8464,6 +8777,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "be",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8491,6 +8805,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: weiß-rot",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8518,6 +8833,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8545,6 +8861,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Berlin",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8572,6 +8889,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "be",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8599,6 +8917,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Regierender Bürgermeister / Regierende Bürgermeisterin",
     "category": "be",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8626,6 +8945,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Senator / Senatorin für Außenbeziehungen",
     "category": "be",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8653,6 +8973,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8680,6 +9001,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Neckar-Odenwald-Kreis",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8707,6 +9029,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8734,6 +9057,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8761,6 +9085,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: schwarz-gold",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8788,6 +9113,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8815,6 +9141,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Stuttgart.",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8842,6 +9169,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "bw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8869,6 +9197,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "bw",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8896,6 +9225,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "bw",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8923,6 +9253,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8950,6 +9281,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Altötting",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -8977,6 +9309,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9004,6 +9337,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 18",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9031,6 +9365,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: weiß-blau",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9058,6 +9393,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9085,6 +9421,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: München.",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9112,6 +9449,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "by",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9139,6 +9477,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "by",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9166,6 +9505,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "by",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9193,6 +9533,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9220,6 +9561,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Hemelingen",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9247,6 +9589,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 4",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9274,6 +9617,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "hb",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9301,6 +9645,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: rot-weiß",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9328,6 +9673,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9355,6 +9701,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Bremen",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9382,6 +9729,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "hb",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9409,6 +9757,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Präsident / Präsidentin des Senats",
     "category": "hb",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9436,6 +9785,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Senator / Senatorin für Außenbeziehungen",
     "category": "hb",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9463,6 +9813,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9490,6 +9841,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Main-Taunus-Kreis",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9517,6 +9869,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9544,6 +9897,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 18",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9571,6 +9925,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: rot-weiß",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9598,6 +9953,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9625,6 +9981,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Wiesbaden",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9652,6 +10009,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "he",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9679,6 +10037,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "he",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9706,6 +10065,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "he",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9733,6 +10093,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9760,6 +10121,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Altona",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9787,6 +10149,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9814,6 +10177,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "hh",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9841,6 +10205,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: weiß-rot",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9868,6 +10233,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9895,6 +10261,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Hamburg",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9922,6 +10289,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "hh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9949,6 +10317,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Erster Bürgermeister / Erste Bürgermeisterin",
     "category": "hh",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -9976,6 +10345,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Senator / Senatorin für Außenbeziehungen",
     "category": "hh",
+    "tags": ["wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10003,6 +10373,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10030,6 +10401,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Mecklenburgische Seenplatte",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10057,6 +10429,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10084,6 +10457,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10111,6 +10485,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: blau-weiß-gelb-rot",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10138,6 +10513,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10165,6 +10541,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Schwerin",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10192,6 +10569,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "mv",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10219,6 +10597,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "mv",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10246,6 +10625,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "mv",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10273,6 +10653,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10300,6 +10681,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Ammerland",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10327,6 +10709,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10354,6 +10737,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10381,6 +10765,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: schwarz-rot-gold",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10408,6 +10793,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10435,6 +10821,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Hannover",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10462,6 +10849,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "ni",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10489,6 +10877,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "ni",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10516,6 +10905,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "ni",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10543,6 +10933,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10570,6 +10961,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Rhein-Sieg-Kreis",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10597,6 +10989,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10624,6 +11017,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10651,6 +11045,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: grün-weiß-rot",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10678,6 +11073,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10705,6 +11101,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Düsseldorf",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10732,6 +11129,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "nw",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10759,6 +11157,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "nw",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10786,6 +11185,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "nw",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10813,6 +11213,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10840,6 +11241,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Westerwaldkreis",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10867,6 +11269,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10894,6 +11297,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 18",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10921,6 +11325,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: schwarz-rot-gold",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10948,6 +11353,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -10975,6 +11381,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Mainz",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11002,6 +11409,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "rp",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11029,6 +11437,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "rp",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11056,6 +11465,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "rp",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11083,6 +11493,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11110,6 +11521,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Nordfriesland",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11137,6 +11549,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11164,6 +11577,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11191,6 +11605,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: blau-weiß-rot",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11218,6 +11633,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: bei dem/der Landesbeauftragten für politische Bildung",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11245,6 +11661,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Kiel",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11272,6 +11689,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: 1",
     "category": "sh",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11299,6 +11717,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "sh",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11326,6 +11745,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "sh",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11353,6 +11773,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11380,6 +11801,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Neunkirchen",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11407,6 +11829,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11434,6 +11857,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 18",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11461,6 +11885,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: schwarz-rot-gold",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11488,6 +11913,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11515,6 +11941,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Saarbrücken",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11542,6 +11969,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "sl",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11569,6 +11997,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "sl",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11596,6 +12025,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "sl",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11623,6 +12053,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11650,6 +12081,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: Vogtlandkreis",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11677,6 +12109,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11704,6 +12137,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 18",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11731,6 +12165,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: weiß-grün",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11758,6 +12193,7 @@ const questions: Question[] = [
     "correct": 0,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11785,6 +12221,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Dresden",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11812,6 +12249,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "sn",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11839,6 +12277,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "sn",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11866,6 +12305,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "sn",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11893,6 +12333,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11920,6 +12361,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Börde",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11947,6 +12389,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -11974,6 +12417,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 16",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12001,6 +12445,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: gelb-schwarz",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12028,6 +12473,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12055,6 +12501,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: Magdeburg",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12082,6 +12529,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 3",
     "category": "st",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12109,6 +12557,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "st",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12136,6 +12585,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "st",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12163,6 +12613,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: 4",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12190,6 +12641,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Wartburgkreis",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12217,6 +12669,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 5",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12244,6 +12697,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: 16",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12271,6 +12725,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: weiß-rot",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12298,6 +12753,7 @@ const questions: Question[] = [
     "correct": 2,
     "explanation": "Richtige Antwort: bei der Landeszentrale für politische Bildung",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12325,6 +12781,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Erfurt.",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12352,6 +12809,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: 2",
     "category": "th",
+    "tags": ["gesellschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12379,6 +12837,7 @@ const questions: Question[] = [
     "correct": 3,
     "explanation": "Richtige Antwort: Ministerpräsident / Ministerpräsidentin",
     "category": "th",
+    "tags": ["politik"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {
@@ -12406,6 +12865,7 @@ const questions: Question[] = [
     "correct": 1,
     "explanation": "Richtige Antwort: Außenminister / Außenministerin",
     "category": "th",
+    "tags": ["politik","wirtschaft"],
     "difficulty": "medium",
     "source": "BAMF Gesamtfragenkatalog 07.05.2025",
     "translations": {

@@ -19,6 +19,8 @@ import { getStateLabel } from '@/data/states'
 import appConfig from '@/config/app.config'
 import { palette, spacing, radius, typography } from '@/theme'
 import { hapticLight, hapticSelection } from '@/hooks/useHaptics'
+import { useMonetizationStore } from '@/store/useMonetizationStore'
+import { showInterstitial } from '@/services/ads'
 import type { SessionConfig } from '@/types'
 
 export default function SessionScreen() {
@@ -46,6 +48,12 @@ export default function SessionScreen() {
 
   useEffect(() => {
     if (!isFinished) return
+
+    // Track session completion + try interstitial ad
+    if (isPracticeMode) {
+      useMonetizationStore.getState().recordPracticeSession()
+      showInterstitial()
+    }
 
     if (isPracticeMode || isStudyMode) {
       router.replace(isStudyMode ? '/study' : '/practice')

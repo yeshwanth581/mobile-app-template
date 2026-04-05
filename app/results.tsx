@@ -7,6 +7,7 @@ import { CheckIcon, CloseIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { palette, spacing, radius } from '@/theme'
 import { hapticSuccess, hapticError } from '@/hooks/useHaptics'
+import { AdBanner } from '@/components/AdBanner'
 import appConfig from '@/config/app.config'
 import type { SessionConfig } from '@/types'
 
@@ -46,8 +47,8 @@ export default function ResultsScreen() {
   const badgeColor = isPassed ? palette.green : palette.red
   const btnBg      = c.btnPrimaryBg
   const btnText    = c.btnPrimaryText
-  const screenBg   = isDark ? c.bg : '#ffffff'
-  const statCardBg = isDark ? c.card : '#f5f5f5'
+  const screenBg   = c.bg
+  const statCardBg = c.card
 
   function reviewWrongAnswers() {
     if (wrongIds.length === 0) {
@@ -130,6 +131,9 @@ export default function ResultsScreen() {
             <StatCard value={formatTime(elapsed)} label={t('results.time')} cardBg={statCardBg} c={c} />
           )}
         </View>
+
+        {/* Ad banner (config-driven) */}
+        {appConfig.monetizationConfig.showBannerOnResults && <AdBanner isDark={isDark} />}
 
         {/* Action buttons */}
         <View style={styles.btnGroup}>

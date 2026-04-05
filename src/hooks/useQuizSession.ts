@@ -48,9 +48,12 @@ function buildQueue(config: SessionConfig): Question[] {
   }
 
   if (config.mode === 'exam') {
-    const generalPool = shuffle ? shuffleArray(getGeneralQuestions()) : getGeneralQuestions()
+    const { examQuestions } = appConfig.examConfig
     const statePool = shuffle ? shuffleArray(getStateQuestions(selectedStateCode)) : getStateQuestions(selectedStateCode)
-    const examPool = [...generalPool.slice(0, 30), ...statePool.slice(0, 3)]
+    const stateCount = Math.min(statePool.length, appConfig.hasRegions ? 3 : 0)
+    const generalCount = examQuestions - stateCount
+    const generalPool = shuffle ? shuffleArray(getGeneralQuestions()) : getGeneralQuestions()
+    const examPool = [...generalPool.slice(0, generalCount), ...statePool.slice(0, stateCount)]
     return shuffle ? shuffleArray(examPool) : examPool
   }
 
@@ -59,6 +62,15 @@ function buildQueue(config: SessionConfig): Question[] {
 }
 
 export type AnswerState = 'unanswered' | 'correct' | 'wrong'
+
+/** Pure function — snapshot answers from a queue + selected answers array */
+function snapshotAnswers(queue: Question[], source: Array<number | null>): SessionResult['answers'] {
+  return queue.flatMap((question, index) => {
+    const answer = source[index]
+    if (answer === null) return []
+    return [{ questionId: question.id, correct: answer === question.correct, chosenIndex: answer }]
+  })
+}
 
 export function useQuizSession(config: SessionConfig) {
   const { recordAttempt, recordAttempts, saveSession } = useProgressStore()
@@ -107,15 +119,6 @@ export function useQuizSession(config: SessionConfig) {
     [chosenIndex, current, currentIndex, config.mode]
   )
 
-  // Helper: snapshot current answers — only call when session ends
-  function snapshotAnswers(source: Array<number | null>): SessionResult['answers'] {
-    return queue.flatMap((question, index) => {
-      const answer = source[index]
-      if (answer === null) return []
-      return [{ questionId: question.id, correct: answer === question.correct, chosenIndex: answer }]
-    })
-  }
-
   const finalizeSession = useCallback((finalAnswers: SessionResult['answers']) => {
     if (hasSavedResult.current) return
     hasSavedResult.current = true
@@ -151,7 +154,7 @@ export function useQuizSession(config: SessionConfig) {
   const next = useCallback(() => {
     if (chosenIndex === null) return
     if (currentIndex + 1 >= total) {
-      finalizeSession(snapshotAnswers(selectedAnswers))
+      finalizeSession(snapshotAnswers(queue, selectedAnswers))
       return
     }
     setCurrentIndex((i) => i + 1)
@@ -168,12 +171,12 @@ export function useQuizSession(config: SessionConfig) {
   }, [total])
 
   const finishSession = useCallback(() => {
-    finalizeSession(snapshotAnswers(selectedAnswers))
+    finalizeSession(snapshotAnswers(queue, selectedAnswers))
   }, [finalizeSession, selectedAnswers])
 
   // Only computed once when session finishes — never on every render
   const answers = useMemo(
-    () => (isFinished ? snapshotAnswers(selectedAnswers) : ([] as SessionResult['answers'])),
+    () => (isFinished ? snapshotAnswers(queue, selectedAnswers) : ([] as SessionResult['answers'])),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isFinished]
   )
