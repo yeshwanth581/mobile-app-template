@@ -68,7 +68,7 @@ export interface SessionResult {
 // ─── Locales ─────────────────────────────────────────────────────────────────
 
 export type SupportedLocale = 'de' | 'en' | 'tr' | 'pl' | 'ru' | 'ar' | 'fr' | 'ro'
-export type TranslationLocale = 'de' | 'en' | 'fr'
+export type TranslationLocale = 'de' | 'en'
 
 // Generic region code — can represent German states, cities, etc.
 // Use `string` so any app can define its own region codes in app.config.ts.
@@ -106,14 +106,19 @@ export interface AdConfig {
   interstitialIdIOS: string
   rewardedIdAndroid: string
   rewardedIdIOS: string
+  rewardedInterstitialIdAndroid: string
+  rewardedInterstitialIdIOS: string
 }
 
 export interface RevenueCatConfig {
   apiKeyAndroid: string
   apiKeyIOS: string
+  entitlementId: string           // Must match the entitlement identifier in RC dashboard
+  // Product identifiers — must match your RC dashboard product IDs
   monthlyProductId: string
+  threeMonthProductId: string
   yearlyProductId: string
-  entitlementId: string           // RevenueCat entitlement that grants premium
+  lifetimeProductId: string
 }
 
 export interface MonetizationConfig {

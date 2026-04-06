@@ -18,5 +18,4 @@ export const getStateLabel = getRegionLabel
 export const TRANSLATION_OPTIONS: Array<{ code: TranslationLocale; label: string }> = [
   { code: 'de', label: 'Deutsch (DE)' },
   { code: 'en', label: 'English (EN)' },
-  { code: 'fr', label: 'Français (FR)' },
 ]

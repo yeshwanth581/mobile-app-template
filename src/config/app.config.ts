@@ -21,11 +21,11 @@ const config: AppConfig = {
   supportedLocales: ['en', 'de'],
 
   categories: [
-    { id: 'politik',      label: 'Politik & Demokratie', emoji: '🏛️' },
-    { id: 'recht',        label: 'Recht & Gesetze',      emoji: '⚖️' },
-    { id: 'geschichte',   label: 'Geschichte',            emoji: '🗺️' },
-    { id: 'gesellschaft', label: 'Gesellschaft',          emoji: '🌍' },
-    { id: 'wirtschaft',   label: 'Wirtschaft',            emoji: '💶' },
+    { id: 'politik', label: 'Politik & Demokratie', emoji: '🏛️' },
+    { id: 'recht', label: 'Recht & Gesetze', emoji: '⚖️' },
+    { id: 'geschichte', label: 'Geschichte', emoji: '🗺️' },
+    { id: 'gesellschaft', label: 'Gesellschaft', emoji: '🌍' },
+    { id: 'wirtschaft', label: 'Wirtschaft', emoji: '💶' },
   ],
 
   examConfig: {
@@ -38,7 +38,7 @@ const config: AppConfig = {
   // ─── Feature flags (flip to false to disable entire features) ───────────────
   featureFlags: {
     enableAds: true,               // set false to disable all ads globally
-    enableRevenueCat: true,        // set false to skip subscription init
+    enableRevenueCat: false,        // set false to skip subscription init
     enableExamGating: true,        // set false for unlimited free exams
     enableHaptics: true,           // set false to silence all haptics
     enableTranslations: true,      // set false to hide translation toggle
@@ -71,22 +71,31 @@ const config: AppConfig = {
   // ─── Ad unit IDs (Google AdMob) ─────────────────────────────────────────────
   // Replace with your real IDs before release. Test IDs are safe during dev.
   adConfig: {
-    bannerIdAndroid:         'ca-app-pub-3940256099942544/6300978111', // test
-    bannerIdIOS:             'ca-app-pub-3940256099942544/2934735716', // test
-    interstitialIdAndroid:   'ca-app-pub-3940256099942544/1033173712', // test
-    interstitialIdIOS:       'ca-app-pub-3940256099942544/4411468910', // test
-    rewardedIdAndroid:       'ca-app-pub-3940256099942544/5224354917', // test
-    rewardedIdIOS:           'ca-app-pub-3940256099942544/1712485313', // test
+    // Android — real ad unit IDs
+    bannerIdAndroid:                  'ca-app-pub-3293228392983133/1485156455',
+    rewardedIdAndroid:                'ca-app-pub-3293228392983133/8529076955',
+    rewardedInterstitialIdAndroid:    'ca-app-pub-3293228392983133/5876556558',
+    interstitialIdAndroid:            'ca-app-pub-3293228392983133/5629144547',
+
+    // iOS — replace with real IDs from AdMob console when ready
+    bannerIdIOS:                      'ca-app-pub-3293228392983133/4815695671', // TODO: real ID
+    interstitialIdIOS:                'ca-app-pub-3293228392983133/7713321756', // TODO: real ID
+    rewardedIdIOS:                    'ca-app-pub-3293228392983133/2189532336', // TODO: real ID
+    rewardedInterstitialIdIOS:        'ca-app-pub-3293228392983133/9353706482', // TODO: real ID
   },
 
   // ─── RevenueCat ────────────────────────────────────────────────────────────
-  // Replace with your real keys from the RevenueCat dashboard.
+  // entitlementId MUST match the identifier set in the RevenueCat dashboard.
+  // Product IDs must match the identifiers configured in your RC offering.
+  // apiKey: use separate platform keys (appl_xxx / goog_xxx) in production.
   revenueCatConfig: {
-    apiKeyAndroid:    'REVENUECAT_ANDROID_KEY',
-    apiKeyIOS:        'REVENUECAT_IOS_KEY',
-    monthlyProductId: 'ryg_leben_monthly_199',
-    yearlyProductId:  'ryg_leben_yearly_999',
-    entitlementId:    'ad_free',
+    apiKeyAndroid:      'test_rKOXQrvuWsEIJlOKbXEWFWnHaYW',
+    apiKeyIOS:          'test_rKOXQrvuWsEIJlOKbXEWFWnHaYW',
+    entitlementId:      'Lieben in Deutschland Pro',
+    monthlyProductId:   'monthly',
+    threeMonthProductId:'three_month',
+    yearlyProductId:    'yearly',
+    lifetimeProductId:  'lifetime',
   },
 
   // ─── Monetization tuning ──────────────────────────────────────────────────

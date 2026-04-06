@@ -43,6 +43,15 @@ export default function ExamScreen() {
   // ─── Exam gate ─────────────────────────────────────────────────────────────
   const { canTakeExam, canWatchRewardedAd, recordExam, examsRemaining } = useMonetizationStore()
   const [gated, setGated] = useState(!canTakeExam())
+  const [adReady, setAdReady] = useState(isRewardedReady())
+
+  // Poll until the rewarded ad finishes loading (usually 1–5 s)
+  useEffect(() => {
+    if (!gated) return
+    setAdReady(isRewardedReady())
+    const poll = setInterval(() => setAdReady(isRewardedReady()), 1500)
+    return () => clearInterval(poll)
+  }, [gated])
 
   // ─── All hooks must be above any early return ──────────────────────────────
   const totalSeconds = appConfig.examConfig.timeLimitMinutes * 60
@@ -124,8 +133,14 @@ export default function ExamScreen() {
   }
 
   async function handleWatchAd() {
+    if (!isRewardedReady()) return
     const earned = await showRewarded()
-    if (earned) setGated(false)
+    if (earned) {
+      setGated(false)
+    } else {
+      // User closed ad without earning reward — refresh ready state
+      setAdReady(isRewardedReady())
+    }
   }
 
   // ─── Gate screen ───────────────────────────────────────────────────────────
@@ -146,11 +161,14 @@ export default function ExamScreen() {
 
           {canWatchRewardedAd() && (
             <TouchableOpacity
-              style={[styles.gateBtn, { backgroundColor: c.btnPrimaryBg }]}
+              style={[styles.gateBtn, { backgroundColor: c.btnPrimaryBg, opacity: adReady ? 1 : 0.55 }]}
               onPress={handleWatchAd}
+              disabled={!adReady}
             >
               <Text style={[styles.gateBtnText, { color: c.btnPrimaryText }]}>
-                {t('exam.watchAd', { defaultValue: 'Watch Ad for 1 Free Exam' })}
+                {adReady
+                  ? t('exam.watchAd', { defaultValue: 'Watch Ad for 1 Free Exam' })
+                  : t('exam.adLoading', { defaultValue: 'Ad loading…' })}
               </Text>
             </TouchableOpacity>
           )}

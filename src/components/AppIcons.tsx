@@ -74,7 +74,7 @@ export function BookmarkIcon({ color, fill = 'none', size = 16 }: { color: strin
   )
 }
 
-// ─── UI Icons (replacing Ionicons) ───────────────────────────────────────────
+// ─── UI Icons ───────────────────────────────────────────
 
 // FontAwesome "language" — globe with text lines
 export function LanguageIcon({ color, size = 16 }: { color: string; size?: number }) {

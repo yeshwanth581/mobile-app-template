@@ -58,11 +58,7 @@ export default function LanguageScreen() {
               <View style={{ flex: 1 }}>
                 <Text style={[typography.body, { color: c.textPrimary }]}>{option.label}</Text>
                 <Text style={[typography.tiny, { color: c.textMuted }]}>
-                  {option.code === 'de'
-                    ? t('language.deHint')
-                    : option.code === 'fr'
-                      ? t('language.frHint')
-                      : t('language.enHint')}
+                  {option.code === 'de' ? t('language.deHint') : t('language.enHint')}
                 </Text>
               </View>
               {isSelected && <Text style={{ color: palette.primary, fontSize: 16, fontWeight: '700' }}>✓</Text>}

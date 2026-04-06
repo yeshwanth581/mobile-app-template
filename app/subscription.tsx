@@ -1,146 +1,227 @@
-import { useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native'
+import { useEffect, useState, useCallback } from 'react'
+import {
+  View, Text, ScrollView, TouchableOpacity,
+  ActivityIndicator, StyleSheet, Platform, Alert,
+} from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-// Lazy — not available in Expo Go
-let Purchases: typeof import('react-native-purchases').default | null = null
-try { Purchases = require('react-native-purchases').default } catch {}
+import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useThemeColors } from '@/hooks/useThemeColors'
-import { useTranslation } from 'react-i18next'
-import { palette, semanticLight, semanticDark, spacing, radius, typography } from '@/theme'
-import appConfig from '@/config/app.config'
+import {
+  isRevenueCatAvailable,
+  getOfferings,
+  purchasePackage,
+  restorePurchases,
+} from '@/services/revenuecat'
+import { CloseIcon, CheckIcon, StarIcon } from '@/components/AppIcons'
+import { spacing, radius, typography } from '@/theme'
+import type { PurchasesPackage } from 'react-native-purchases'
+
+const FEATURES = [
+  'subscription.feature1',
+  'subscription.feature2',
+  'subscription.feature3',
+  'subscription.feature4',
+  'subscription.feature5',
+] as const
 
 export default function SubscriptionScreen() {
   const router = useRouter()
-  const { isDark, c } = useThemeColors()
-  const { setSubscribed } = useSettingsStore()
-
   const { t } = useTranslation()
-  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly')
+  const { isDark, c } = useThemeColors()
+  const isSubscribed = useSettingsStore((s) => s.isSubscribed)
+
+  const [packages, setPackages] = useState<PurchasesPackage[]>([])
+  const [selectedPkg, setSelectedPkg] = useState<PurchasesPackage | null>(null)
   const [loading, setLoading] = useState(false)
-  const primaryBtnBg = c.btnPrimaryBg
-  const primaryBtnText = c.btnPrimaryText
+  const [offeringsLoading, setOfferingsLoading] = useState(true)
 
-  const FEATURES = [
-    t('subscription.feature1'),
-    t('subscription.feature2'),
-    t('subscription.feature3'),
-    t('subscription.feature4'),
-    t('subscription.feature5'),
-  ]
-
-  const { entitlementId } = appConfig.revenueCatConfig
-
-  async function subscribe() {
-    if (Platform.OS === 'web' || !appConfig.featureFlags.enableRevenueCat || !Purchases) {
-      Alert.alert('Coming soon', 'Subscriptions are not available yet.')
+  // Fetch offerings from RevenueCat on mount
+  useEffect(() => {
+    if (isSubscribed || Platform.OS === 'web' || !isRevenueCatAvailable()) {
+      setOfferingsLoading(false)
       return
     }
+    getOfferings().then((offerings) => {
+      const pkgs = offerings?.current?.availablePackages ?? []
+      setPackages(pkgs)
+      // Pre-select the annual package if available, else first
+      const annual = pkgs.find((p) => p.packageType === 'ANNUAL')
+      setSelectedPkg(annual ?? pkgs[0] ?? null)
+      setOfferingsLoading(false)
+    })
+  }, [isSubscribed])
 
+  const handlePurchase = useCallback(async () => {
+    if (!selectedPkg) return
     setLoading(true)
     try {
-      const offerings = await Purchases!.getOfferings()
-      const pkg = selectedPlan === 'yearly'
-        ? offerings.current?.annual
-        : offerings.current?.monthly
-
-      if (!pkg) {
-        Alert.alert('Error', 'No packages available. Please try again later.')
-        return
-      }
-
-      const { customerInfo } = await Purchases!.purchasePackage(pkg)
-      if (customerInfo.entitlements.active[entitlementId]) {
-        setSubscribed(true)
+      const result = await purchasePackage(selectedPkg)
+      if (result.success) {
         router.back()
-      }
-    } catch (e: any) {
-      if (!e.userCancelled) {
-        Alert.alert('Error', 'Purchase failed. Please try again.')
+      } else if (!result.cancelled && result.error) {
+        Alert.alert(t('common.error', { defaultValue: 'Error' }), result.error)
       }
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedPkg, router, t])
 
-  async function restore() {
-    if (Platform.OS === 'web' || !appConfig.featureFlags.enableRevenueCat || !Purchases) return
-
+  const handleRestore = useCallback(async () => {
+    if (!isRevenueCatAvailable()) return
     setLoading(true)
     try {
-      const customerInfo = await Purchases!.restorePurchases()
-      if (customerInfo.entitlements.active[entitlementId]) {
-        setSubscribed(true)
-        Alert.alert('Restored', 'Your subscription has been restored.')
+      const result = await restorePurchases()
+      if (result.success) {
+        Alert.alert(
+          t('subscription.restoreSuccessTitle', { defaultValue: 'Restored' }),
+          t('subscription.restoreSuccessBody', { defaultValue: 'Your subscription has been restored.' }),
+        )
         router.back()
       } else {
-        Alert.alert('Restore', 'No previous purchase found.')
+        Alert.alert(
+          t('subscription.restoreNoneTitle', { defaultValue: 'Nothing to restore' }),
+          t('subscription.restoreNoneBody', { defaultValue: 'No previous purchase found for this account.' }),
+        )
       }
-    } catch {
-      Alert.alert('Error', 'Could not restore purchases. Please try again.')
     } finally {
       setLoading(false)
     }
+  }, [router, t])
+
+  const btnBg   = c.btnPrimaryBg
+  const btnText = c.btnPrimaryText
+
+  // ─── Subscribed view ─────────────────────────────────────────────────────────
+  if (isSubscribed) {
+    return (
+      <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
+        <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+
+          <View style={styles.headerRow}>
+            <TouchableOpacity style={[styles.closeBtn, { backgroundColor: c.card }]} onPress={() => router.back()}>
+              <CloseIcon color={c.textSecond} size={16} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.hero}>
+            <View style={[styles.heroBadge, { backgroundColor: '#22c55e' }]}>
+              <CheckIcon color="#fff" size={36} />
+            </View>
+            <Text style={[typography.h2, { color: c.textPrimary, marginTop: 16 }]}>
+              {t('subscription.activeTitle', { defaultValue: "You're subscribed" })}
+            </Text>
+            <Text style={[typography.small, { color: c.textMuted, textAlign: 'center', marginTop: 6 }]}>
+              {t('subscription.activeBody', { defaultValue: 'All premium features are unlocked.' })}
+            </Text>
+          </View>
+
+          <View style={[styles.featuresCard, { backgroundColor: c.card, borderColor: c.border }]}>
+            {FEATURES.map((key) => (
+              <View key={key} style={styles.featureRow}>
+                <CheckIcon color="#22c55e" size={16} />
+                <Text style={[typography.small, { color: c.textPrimary }]}>{t(key)}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={[styles.hint, { color: c.textMuted }]}>
+            {t('subscription.manageHint', { defaultValue: 'Manage your subscription in your platform account settings.' })}
+          </Text>
+
+        </ScrollView>
+      </SafeAreaView>
+    )
   }
 
+  // ─── Non-subscriber view ─────────────────────────────────────────────────────
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: c.bg }]}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
-        {/* Close */}
-        <TouchableOpacity style={[styles.closeBtn, { backgroundColor: c.card }]} onPress={() => router.back()}>
-          <Text style={{ color: c.textSecond }}>✕</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRow}>
+          <TouchableOpacity style={[styles.closeBtn, { backgroundColor: c.card }]} onPress={() => router.back()}>
+            <CloseIcon color={c.textSecond} size={16} />
+          </TouchableOpacity>
+        </View>
 
-        {/* Hero */}
         <View style={styles.hero}>
-          <View style={styles.icon}><Text style={{ fontSize: 30 }}>⭐</Text></View>
-          <Text style={[typography.h2, { color: c.textPrimary }]}>{t('subscription.title')}</Text>
-          <Text style={[typography.small, { color: c.textMuted, textAlign: 'center', lineHeight: 20 }]}>
+          <View style={[styles.heroBadge, { backgroundColor: '#f59e0b' }]}>
+            <StarIcon color="#fff" size={32} />
+          </View>
+          <Text style={[typography.h2, { color: c.textPrimary, marginTop: 16 }]}>
+            {t('subscription.title', { defaultValue: 'Leben in Deutschland Pro' })}
+          </Text>
+          <Text style={[typography.small, { color: c.textMuted, textAlign: 'center', marginTop: 6, lineHeight: 20 }]}>
             {t('subscription.description')}
           </Text>
         </View>
 
-        {/* Price options */}
-        <View style={styles.plans}>
-          <PlanCard
-            label={t('subscription.monthly')}
-            price="€1.99"
-            sub={t('subscription.perMonth')}
-            selected={selectedPlan === 'monthly'}
-            onPress={() => setSelectedPlan('monthly')}
-            isDark={isDark}
-          />
-          <PlanCard
-            label={t('subscription.yearly')}
-            price="€9.99"
-            sub={t('subscription.savePercent', { pct: 58 })}
-            selected={selectedPlan === 'yearly'}
-            onPress={() => setSelectedPlan('yearly')}
-            isDark={isDark}
-            badge={t('subscription.bestValue')}
-          />
-        </View>
-
-        {/* Features */}
-        <View style={styles.features}>
-          {FEATURES.map((f) => (
-            <View key={f} style={styles.featureRow}>
-              <Text style={{ color: palette.green, fontSize: 16 }}>✓</Text>
-              <Text style={[typography.small, { color: c.textPrimary }]}>{f}</Text>
+        <View style={[styles.featuresCard, { backgroundColor: c.card, borderColor: c.border }]}>
+          {FEATURES.map((key) => (
+            <View key={key} style={styles.featureRow}>
+              <CheckIcon color="#22c55e" size={16} />
+              <Text style={[typography.small, { color: c.textPrimary }]}>{t(key)}</Text>
             </View>
           ))}
         </View>
 
-        {/* Subscribe CTA */}
+        {/* Package picker — populated from RC offerings */}
+        {offeringsLoading ? (
+          <ActivityIndicator color={c.textMuted} style={styles.offersLoader} />
+        ) : packages.length > 0 ? (
+          <View style={styles.plans}>
+            {packages.map((pkg) => {
+              const isSelected = selectedPkg?.identifier === pkg.identifier
+              return (
+                <TouchableOpacity
+                  key={pkg.identifier}
+                  style={[
+                    styles.plan,
+                    {
+                      backgroundColor: c.card,
+                      borderColor: isSelected ? c.textPrimary : c.border,
+                    },
+                  ]}
+                  onPress={() => setSelectedPkg(pkg)}
+                >
+                  <Text style={[typography.tiny, { color: c.textMuted }]}>
+                    {pkg.product.title || pkg.packageType}
+                  </Text>
+                  <Text style={[styles.planPrice, { color: c.textPrimary }]}>
+                    {pkg.product.priceString}
+                  </Text>
+                  {pkg.product.introPrice && (
+                    <Text style={[typography.tiny, { color: '#22c55e' }]}>
+                      {pkg.product.introPrice.priceString} intro
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        ) : null}
+
+        {/* Purchase CTA */}
         <TouchableOpacity
-          style={[styles.cta, { backgroundColor: primaryBtnBg, opacity: loading ? 0.7 : 1 }]}
-          onPress={subscribe}
-          disabled={loading}
+          style={[styles.btn, { backgroundColor: btnBg, opacity: (loading || !selectedPkg) ? 0.6 : 1 }]}
+          onPress={handlePurchase}
+          disabled={loading || !selectedPkg}
         >
-          <Text style={[styles.ctaText, { color: primaryBtnText }]}>
-            {loading ? t('common.processing', { defaultValue: 'Processing...' }) : t('subscription.cta', { price: selectedPlan === 'yearly' ? '€9.99' : '€1.99' })}
+          {loading
+            ? <ActivityIndicator color={btnText} />
+            : <Text style={[styles.btnText, { color: btnText }]}>
+                {selectedPkg
+                  ? `${t('subscription.ctaPrefix', { defaultValue: 'Subscribe' })} · ${selectedPkg.product.priceString}`
+                  : t('subscription.viewPlans', { defaultValue: 'View Plans' })}
+              </Text>
+          }
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.restoreBtn} onPress={handleRestore} disabled={loading}>
+          <Text style={[styles.restoreText, { color: c.textMuted }]}>
+            {t('subscription.restore', { defaultValue: 'Restore purchase' })}
           </Text>
         </TouchableOpacity>
 
@@ -148,63 +229,53 @@ export default function SubscriptionScreen() {
           {t('subscription.fine')}
         </Text>
 
-        <TouchableOpacity onPress={restore}>
-          <Text style={[styles.restore, { color: c.textSecond }]}>{t('subscription.restore', { defaultValue: 'Restore purchase' })}</Text>
-        </TouchableOpacity>
-
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-function PlanCard({
-  label, price, sub, selected, onPress, isDark, badge,
-}: {
-  label: string; price: string; sub: string; selected: boolean
-  onPress: () => void; isDark: boolean; badge?: string
-}) {
-  const sc = isDark ? semanticDark : semanticLight
-  return (
-    <TouchableOpacity
-      style={[
-        styles.plan,
-        { backgroundColor: sc.card, borderColor: selected ? sc.textPrimary : sc.border },
-      ]}
-      onPress={onPress}
-    >
-      {badge && (
-        <View style={[styles.badge, { backgroundColor: sc.btnPrimaryBg }]}>
-          <Text style={[styles.badgeText, { color: sc.btnPrimaryText }]}>{badge}</Text>
-        </View>
-      )}
-      <Text style={[typography.tiny, { color: sc.textMuted }]}>{label}</Text>
-      <Text style={{ fontSize: 24, fontWeight: '900', color: sc.textPrimary }}>{price}</Text>
-      <Text style={[typography.tiny, { color: sc.textMuted }]}>{sub}</Text>
-    </TouchableOpacity>
-  )
-}
-
 const styles = StyleSheet.create({
   safe:   { flex: 1 },
-  scroll: { padding: spacing.lg, paddingBottom: 40, alignItems: 'center' },
-  closeBtn: { alignSelf: 'flex-end', width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
-  hero:   { alignItems: 'center', gap: 8, marginBottom: spacing.lg },
-  icon:   { width: 64, height: 64, borderRadius: 18, backgroundColor: '#f59e0b', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
-  plans:  { flexDirection: 'row', gap: 10, marginBottom: spacing.lg, width: '100%' },
-  plan: {
-    flex: 1, borderRadius: radius.lg, padding: 14, borderWidth: 2,
-    alignItems: 'center', gap: 3, position: 'relative', overflow: 'visible',
+  scroll: { padding: spacing.lg, paddingBottom: 48, alignItems: 'center' },
+
+  headerRow: { width: '100%', alignItems: 'flex-end', marginBottom: spacing.md },
+  closeBtn: {
+    width: 32, height: 32, borderRadius: radius.full,
+    alignItems: 'center', justifyContent: 'center',
   },
-  badge: {
-    position: 'absolute', top: -10, left: '50%', transform: [{ translateX: -30 }],
-    borderRadius: radius.full,
-    paddingHorizontal: 8, paddingVertical: 2,
+
+  hero: { alignItems: 'center', marginBottom: spacing.xl, paddingHorizontal: spacing.lg },
+  heroBadge: {
+    width: 72, height: 72, borderRadius: 22,
+    alignItems: 'center', justifyContent: 'center',
   },
-  badgeText: { fontSize: 9, fontWeight: '700', letterSpacing: 0.4 },
-  features: { width: '100%', gap: 10, marginBottom: spacing.lg },
+
+  featuresCard: {
+    width: '100%', borderRadius: radius.lg, borderWidth: 1.5,
+    padding: spacing.md, gap: 12, marginBottom: spacing.xl,
+  },
   featureRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  cta: { width: '100%', borderRadius: radius.lg, padding: 15, alignItems: 'center', marginBottom: spacing.sm },
-  ctaText: { fontSize: 15, fontWeight: '700' },
-  fine: { fontSize: 11, marginBottom: spacing.sm },
-  restore: { fontSize: 12, textDecorationLine: 'underline' },
+
+  offersLoader: { marginVertical: spacing.xl },
+
+  plans: {
+    flexDirection: 'row', flexWrap: 'wrap', gap: 10,
+    width: '100%', marginBottom: spacing.xl,
+  },
+  plan: {
+    flex: 1, minWidth: 80, borderRadius: radius.lg, borderWidth: 2,
+    padding: spacing.md, alignItems: 'center', gap: 4,
+  },
+  planPrice: { fontSize: 20, fontWeight: '900' },
+
+  btn: {
+    width: '100%', borderRadius: radius.lg, padding: 16,
+    alignItems: 'center', marginBottom: spacing.sm,
+  },
+  btnText: { fontSize: 16, fontWeight: '700' },
+
+  restoreBtn:  { paddingVertical: spacing.sm },
+  restoreText: { fontSize: 13, textDecorationLine: 'underline' },
+  hint:        { fontSize: 12, textAlign: 'center', lineHeight: 18, color: '#888' },
+  fine:        { fontSize: 11, textAlign: 'center', lineHeight: 16, marginTop: spacing.sm },
 })

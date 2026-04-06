@@ -1,27 +1,19 @@
 import { useEffect, useCallback, useRef } from 'react'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { Platform, useColorScheme } from 'react-native'
+import { useColorScheme } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
-// Lazy — not available in Expo Go
-let Purchases: typeof import('react-native-purchases').default | null = null
-let LOG_LEVEL: typeof import('react-native-purchases').LOG_LEVEL | undefined
-try {
-  const rc = require('react-native-purchases')
-  Purchases = rc.default
-  LOG_LEVEL = rc.LOG_LEVEL
-} catch {
-  // Expo Go — module not available
-}
 import '@/i18n'   // initialise i18next
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { changeLanguage } from '@/i18n'
 import { palette } from '@/theme'
 import { initAds } from '@/services/ads'
+import { initRevenueCat } from '@/services/revenuecat'
 import appConfig from '@/config/app.config'
 
 // Keep splash visible while stores hydrate
-SplashScreen.preventAutoHideAsync()
+// Wrapped in try/catch — throws in Expo Go where native splash isn't registered
+SplashScreen.preventAutoHideAsync().catch(() => {})
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
@@ -34,38 +26,14 @@ export default function RootLayout() {
     changeLanguage(uiLocale)
   }, [uiLocale])
 
-  // Initialize RevenueCat + Ads once
+  // Initialize RevenueCat + Ads once after store hydration
   useEffect(() => {
-    if (!hasHydrated || didInit.current || Platform.OS === 'web') return
+    if (!hasHydrated || didInit.current) return
     didInit.current = true
 
-    const { featureFlags } = appConfig
+    initRevenueCat()
 
-    // RevenueCat — skip when keys are placeholders or module unavailable
-    const rc = appConfig.revenueCatConfig
-    const rcApiKey = Platform.OS === 'ios' ? rc.apiKeyIOS : rc.apiKeyAndroid
-    const rcReady = featureFlags.enableRevenueCat
-      && Purchases
-      && !rcApiKey.startsWith('REVENUECAT_')  // skip placeholder keys
-
-    if (rcReady) {
-      try {
-        if (__DEV__ && LOG_LEVEL) Purchases!.setLogLevel(LOG_LEVEL.DEBUG)
-        Purchases!.configure({ apiKey: rcApiKey })
-
-        Purchases!.addCustomerInfoUpdateListener((info) => {
-          const entitled = !!info.entitlements.active[rc.entitlementId]
-          useSettingsStore.getState().setSubscribed(entitled)
-        })
-      } catch (e) {
-        if (__DEV__) console.log('[rc] RevenueCat init failed:', e)
-      }
-    } else if (__DEV__ && featureFlags.enableRevenueCat) {
-      console.log('[rc] Skipped — placeholder keys or module unavailable')
-    }
-
-    // Ads
-    if (featureFlags.enableAds) {
+    if (appConfig.featureFlags.enableAds) {
       initAds()
     }
   }, [hasHydrated])
@@ -73,7 +41,7 @@ export default function RootLayout() {
   // Hide splash once stores are ready
   const onLayoutReady = useCallback(async () => {
     if (hasHydrated) {
-      await SplashScreen.hideAsync()
+      await SplashScreen.hideAsync().catch(() => {})
     }
   }, [hasHydrated])
 

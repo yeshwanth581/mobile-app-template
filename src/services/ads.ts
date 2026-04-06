@@ -6,7 +6,7 @@
  * is a safe no-op.
  */
 
-import { Platform } from 'react-native'
+import { Platform, NativeModules } from 'react-native'
 import appConfig from '@/config/app.config'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { useMonetizationStore } from '@/store/useMonetizationStore'
@@ -26,12 +26,20 @@ let _admobChecked = false
 function getAdMob() {
   if (_admobChecked) return _admob
   _admobChecked = true
+
+  // Guard: check NativeModules registry BEFORE requiring.
+  // TurboModules throw an Invariant Violation at require() time when the native
+  // binary doesn't include the module (Expo Go, missing dev build, etc.).
+  // Checking NativeModules first avoids that error entirely.
+  if (!NativeModules.RNGoogleMobileAdsModule) {
+    if (__DEV__) console.log('[ads] RNGoogleMobileAdsModule not registered — skipping (Expo Go or no native build)')
+    return null
+  }
+
   try {
-    const mod = require('react-native-google-mobile-ads')
-    // Force native module resolution now — if it throws, we know it's unavailable
-    mod.MobileAds()
-    _admob = mod
-  } catch {
+    _admob = require('react-native-google-mobile-ads')
+  } catch (e) {
+    if (__DEV__) console.log('[ads] require failed:', e)
     _admob = null
   }
   return _admob
@@ -39,12 +47,13 @@ function getAdMob() {
 
 // ─── Ad unit IDs ─────────────────────────────────────────────────────────────
 
-function getAdUnitId(type: 'banner' | 'interstitial' | 'rewarded'): string {
+function getAdUnitId(type: 'banner' | 'interstitial' | 'rewarded' | 'rewardedInterstitial'): string {
   const isIOS = Platform.OS === 'ios'
   switch (type) {
-    case 'banner':       return isIOS ? adConfig.bannerIdIOS       : adConfig.bannerIdAndroid
-    case 'interstitial': return isIOS ? adConfig.interstitialIdIOS : adConfig.interstitialIdAndroid
-    case 'rewarded':     return isIOS ? adConfig.rewardedIdIOS     : adConfig.rewardedIdAndroid
+    case 'banner':               return isIOS ? adConfig.bannerIdIOS                   : adConfig.bannerIdAndroid
+    case 'interstitial':         return isIOS ? adConfig.interstitialIdIOS             : adConfig.interstitialIdAndroid
+    case 'rewarded':             return isIOS ? adConfig.rewardedIdIOS                 : adConfig.rewardedIdAndroid
+    case 'rewardedInterstitial': return isIOS ? adConfig.rewardedInterstitialIdIOS     : adConfig.rewardedInterstitialIdAndroid
   }
 }
 
@@ -148,6 +157,72 @@ export function isRewardedReady(): boolean {
   return !adsDisabled() && !isPremium() && rewardedLoaded
 }
 
+// ─── Rewarded Interstitial ────────────────────────────────────────────────────
+
+let rewardedInterstitialAd: any = null
+let rewardedInterstitialLoaded = false
+
+function loadRewardedInterstitial() {
+  if (adsDisabled() || isPremium()) return
+  const admob = getAdMob()
+  if (!admob) return
+
+  rewardedInterstitialAd = admob.RewardedInterstitialAd.createForAdRequest(
+    getAdUnitId('rewardedInterstitial'),
+    { requestNonPersonalizedAdsOnly: true },
+  )
+
+  rewardedInterstitialLoaded = false
+
+  rewardedInterstitialAd.addAdEventListener(admob.RewardedAdEventType.LOADED, () => {
+    rewardedInterstitialLoaded = true
+  })
+
+  rewardedInterstitialAd.addAdEventListener(admob.RewardedAdEventType.EARNED_REWARD, () => {
+    useMonetizationStore.getState().recordRewardedExam()
+  })
+
+  rewardedInterstitialAd.addAdEventListener(admob.AdEventType.CLOSED, () => {
+    rewardedInterstitialLoaded = false
+    loadRewardedInterstitial()
+  })
+
+  rewardedInterstitialAd.load()
+}
+
+export function showRewardedInterstitial(): Promise<boolean> {
+  if (adsDisabled() || isPremium() || !rewardedInterstitialLoaded || !rewardedInterstitialAd) {
+    return Promise.resolve(false)
+  }
+
+  const admob = getAdMob()
+  if (!admob) return Promise.resolve(false)
+
+  return new Promise((resolve) => {
+    let rewarded = false
+
+    const earnedUnsub = rewardedInterstitialAd.addAdEventListener(
+      admob.RewardedAdEventType.EARNED_REWARD,
+      () => { rewarded = true },
+    )
+
+    const closedUnsub = rewardedInterstitialAd.addAdEventListener(
+      admob.AdEventType.CLOSED,
+      () => {
+        earnedUnsub()
+        closedUnsub()
+        resolve(rewarded)
+      },
+    )
+
+    rewardedInterstitialAd.show()
+  })
+}
+
+export function isRewardedInterstitialReady(): boolean {
+  return !adsDisabled() && !isPremium() && rewardedInterstitialLoaded
+}
+
 // ─── Banner helpers ──────────────────────────────────────────────────────────
 
 export function getBannerAdUnitId(): string {
@@ -162,6 +237,7 @@ export function initAds() {
     if (!getAdMob()) throw new Error('module unavailable')
     loadInterstitial()
     loadRewarded()
+    loadRewardedInterstitial()
   } catch (e) {
     if (__DEV__) console.log('[ads] Ad init failed (Expo Go?), skipping:', e)
   }
