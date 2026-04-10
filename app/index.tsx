@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { BottomNav } from '@/components/BottomNav'
-import { LanguageIcon, SunIcon, MoonIcon, ChevronDownIcon, ArrowForwardIcon, StarIcon, ChevronForwardIcon } from '@/components/AppIcons'
+import { LanguageIcon, SunIcon, MoonIcon, ChevronDownIcon, ArrowForwardIcon, StarIcon, ChevronForwardIcon, CheckIcon } from '@/components/AppIcons'
 import { useThemeColors } from '@/hooks/useThemeColors'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import { REGIONS, getRegionLabel, TRANSLATION_OPTIONS } from '@/data/states'
@@ -20,7 +20,9 @@ export default function HomeScreen() {
   // Subscribe only to state values that affect rendering
   const selectedStateCode = useSettingsStore((s) => s.selectedStateCode)
   const translationLocale = useSettingsStore((s) => s.translationLocale)
-  const isSubscribed = useSettingsStore((s) => s.isSubscribed)
+  const isSubscribed     = useSettingsStore((s) => s.isSubscribed)
+  const subscriptionType = useSettingsStore((s) => s.subscriptionType)
+  const effectiveSubscribed = isSubscribed || appConfig.featureFlags.devForceSubscribed
 
   // Setters are stable references — access without creating a subscription
   const { setTheme, setSelectedStateCode, setTranslationLocale, setUiLocale } = useSettingsStore.getState()
@@ -131,21 +133,61 @@ export default function HomeScreen() {
           <ArrowForwardIcon size={20} color={c.textPrimary} />
         </TouchableOpacity>
 
-        {/* Premium card — hidden when RevenueCat is off or user is already subscribed */}
-        {appConfig.featureFlags.enableRevenueCat && !isSubscribed && (
-          <TouchableOpacity
-            style={[styles.premiumCard, { backgroundColor: c.card, borderColor: c.border }]}
-            onPress={() => router.navigate('/subscription')}
-          >
-            <View style={styles.premiumIcon}>
-              <StarIcon size={16} color="#ffffff" />
-            </View>
-            <View style={styles.premiumText}>
-              <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
-              <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
-            </View>
-            <ChevronForwardIcon size={16} color={c.textMuted} />
-          </TouchableOpacity>
+        {/* Premium card */}
+        {appConfig.featureFlags.enableRevenueCat && (
+          effectiveSubscribed ? (
+            subscriptionType === 'lifetime' ? (
+              // Lifetime — active badge, no action needed
+              <View style={[styles.premiumCard, { backgroundColor: c.card, borderColor: '#22c55e' }]}>
+                <View style={[styles.premiumIcon, { backgroundColor: '#22c55e' }]}>
+                  <CheckIcon size={16} color="#ffffff" />
+                </View>
+                <View style={styles.premiumText}>
+                  <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>
+                    {t('home.lifetimeActiveTitle', { defaultValue: 'Lifetime Member' })}
+                  </Text>
+                  <Text style={[styles.premiumSub, { color: c.textMuted }]}>
+                    {t('home.lifetimeActiveSub', { defaultValue: 'All features unlocked forever' })}
+                  </Text>
+                </View>
+                <Text style={{ fontSize: 16 }}>♾️</Text>
+              </View>
+            ) : (
+              // Recurring subscription — tappable, navigates to manage screen
+              <TouchableOpacity
+                style={[styles.premiumCard, { backgroundColor: c.card, borderColor: '#22c55e' }]}
+                onPress={() => router.navigate('/subscription')}
+              >
+                <View style={[styles.premiumIcon, { backgroundColor: '#22c55e' }]}>
+                  <CheckIcon size={16} color="#ffffff" />
+                </View>
+                <View style={styles.premiumText}>
+                  <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>
+                    {t('home.premiumActiveTitle', { defaultValue: 'Premium Active' })}
+                  </Text>
+                  <Text style={[styles.premiumSub, { color: c.textMuted }]}>
+                    {t('home.premiumActiveSub', { defaultValue: 'Tap to manage or cancel' })}
+                  </Text>
+                </View>
+                <ChevronForwardIcon size={16} color={c.textMuted} />
+              </TouchableOpacity>
+            )
+          ) : (
+            // Not subscribed — upsell
+            <TouchableOpacity
+              style={[styles.premiumCard, { backgroundColor: c.card, borderColor: c.border }]}
+              onPress={() => router.navigate('/subscription')}
+            >
+              <View style={[styles.premiumIcon, { backgroundColor: '#f59e0b' }]}>
+                <StarIcon size={16} color="#ffffff" />
+              </View>
+              <View style={styles.premiumText}>
+                <Text style={[styles.premiumTitle, { color: c.textPrimary }]}>{t('home.premiumTitle')}</Text>
+                <Text style={[styles.premiumSub, { color: c.textMuted }]}>{t('home.premiumSub')}</Text>
+              </View>
+              <ChevronForwardIcon size={16} color={c.textMuted} />
+            </TouchableOpacity>
+          )
         )}
 
         {/* Stats row */}

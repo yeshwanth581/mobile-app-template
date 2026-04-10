@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import {
   View, Text, ScrollView, TouchableOpacity,
-  ActivityIndicator, StyleSheet, Platform, Alert,
+  ActivityIndicator, StyleSheet, Platform, Alert, Linking,
 } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,7 +16,19 @@ import {
 } from '@/services/revenuecat'
 import { CloseIcon, CheckIcon, StarIcon } from '@/components/AppIcons'
 import { spacing, radius, typography } from '@/theme'
+import appConfig from '@/config/app.config'
 import type { PurchasesPackage } from 'react-native-purchases'
+
+/** Convert ISO 8601 subscription period to months (0 = one-time / unknown) */
+function subscriptionMonths(period: string | null | undefined): number {
+  if (!period) return 0
+  if (period === 'P1W')  return 0.25
+  if (period === 'P1M')  return 1
+  if (period === 'P3M')  return 3
+  if (period === 'P6M')  return 6
+  if (period === 'P1Y')  return 12
+  return 0
+}
 
 const FEATURES = [
   'subscription.feature1',
@@ -30,7 +42,10 @@ export default function SubscriptionScreen() {
   const router = useRouter()
   const { t } = useTranslation()
   const { isDark, c } = useThemeColors()
-  const isSubscribed = useSettingsStore((s) => s.isSubscribed)
+  const _isSubscribed    = useSettingsStore((s) => s.isSubscribed)
+  const subscriptionType = useSettingsStore((s) => s.subscriptionType)
+  const isSubscribed     = _isSubscribed || appConfig.featureFlags.devForceSubscribed
+  const isLifetime       = subscriptionType === 'lifetime'
 
   const [packages, setPackages] = useState<PurchasesPackage[]>([])
   const [selectedPkg, setSelectedPkg] = useState<PurchasesPackage | null>(null)
@@ -46,9 +61,14 @@ export default function SubscriptionScreen() {
     getOfferings().then((offerings) => {
       const pkgs = offerings?.current?.availablePackages ?? []
       setPackages(pkgs)
-      // Pre-select the annual package if available, else first
-      const annual = pkgs.find((p) => p.packageType === 'ANNUAL')
-      setSelectedPkg(annual ?? pkgs[0] ?? null)
+      // Pre-select the longest subscription period (yearly), else first package
+      const bestPkg = pkgs.reduce<PurchasesPackage | null>((best, pkg) => {
+        if (!best) return pkg
+        const bestMonths = subscriptionMonths(best.product.subscriptionPeriod)
+        const pkgMonths  = subscriptionMonths(pkg.product.subscriptionPeriod)
+        return pkgMonths > bestMonths ? pkg : best
+      }, null)
+      setSelectedPkg(bestPkg ?? pkgs[0] ?? null)
       setOfferingsLoading(false)
     })
   }, [isSubscribed])
@@ -126,6 +146,22 @@ export default function SubscriptionScreen() {
             ))}
           </View>
 
+          {!isLifetime && (
+            <TouchableOpacity
+              style={[styles.manageBtn, { borderColor: c.border }]}
+              onPress={() => {
+                const url = Platform.OS === 'ios'
+                  ? 'https://apps.apple.com/account/subscriptions'
+                  : 'https://play.google.com/store/account/subscriptions'
+                Linking.openURL(url)
+              }}
+            >
+              <Text style={[styles.manageBtnText, { color: c.textPrimary }]}>
+                {t('subscription.manageBtn', { defaultValue: 'Manage / Cancel Subscription' })}
+              </Text>
+            </TouchableOpacity>
+          )}
+
           <Text style={[styles.hint, { color: c.textMuted }]}>
             {t('subscription.manageHint', { defaultValue: 'Manage your subscription in your platform account settings.' })}
           </Text>
@@ -173,7 +209,25 @@ export default function SubscriptionScreen() {
         ) : packages.length > 0 ? (
           <View style={styles.plans}>
             {packages.map((pkg) => {
-              const isSelected = selectedPkg?.identifier === pkg.identifier
+              const isSelected  = selectedPkg?.identifier === pkg.identifier
+              const period      = pkg.product.subscriptionPeriod   // 'P1W' | 'P1M' | 'P1Y' | null
+              const months      = subscriptionMonths(period)
+              const isRecurring = months > 0
+              const isBestValue = isRecurring && months === Math.max(...packages.map((p) => subscriptionMonths(p.product.subscriptionPeriod)))
+
+              const perMonth = isBestValue && months > 1
+                ? (pkg.product.price / months).toFixed(2)
+                : null
+
+              const subLabel = perMonth
+                ? t('subscription.perMonthEq', { defaultValue: '≈ {{price}}/mo', price: `${pkg.product.currencyCode ?? ''}${perMonth}` })
+                : !isRecurring
+                  ? t('subscription.oneTime', { defaultValue: 'one-time' })
+                  : null
+
+              // Title pulled directly from RC / store — no hardcoding
+              const planLabel = pkg.product.title || pkg.identifier
+
               return (
                 <TouchableOpacity
                   key={pkg.identifier}
@@ -181,20 +235,28 @@ export default function SubscriptionScreen() {
                     styles.plan,
                     {
                       backgroundColor: c.card,
-                      borderColor: isSelected ? c.textPrimary : c.border,
+                      borderColor: isSelected ? c.btnPrimaryBg : c.border,
+                      borderWidth: isSelected ? 2.5 : 1.5,
                     },
                   ]}
                   onPress={() => setSelectedPkg(pkg)}
                 >
-                  <Text style={[typography.tiny, { color: c.textMuted }]}>
-                    {pkg.product.title || pkg.packageType}
+                  {isBestValue && (
+                    <View style={styles.bestValueBadge}>
+                      <Text style={styles.bestValueText}>
+                        {t('subscription.bestValue', { defaultValue: 'BEST VALUE' })}
+                      </Text>
+                    </View>
+                  )}
+                  <Text style={[typography.tiny, { color: c.textMuted, marginTop: isBestValue ? 4 : 0 }]}>
+                    {planLabel}
                   </Text>
                   <Text style={[styles.planPrice, { color: c.textPrimary }]}>
                     {pkg.product.priceString}
                   </Text>
-                  {pkg.product.introPrice && (
-                    <Text style={[typography.tiny, { color: '#22c55e' }]}>
-                      {pkg.product.introPrice.priceString} intro
+                  {subLabel && (
+                    <Text style={[typography.tiny, { color: isBestValue ? '#22c55e' : c.textMuted }]}>
+                      {subLabel}
                     </Text>
                   )}
                 </TouchableOpacity>
@@ -263,10 +325,15 @@ const styles = StyleSheet.create({
     width: '100%', marginBottom: spacing.xl,
   },
   plan: {
-    flex: 1, minWidth: 80, borderRadius: radius.lg, borderWidth: 2,
+    flex: 1, minWidth: 80, borderRadius: radius.lg, borderWidth: 1.5,
     padding: spacing.md, alignItems: 'center', gap: 4,
   },
   planPrice: { fontSize: 20, fontWeight: '900' },
+  bestValueBadge: {
+    backgroundColor: '#22c55e', borderRadius: 4,
+    paddingHorizontal: 6, paddingVertical: 2,
+  },
+  bestValueText: { color: '#fff', fontSize: 9, fontWeight: '800', letterSpacing: 0.5 },
 
   btn: {
     width: '100%', borderRadius: radius.lg, padding: 16,
@@ -278,4 +345,9 @@ const styles = StyleSheet.create({
   restoreText: { fontSize: 13, textDecorationLine: 'underline' },
   hint:        { fontSize: 12, textAlign: 'center', lineHeight: 18, color: '#888' },
   fine:        { fontSize: 11, textAlign: 'center', lineHeight: 16, marginTop: spacing.sm },
+  manageBtn: {
+    width: '100%', borderRadius: radius.lg, borderWidth: 1.5,
+    padding: 14, alignItems: 'center', marginBottom: spacing.sm,
+  },
+  manageBtnText: { fontSize: 14, fontWeight: '600' },
 })

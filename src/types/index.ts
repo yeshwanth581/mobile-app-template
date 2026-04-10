@@ -111,14 +111,7 @@ export interface AdConfig {
 }
 
 export interface RevenueCatConfig {
-  apiKeyAndroid: string
-  apiKeyIOS: string
-  entitlementId: string           // Must match the entitlement identifier in RC dashboard
-  // Product identifiers — must match your RC dashboard product IDs
-  monthlyProductId: string
-  threeMonthProductId: string
-  yearlyProductId: string
-  lifetimeProductId: string
+  entitlementId: string   // Must match the entitlement identifier in RC dashboard
 }
 
 export interface MonetizationConfig {
@@ -146,6 +139,7 @@ export interface FeatureFlags {
   enableExamGating: boolean       // enforce daily exam limits
   enableHaptics: boolean          // haptic feedback on interactions
   enableTranslations: boolean     // show translation toggle UI
+  devForceSubscribed: boolean     // DEV ONLY: treat user as subscribed without a real purchase
 }
 
 export interface AppConfig {

@@ -17,6 +17,7 @@ const adsDisabled = () => isWeb || !featureFlags.enableAds
 
 function isPremium(): boolean {
   return useSettingsStore.getState().isSubscribed
+    || appConfig.featureFlags.devForceSubscribed
 }
 
 // ─── Lazy-load native module (safe in Expo Go) ──────────────────────────────

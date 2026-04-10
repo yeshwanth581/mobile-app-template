@@ -13,6 +13,7 @@
  */
 
 import { Platform } from 'react-native'
+import Constants from 'expo-constants'
 import type {
   CustomerInfo,
   PurchasesPackage,
@@ -40,25 +41,38 @@ try {
 
 const { revenueCatConfig: rc, featureFlags } = appConfig
 
+function getApiKey(): string {
+  return Platform.OS === 'ios'
+    ? (process.env.EXPO_PUBLIC_RC_API_KEY_IOS ?? '')
+    : (process.env.EXPO_PUBLIC_RC_API_KEY_ANDROID ?? '')
+}
+
 /** True when RC can actually run in this build + environment */
 export function isRevenueCatAvailable(): boolean {
+  const isExpoGo = Constants.appOwnership === 'expo'
+  const apiKey = getApiKey()
+  const isTestKey = apiKey.startsWith('test_')
+  // Test keys use RC's own Test Store — works in Expo Go
+  // Real keys (goog_/appl_) need native billing — blocked in Expo Go
+  if (isExpoGo && !isTestKey) return false
   return (
     Platform.OS !== 'web' &&
     featureFlags.enableRevenueCat &&
     Purchases !== null &&
-    !rc.apiKeyAndroid.startsWith('REVENUECAT_') &&
-    !rc.apiKeyIOS.startsWith('REVENUECAT_')
+    apiKey.length > 0
   )
-}
-
-function getApiKey(): string {
-  return Platform.OS === 'ios' ? rc.apiKeyIOS : rc.apiKeyAndroid
 }
 
 /** Sync entitlement status into the Zustand settings store */
 function syncCustomerInfo(info: CustomerInfo): void {
-  const entitled = !!info.entitlements.active[rc.entitlementId]
-  useSettingsStore.getState().setSubscribed(entitled)
+  const entitlement = info.entitlements.active[rc.entitlementId]
+  if (!entitlement) {
+    useSettingsStore.getState().setSubscribed(false)
+    return
+  }
+  // Lifetime purchases have no expiration date
+  const type = entitlement.expirationDate === null ? 'lifetime' : 'recurring'
+  useSettingsStore.getState().setSubscribed(true, type)
 }
 
 // ─── Initialisation ──────────────────────────────────────────────────────────

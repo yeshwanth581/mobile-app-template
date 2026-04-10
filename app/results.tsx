@@ -132,9 +132,6 @@ export default function ResultsScreen() {
           )}
         </View>
 
-        {/* Ad banner (config-driven) */}
-        {appConfig.monetizationConfig.showBannerOnResults && <AdBanner isDark={isDark} />}
-
         {/* Action buttons */}
         <View style={styles.btnGroup}>
           <TouchableOpacity
@@ -159,6 +156,10 @@ export default function ResultsScreen() {
             <Text style={[styles.btnTextLabel, { color: c.textMuted }]}>{t('results.backHome')}</Text>
           </TouchableOpacity>
         </View>
+
+
+        {/* Ad banner (config-driven) */}
+        {appConfig.monetizationConfig.showBannerOnResults && <AdBanner isDark={isDark} />}
       </ScrollView>
     </SafeAreaView>
   )

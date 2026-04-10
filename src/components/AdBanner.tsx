@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Platform, TouchableOpacity, NativeModules } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSettingsStore } from '@/store/useSettingsStore'
 import appConfig from '@/config/app.config'
@@ -26,7 +26,11 @@ export function AdBanner({ isDark }: { isDark: boolean }) {
     )
   }
 
-  // On native: real AdMob banner (or placeholder if module unavailable in Expo Go)
+  // On native: real AdMob banner — guard against TurboModule crash in Expo Go
+  if (!NativeModules.RNGoogleMobileAdsModule) {
+    return null
+  }
+
   try {
     const { BannerAd, BannerAdSize } = require('react-native-google-mobile-ads')
     const { getBannerAdUnitId } = require('@/services/ads')
@@ -41,15 +45,7 @@ export function AdBanner({ isDark }: { isDark: boolean }) {
       </View>
     )
   } catch {
-    // Expo Go fallback
-    return (
-      <View style={[styles.wrap, isDark ? styles.wrapDark : styles.wrapLight]}>
-        <Text style={[styles.text, isDark ? styles.textDark : styles.textLight]}>Ad Banner</Text>
-        <TouchableOpacity onPress={() => router.push('/subscription')}>
-          <Text style={[styles.link, isDark ? styles.linkDark : styles.linkLight]}>Remove ads</Text>
-        </TouchableOpacity>
-      </View>
-    )
+    return null
   }
 }
 

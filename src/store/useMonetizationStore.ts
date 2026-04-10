@@ -56,6 +56,11 @@ interface MonetizationState {
   examsRemaining: () => number
 }
 
+function isSubscribed() {
+  return useSettingsStore.getState().isSubscribed
+    || appConfig.featureFlags.devForceSubscribed
+}
+
 function ensureToday(state: Pick<MonetizationState, 'dateKey' | 'examsToday' | 'rewardedExamsToday'>) {
   const today = todayKey()
   if (state.dateKey === today) return state
@@ -100,7 +105,7 @@ export const useMonetizationStore = create<MonetizationState>()(
 
       canTakeExam() {
         if (!appConfig.featureFlags.enableExamGating) return true
-        if (useSettingsStore.getState().isSubscribed) return true
+        if (isSubscribed()) return true
         if (mc.freeExamsPerDay === 0) return true // 0 = unlimited
 
         const s = get()
@@ -110,7 +115,7 @@ export const useMonetizationStore = create<MonetizationState>()(
       },
 
       canWatchRewardedAd() {
-        if (useSettingsStore.getState().isSubscribed) return false // no need
+        if (isSubscribed()) return false // no need
         if (mc.maxRewardedExamsPerDay === 0) return false
 
         const s = get()
@@ -120,7 +125,7 @@ export const useMonetizationStore = create<MonetizationState>()(
 
       shouldShowInterstitial() {
         if (!appConfig.featureFlags.enableAds) return false
-        if (useSettingsStore.getState().isSubscribed) return false
+        if (isSubscribed()) return false
         if (mc.interstitialEveryNSessions === 0) return false
 
         const s = get()
@@ -132,7 +137,7 @@ export const useMonetizationStore = create<MonetizationState>()(
       },
 
       shouldShowUpsellPrompt() {
-        if (useSettingsStore.getState().isSubscribed) return false
+        if (isSubscribed()) return false
         if (mc.softPromptAfterNSessions === 0) return false
 
         const s = get()
@@ -142,7 +147,7 @@ export const useMonetizationStore = create<MonetizationState>()(
       },
 
       examsRemaining() {
-        if (useSettingsStore.getState().isSubscribed) return Infinity
+        if (isSubscribed()) return Infinity
 
         const s = get()
         const daily = ensureToday(s)

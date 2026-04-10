@@ -24,7 +24,8 @@ interface SettingsState {
 
   // Subscription
   isSubscribed: boolean
-  setSubscribed: (v: boolean) => void
+  subscriptionType: 'none' | 'recurring' | 'lifetime'
+  setSubscribed: (v: boolean, type?: 'recurring' | 'lifetime') => void
 
   // Onboarding
   hasCompletedOnboarding: boolean
@@ -67,7 +68,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       _hasHydrated: false,
 
-      theme: 'system',
+      theme: 'light',
       setTheme: (theme) => set({ theme }),
       uiLocale: 'en',
       setUiLocale: (uiLocale) => set({ uiLocale }),
@@ -79,7 +80,11 @@ export const useSettingsStore = create<SettingsState>()(
       setSelectedStateCode: (selectedStateCode) => set({ selectedStateCode }),
 
       isSubscribed: false,
-      setSubscribed: (isSubscribed) => set({ isSubscribed }),
+      subscriptionType: 'none',
+      setSubscribed: (isSubscribed, type) => set({
+        isSubscribed,
+        subscriptionType: isSubscribed ? (type ?? 'recurring') : 'none',
+      }),
 
       hasCompletedOnboarding: false,
       setOnboardingComplete: () => set({ hasCompletedOnboarding: true }),
@@ -90,10 +95,7 @@ export const useSettingsStore = create<SettingsState>()(
       onRehydrateStorage: () => () => {
         useSettingsStore.setState({ _hasHydrated: true })
       },
-      partialize: (state) => {
-        const { _hasHydrated, ...rest } = state
-        return rest
-      },
+      partialize: ({ _hasHydrated: _, ...rest }) => rest,
     }
   )
 )
